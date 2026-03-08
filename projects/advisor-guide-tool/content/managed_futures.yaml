@@ -1,0 +1,109 @@
+metadata:
+  topic: "Managed Futures"
+  version: "V3"
+  logo_family: "RS_Portfolio_Solutions_logos"
+  footer_url: "www.returnstacked.com"
+
+cover:
+  topic_display: "Managed Futures"
+  intro_heading: "Why This Conversation Matters"
+  intro_text: "When both stocks and bonds experience extended drawdowns, as they did in 2022, investors need more than just traditional diversification. Managed futures trend following is one of the few strategies that has historically done just that."
+  intro_highlight: "They need strategies that can profit from market stress, not just survive it."
+
+sections:
+  # ── Page 2 ──────────────────────────────────────────────────────────────
+  - type: heading
+    text: "What Are Managed Futures?"
+
+  - type: body
+    text: "Managed futures are systematic strategies that trade across global futures markets, including equities, bonds, currencies, and commodities. The most common approach is **trend following**, which seeks to profit from sustained price movements in either direction."
+
+  - type: callout
+    text: "It doesn't look into the future, it reacts to the recent past to find useful trends."
+
+  - type: body
+    text: "Think of it like a thermostat. When the temperature rises, the system turns on the air conditioning. When it falls, the heat kicks in. Managed futures do the same with market prices: when an asset's price is trending up, the strategy goes long. When it's trending down, it goes short."
+
+  - type: body
+    text: "This is not about predicting where markets are going. It's about recognizing where they've been going and riding the wave for as long as it persists."
+
+  - type: dark_panel
+    heading: "Long and Short Flexibility"
+    body: "Unlike most traditional strategies, managed futures can profit from falling markets just as easily as rising ones. This gives them a structural advantage during periods of market stress."
+
+
+  # ── Page 3 ──────────────────────────────────────────────────────────────
+  - type: heading
+    text: "Why Managed Futures May Complement a Traditional Portfolio"
+
+  - type: body
+    text: "One of the most compelling features of managed futures is their historically low correlation to traditional asset classes. Because they trade across dozens of global markets and can go long or short, their return drivers are structurally different from stocks and bonds."
+
+  - type: table
+    caption: "Figure 1. Correlation Matrix"
+    headers: ["Correlations", "Equities", "Bonds", "Managed Futures"]
+    rows:
+      - ["Equities", "1.00", "0.30", "0.00"]
+      - ["Bonds", "0.30", "1.00", "0.75"]
+      - ["Managed Futures", "0.00", "0.75", "1.00"]
+
+  - type: source_note
+    text: "Source: CSI Data, Bloomberg and ReSolve Asset Management. Data reflects full history available for the underlying indexes."
+
+  - type: body
+    text: "This near-zero correlation means managed futures can potentially improve portfolio diversification. When stocks and bonds both struggle, as happened during periods of high inflation or rising rates, managed futures have historically offered a different return profile."
+
+  - type: callout
+    text: "Managed futures are one of the few strategies that have historically profited during sustained equity bear markets, including 2008 and 2022."
+
+
+  # ── Page 4 ──────────────────────────────────────────────────────────────
+  - type: heading
+    text: "Common Client Questions"
+
+  - type: subsection
+    text: "\"I don't understand how this works.\""
+
+  - type: body
+    text: "Think of it like this: imagine you had an advisor who could invest in any market in the world, could profit whether prices go up or down, and adjusts positions based on what the market is actually doing rather than guessing. That's essentially what a managed futures strategy does, using systematic rules instead of human judgment."
+
+  - type: subsection
+    text: "\"Isn't this risky?\""
+
+  - type: body
+    text: "All investing involves risk. But managed futures may actually *reduce* overall portfolio risk because of their low correlation to stocks and bonds. It's counterintuitive, but adding a volatile diversifier to a portfolio can lower total portfolio volatility if the correlations are low enough."
+
+  - type: subsection
+    text: "\"Why not just hold more bonds for protection?\""
+
+  - type: body
+    text: "Bonds have traditionally served as the portfolio shock absorber. But when inflation rises and interest rates increase, bonds can lose value alongside stocks, as we saw in 2022. Managed futures offer a different kind of protection that doesn't depend on the same economic conditions that benefit bonds."
+
+  - type: callout
+    text: "This guide gives you clear, simple ways to explain managed futures and respond to common client objections."
+
+
+  # ── Page 5 (Disclosures) is auto-generated ──────────────────────────────
+
+disclosures:
+  glossary:
+    - term: "Managed Futures"
+      definition: "Systematic strategies that trade futures contracts across global markets (equities, bonds, commodities, currencies), typically using trend-following or momentum-based approaches."
+    - term: "Société Générale Trend Index"
+      definition: "An index designed to track the largest trend following commodity trading advisors (CTAs) in the managed futures space net of underlying fees."
+    - term: "MSCI All Country World Index"
+      definition: "A comprehensive global equity index that measures the performance of large and mid cap stocks across developed and emerging markets worldwide."
+    - term: "ICE U.S. Treasury 20+ Year Bond Index"
+      definition: "Tracks the performance of public obligations of the U.S. Treasury that have a remaining maturity of greater than 20 years."
+
+  legal_text: "The information set forth in this document has been obtained or derived from sources believed by Newfound Research LLC and ReSolve Asset Management SEZC (jointly 'Return Stacked Portfolio Solutions') to be reliable. However, Return Stacked Portfolio Solutions does not make any representation or warranty, express or implied, as to the information's accuracy or completeness, nor does it recommend that the information serve as the basis of any investment decision.
+
+Certain information contained in this document constitutes 'forward-looking statements,' which can be identified by the use of forward-looking terminology such as 'may,' 'will,' 'should,' 'expect,' 'anticipate,' 'project,' 'estimate,' 'intend,' 'continue,' or 'believe,' or the negatives thereof or other variations or comparable terminology. Due to various risks and uncertainties, actual events or results or the actual performance of an investment may differ materially from those reflected or contemplated in such forward-looking statements.
+
+There can be no assurance that any investment strategy or style will achieve its objectives, and investment results may vary substantially from year to year or even from month to month. An investor could lose all or a substantial amount of his or her investment.
+
+Return stacking may involve the use of derivatives, leverage, and short selling, each of which may increase potential losses and risk.
+
+This presentation has been provided solely for informational purposes and does not represent a recommendation or an offer or solicitation of an offer, or any advice or recommendation, to purchase any securities or financial instruments, and may not be construed as such. This presentation should not be considered as investment advice or a recommendation of any particular security, strategy or investment product.
+
+No part of this document may be reproduced in any form, or referred to in any other publication, without express written permission from Return Stacked Portfolio Solutions."

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(sort:*)",
+      "Bash(fi)",
+      "Bash(done)",
+      "Bash(else echo \"\\(no notes\\)\")"
+    ]
+  }
+}

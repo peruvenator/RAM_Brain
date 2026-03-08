@@ -5,3 +5,7 @@ Full redesign of the Return Stacked ETFs website with educational content for in
 - **Status:** Active
 - **Deadline:** End of Q1 2026 (March 2026)
 - **Note:** Design elements need compliance approval by week of 2026-03-07
+
+## Contents
+
+- `lp-widget/` -- Embeddable landing page component for the Return Stacking Visualizer (has its own CLAUDE.md)

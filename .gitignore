@@ -1,4 +1,50 @@
+# Secrets
 .env
+.env.*
+
+# Claude Code
 CLAUDE.local.md
 .claude/settings.local.json
+.cp-images/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Node
 node_modules/
+
+# Large binaries
+*.pdf
+*.pptx
+*.xlsx
+*.xls
+*.docx
+*.zip
+*.webm
+*.mp4
+
+# Design source
+*.eps
+*.ai
+
+# Generated output
+**/Advisor_Guide_Output/
+**/Reports_Generated/
+**/logs/
+
+# Intermediate artifacts
+**/temp_pptx_extract/
+**/svg_exports/
+**/excel_svg_exports/
+
+# OS / editor
+desktop.ini
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.lnk
+nul

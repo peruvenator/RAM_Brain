@@ -51,7 +51,7 @@ Memory + context files + decision log = your assistant gets smarter over time wi
 
 ## Projects
 
-Active workstreams live in `projects/`. Each project has a README with description, status, and key dates.
+Active workstreams live in `projects/`. Each project has a README and most have their own CLAUDE.md with detailed workflow instructions. Projects reference shared brand assets via relative paths to `references/brand-assets/`.
 
 ## Templates
 
@@ -60,7 +60,11 @@ Reusable templates live in `templates/`. Currently available:
 
 ## References
 
-SOPs and example outputs live in `references/sops/` and `references/examples/`.
+- `references/brand-assets/` -- Shared brand colors, logos, fonts, backgrounds (see README.md inside)
+- `references/sops/` -- Standard operating procedures
+- `references/examples/` -- Example outputs and style guides
+- `references/automations-registry.md` -- Central inventory of automated scripts
+- `references/git-reference-guide.md` -- Git/GitHub reference
 
 ## Archives
 

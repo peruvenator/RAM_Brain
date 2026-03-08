@@ -1,6 +1,10 @@
 # Plotting App
 
-New plotting application for both ReSolve and Return Stacked.
+Plotting applications for both ReSolve and Return Stacked.
 
 - **Status:** Active
 - **Deadline:** TBD
+
+## Contents
+
+- `carry-plotly/` -- Carry analysis visualization (Python + Plotly)

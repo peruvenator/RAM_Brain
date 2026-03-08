@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Case for NOT Making Room for Alternatives</title>
+    <style>
+/* ============================================================================
+   Return Stacked — Advisor Guide Master Stylesheet
+   ============================================================================
+   Brand rules from the Managed-Futures Advisor Guide V3 template.
+   Font files embedded via @font-face with relative paths to ../Brand_elements (shared root folder).
+   ========================================================================== */
+
+/* ── @font-face declarations ─────────────────────────────────────────────── */
+
+@font-face { font-family: 'DM Sans'; src: url('../Brand_elements/Font_Family/DMSans-Thin.ttf'); font-weight: 100; font-style: normal; }
+@font-face { font-family: 'DM Sans'; src: url('../Brand_elements/Font_Family/DMSans-ThinItalic.ttf'); font-weight: 100; font-style: italic; }
+@font-face { font-family: 'DM Sans'; src: url('../Brand_elements/Font_Family/DMSans-ExtraLight.ttf'); font-weight: 200; font-style: normal; }
+@font-face { font-family: 'DM Sans'; src: url('../Brand_elements/Font_Family/DMSans-ExtraLightItalic.ttf'); font-weight: 200; font-style: italic; }
+@font-face { font-family: 'DM Sans'; src: url('../Brand_elements/Font_Family/DMSans-Light.ttf'); font-weight: 300; font-style: normal; }
+@font-face { font-family: 'DM Sans'; src: url('../Brand_elements/Font_Family/DMSans-LightItalic.ttf'); font-weight: 300; font-style: italic; }
+@font-face { font-family: 'DM Sans'; src: url('../Brand_elements/Font_Family/DMSans-Regular.ttf'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'DM Sans'; src: url('../Brand_elements/Font_Family/DMSans-Italic.ttf'); font-weight: 400; font-style: italic; }
+@font-face { font-family: 'DM Sans'; src: url('../Brand_elements/Font_Family/DMSans-Medium.ttf'); font-weight: 500; font-style: normal; }
+@font-face { font-family: 'DM Sans'; src: url('../Brand_elements/Font_Family/DMSans-MediumItalic.ttf'); font-weight: 500; font-style: italic; }
+@font-face { font-family: 'DM Sans'; src: url('../Brand_elements/Font_Family/DMSans-SemiBold.ttf'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'DM Sans'; src: url('../Brand_elements/Font_Family/DMSans-SemiBoldItalic.ttf'); font-weight: 600; font-style: italic; }
+@font-face { font-family: 'DM Sans'; src: url('../Brand_elements/Font_Family/DMSans-Bold.ttf'); font-weight: 700; font-style: normal; }
+@font-face { font-family: 'DM Sans'; src: url('../Brand_elements/Font_Family/DMSans-BoldItalic.ttf'); font-weight: 700; font-style: italic; }
+@font-face { font-family: 'DM Sans'; src: url('../Brand_elements/Font_Family/DMSans-ExtraBold.ttf'); font-weight: 800; font-style: normal; }
+@font-face { font-family: 'DM Sans'; src: url('../Brand_elements/Font_Family/DMSans-ExtraBoldItalic.ttf'); font-weight: 800; font-style: italic; }
+
+/* ── CSS Custom Properties (Brand Tokens) ────────────────────────────────── */
+
+:root {
+    --text-primary: #2c3641;
+    --text-secondary: #625c6d;
+    --cover-dark: #172c3a;
+    --section-gray: #f0f1f1;
+    --white: #ffffff;
+    --border-gray: #bfbfbf;
+    --black: #000000;
+    --teal-primary: #14cfa6;
+    --teal-light: #a1d7c6;
+    --blue-secondary: #3a6a9c;
+    --blue-light: #7da5ce;
+    --yellow: #ebe96a;
+    --font-family: 'DM Sans', sans-serif;
+    --page-width: 8.5in;
+    --page-height: 11in;
+    --margin-top: 0.5in;
+    --margin-bottom: 0.31in;
+    --margin-left: 0.39in;
+    --margin-right: 0.39in;
+}
+
+/* ── Print Page Setup ────────────────────────────────────────────────────── */
+
+@page { size: letter; margin: 0; }
+
+@media print {
+    body { margin: 0; padding: 0; background: white; }
+    .page {
+        page-break-after: always;
+        page-break-inside: avoid;
+        box-shadow: none;
+        margin: 0;
+        height: 11in;
+        max-height: 11in;
+        overflow: hidden;
+    }
+    .page:last-child { page-break-after: auto; }
+    .screen-only { display: none; }
+    .contact-page, .disclosures-page {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* ── Base Reset ──────────────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 10pt; }
+body {
+    font-family: var(--font-family);
+    font-weight: 400;
+    color: var(--text-primary);
+    background: white;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Page Container ──────────────────────────────────────────────────────── */
+
+.page {
+    width: var(--page-width);
+    height: var(--page-height);
+    background: var(--white);
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+@media screen {
+    body { background: #e0e0e0; }
+    .page { margin: 20px auto; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
+}
+
+.page-content {
+    position: absolute;
+    top: var(--margin-top);
+    left: var(--margin-left);
+    right: var(--margin-right);
+    bottom: var(--margin-bottom);
+}
+
+/* ============================================================================
+   COVER PAGE
+   ========================================================================== */
+
+.cover-page .page-content { top: 0; left: 0; right: 0; bottom: 0; }
+
+.cover-top-bar {
+    display: flex; align-items: center;
+    width: 100%; height: 80pt;
+    background: var(--white);
+    position: relative; z-index: 2;
+    padding-left: 28pt;
+}
+.cover-top-logo { height: 100%; padding-left: 0; flex-shrink: 0; display: flex; align-items: center; }
+.cover-top-logo img { height: 42pt; width: auto; }
+
+.cover-banner {
+    background-color: var(--cover-dark);
+    background-image: url('../Brand_elements/RS_Backdrop.jpg');
+    background-size: cover;
+    background-position: center;
+    width: 100%; height: 340pt;
+    position: relative;
+    padding: 0 44pt 0 54pt;
+    display: flex; flex-direction: column; justify-content: center;
+    overflow: hidden;
+}
+.cover-banner::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 10pt; height: 100%;
+    background: var(--teal-primary); z-index: 2;
+}
+.cover-watermark {
+    position: absolute; font-size: 85pt; font-weight: 700;
+    color: var(--teal-light); opacity: 0.15;
+    bottom: 0; left: 0; right: 0;
+    text-align: center; white-space: nowrap;
+    pointer-events: none; z-index: 0; overflow: hidden;
+}
+.cover-title-block { position: relative; z-index: 1; text-align: left; }
+
+.cover-title-shadow {
+    position: absolute; top: 5px; left: 5px; z-index: 0;
+    text-align: left; pointer-events: none; opacity: 1;
+}
+.cover-title-shadow .cover-title-line,
+.cover-title-shadow .cover-connector,
+.cover-title-shadow .cover-topic {
+    color: var(--black); text-shadow: none; -webkit-text-stroke: 0;
+    position: static; z-index: auto;
+}
+
+.cover-title-line {
+    font-size: 36pt; font-weight: 500; color: var(--white);
+    line-height: 1.1; text-shadow: none; position: relative; z-index: 2;
+}
+.cover-title-line strong { font-weight: 700; }
+.cover-connector {
+    font-size: 32pt; font-weight: 400; color: var(--white);
+    line-height: 1.1; text-shadow: none; position: relative; z-index: 2;
+}
+.cover-topic {
+    font-size: 40pt; font-weight: 700; color: var(--teal-primary);
+    line-height: 1.1; margin-top: 4pt; text-shadow: none;
+    position: relative; z-index: 2;
+}
+
+.cover-intro { padding: 24pt 44pt 20pt; text-align: center; }
+.cover-intro-heading {
+    font-size: 20pt; font-weight: 700; color: var(--text-primary);
+    margin-bottom: 12pt; line-height: 1.2; text-align: center;
+}
+.cover-intro-text {
+    font-size: 12pt; font-weight: 500; color: var(--text-primary);
+    line-height: 1.5; text-align: center;
+}
+.cover-intro-highlight {
+    font-size: 18pt; font-weight: 700; color: var(--teal-primary);
+    line-height: 1.2; margin-top: 10pt; text-align: center;
+}
+.cover-meta {
+    position: absolute; bottom: 16pt; left: 28pt; right: 28pt;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    font-size: 8pt; color: var(--text-secondary);
+}
+
+/* ============================================================================
+   INTERIOR PAGE HEADER
+   ========================================================================== */
+
+.page-header {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 56pt; display: flex; align-items: center; z-index: 10;
+}
+.page-header-logo { height: 100%; padding-left: 28pt; display: flex; align-items: center; flex-shrink: 0; }
+.page-header-logo img { height: 34pt; width: auto; }
+.page-header-titles { flex: 1; text-align: right; padding-right: 12pt; }
+.page-header-series { font-size: 11pt; font-weight: 700; color: var(--teal-primary); line-height: 1.2; }
+.page-header-topic { font-size: 11pt; font-weight: 500; color: var(--text-primary); line-height: 1.2; }
+.page-header-accent { width: 10pt; height: 100%; background: var(--teal-primary); flex-shrink: 0; }
+
+/* ============================================================================
+   INTERIOR PAGE FOOTER
+   ========================================================================== */
+
+.page-footer {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 28pt; display: flex; align-items: stretch; z-index: 10;
+}
+.page-footer-icon {
+    width: 28pt; height: 28pt; background: var(--cover-dark);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.page-footer-icon svg { height: 16pt; width: 16pt; }
+.page-footer-band { flex: 1; height: 100%; background: var(--teal-primary); }
+.page-footer-url-area {
+    height: 100%; background: var(--white);
+    display: flex; align-items: center; padding: 0 20pt; flex-shrink: 0;
+}
+.page-footer-url { font-size: 9pt; font-weight: 700; color: var(--text-primary); white-space: nowrap; }
+
+/* ── Interior Page Content Zone ──────────────────────────────────────────── */
+
+.interior-content {
+    position: absolute; top: 60pt; left: 28pt; right: 28pt; bottom: 32pt;
+    overflow: hidden;
+}
+
+/* ── Section Headings ────────────────────────────────────────────────────── */
+
+.section-heading {
+    font-size: 13pt; font-weight: 700; color: var(--text-primary);
+    line-height: 1.2; margin-top: 10pt; margin-bottom: 6pt;
+    padding-left: 14pt; position: relative; background: none;
+}
+.section-heading:first-child { margin-top: 0; }
+.section-heading::before {
+    content: ''; position: absolute; left: 0; top: 50%;
+    transform: translateY(-50%); width: 6pt; height: 14pt;
+    background-color: var(--teal-primary); border-radius: 0;
+}
+.subsection-heading {
+    font-size: 12pt; font-weight: 700; color: var(--text-primary);
+    line-height: 1.2; margin-top: 8pt; margin-bottom: 4pt; padding: 0;
+}
+
+/* ── Body Text ───────────────────────────────────────────────────────────── */
+
+.body-text {
+    font-size: 10pt; font-weight: 400; color: var(--text-primary);
+    line-height: 1.5; margin-bottom: 4pt;
+}
+.body-text strong { font-weight: 700; }
+.body-text em { font-style: italic; }
+
+/* ── Bullet Lists ────────────────────────────────────────────────────────── */
+
+.body-list {
+    font-size: 10pt; font-weight: 400; color: var(--text-primary);
+    line-height: 1.5; margin-bottom: 4pt; padding-left: 20pt;
+}
+.body-list li { margin-bottom: 2pt; }
+
+/* ── Teal Callout ────────────────────────────────────────────────────────── */
+
+.callout-teal {
+    font-size: 12pt; font-weight: 700; font-style: italic;
+    color: var(--teal-primary); line-height: 1.35;
+    margin-top: 6pt; margin-bottom: 6pt;
+    padding-left: 12pt; border-left: 3pt solid var(--teal-primary);
+}
+
+/* ── Callout Panel ───────────────────────────────────────────────────────── */
+
+.dark-panel { margin-top: 8pt; margin-bottom: 8pt; border-radius: 2pt; overflow: hidden; }
+.dark-panel-heading {
+    font-size: 11pt; font-weight: 700; color: var(--white);
+    background-color: var(--teal-primary); padding: 5pt 12pt;
+    line-height: 1.2; margin-bottom: 0;
+}
+.dark-panel-body {
+    font-size: 10pt; font-weight: 400; color: var(--text-primary);
+    line-height: 1.5; background-color: var(--section-gray); padding: 8pt 12pt;
+}
+.dark-panel-body ul { padding-left: 18pt; margin-top: 2pt; }
+.dark-panel-body li { margin-bottom: 1pt; }
+
+/* ── Gray Section ────────────────────────────────────────────────────────── */
+
+.gray-section {
+    background-color: var(--section-gray); padding: 10pt 12pt;
+    margin-top: 6pt; margin-bottom: 6pt; border-radius: 2pt;
+}
+
+/* ── Chart/Image ─────────────────────────────────────────────────────────── */
+
+.chart-wrapper { margin-top: 4pt; margin-bottom: 4pt; text-align: center; }
+.chart-wrapper img { max-width: 100%; max-height: 400pt; height: auto; object-fit: contain; }
+
+/* PowerPoint-exported chart images */
+.pptx-chart { margin-top: 6pt; margin-bottom: 4pt; text-align: center; }
+.pptx-chart img {
+    max-width: 100%; height: auto; display: block; margin: 0 auto;
+    background: #F2F2F2; border-radius: 2pt;
+}
+.pptx-chart-wide img { max-height: 180pt; }
+.pptx-chart-tall img { max-height: 260pt; max-width: 50%; }
+.chart-caption {
+    font-size: 8pt; font-weight: 400; color: var(--text-secondary);
+    margin-top: 2pt; text-align: center; font-style: italic;
+}
+
+/* ── Source/Footnote ─────────────────────────────────────────────────────── */
+
+.source-note {
+    font-size: 7pt; font-weight: 400; font-style: italic;
+    color: var(--text-secondary); margin-top: 2pt; line-height: 1.2;
+    text-align: left;
+}
+
+/* ── Disclosures ─────────────────────────────────────────────────────────── */
+
+.disclosures-heading { font-size: 12pt; font-weight: 700; color: var(--text-primary); margin-bottom: 8pt; }
+.disclosures-text { font-size: 8pt; font-weight: 400; color: var(--text-primary); line-height: 1.25; margin-bottom: 4pt; }
+.copyright { font-size: 8pt; font-weight: 400; color: var(--text-primary); margin-top: 12pt; }
+
+/* ============================================================================
+   NEW STYLES — Charts, Comparison, Contact, Disclosures Dark
+   ========================================================================== */
+
+/* ── Two-Column Comparison ───────────────────────────────────────────────── */
+
+.comparison-columns { display: flex; gap: 14pt; margin: 6pt 0; }
+.comparison-column { flex: 1; }
+
+/* ── Three-Column Approach Cards ─────────────────────────────────────────── */
+
+.approach-cards { display: flex; gap: 10pt; margin: 8pt 0; }
+.approach-card {
+    flex: 1; border-radius: 3pt; overflow: hidden;
+    border: 1pt solid var(--border-gray);
+}
+.approach-card-header {
+    padding: 6pt 10pt; font-size: 10pt; font-weight: 700;
+    color: var(--white); line-height: 1.2;
+}
+.approach-card-body {
+    padding: 8pt 10pt; font-size: 9pt; line-height: 1.4;
+    color: var(--text-primary);
+}
+.approach-card-question {
+    font-style: italic; color: var(--text-secondary);
+    margin-bottom: 4pt; font-size: 9pt;
+}
+
+/* ── Contact Page ────────────────────────────────────────────────────────── */
+
+.contact-page { background: var(--black); }
+.contact-page .page-content { top: 0; left: 0; right: 0; bottom: 0; }
+.contact-backdrop {
+    width: 100%; height: 100%;
+    background-color: var(--cover-dark);
+    background-image: url('extracted_images/image3.jpg');
+    background-size: cover; background-position: center;
+    position: relative;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 0 60pt;
+}
+.contact-backdrop::before {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(0,0,0,0.45); z-index: 0;
+}
+.contact-logo {
+    position: absolute; top: 36pt; left: 44pt; z-index: 1;
+}
+.contact-logo img { height: 42pt; width: auto; }
+.contact-content { position: relative; z-index: 1; }
+.contact-title {
+    font-size: 52pt; font-weight: 700; color: var(--white); line-height: 1.1;
+}
+.contact-url {
+    font-size: 20pt; font-weight: 700; color: var(--teal-primary); margin-top: 18pt;
+}
+.contact-button {
+    display: inline-block; background: var(--teal-primary); color: var(--white);
+    font-weight: 700; font-size: 13pt; padding: 10pt 32pt;
+    border-radius: 6pt; margin-top: 18pt; text-decoration: none;
+}
+.contact-meta {
+    position: absolute; bottom: 24pt; left: 44pt; right: 44pt;
+    font-size: 8pt; color: rgba(255,255,255,0.5); z-index: 1;
+    display: flex; justify-content: space-between;
+}
+
+/* ── Disclosures Dark Page ───────────────────────────────────────────────── */
+
+.disclosures-page { background: var(--black); }
+.disclosures-page .page-header { display: none; }
+.disclosures-page .interior-content { top: 40pt; }
+.disclosures-page .disclosures-heading { color: var(--white); font-size: 16pt; margin-bottom: 10pt; }
+.disclosures-page .disclosures-text { color: rgba(255,255,255,0.8); font-size: 7.5pt; line-height: 1.3; }
+.disclosures-page .copyright { color: rgba(255,255,255,0.6); font-size: 7.5pt; }
+.disclosures-page .disc-header-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 8pt; margin-bottom: 12pt;
+    border-bottom: 1pt solid rgba(255,255,255,0.2);
+}
+.disclosures-page .disc-header-brand {
+    font-size: 10pt; font-weight: 700; color: var(--white);
+}
+.disclosures-page .disc-header-year {
+    font-size: 10pt; font-weight: 400; color: rgba(255,255,255,0.5);
+}
+
+/* ── Screen-only helpers ─────────────────────────────────────────────────── */
+
+.edit-hint { display: none; }
+@media screen {
+    .edit-hint {
+        display: block; position: fixed; top: 10px; right: 10px;
+        background: var(--teal-primary); color: white;
+        padding: 8px 16px; border-radius: 4px;
+        font-size: 11pt; font-weight: 500; z-index: 9999;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="edit-hint screen-only">
+        Return Stacked Brochure — Edit text directly, then Print &rarr; PDF
+    </div>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     PAGE 1 — COVER
+     ════════════════════════════════════════════════════════════════════════════ -->
+
+<div class="page cover-page">
+    <div class="page-content">
+        <div class="cover-top-bar">
+            <div class="cover-top-logo"><img src="../Brand_elements/Logos/RS_Portfolio_Solutions_logos/Return Stacked Portfolio Solutions Black.png" alt="Return Stacked Portfolio Solutions"></div>
+        </div>
+        <div class="cover-banner">
+            <div class="cover-title-block">
+                <div class="cover-title-shadow" aria-hidden="true">
+                    <div class="cover-title-line">The Case for <strong>NOT</strong></div>
+                    <div class="cover-title-line">Making Room for</div>
+                    <div class="cover-topic">Alternatives</div>
+                </div>
+                <div class="cover-title-line">The Case for <strong>NOT</strong></div>
+                <div class="cover-title-line">Making Room for</div>
+                <div class="cover-topic">Alternatives</div>
+            </div>
+        </div>
+        <div class="cover-intro">
+            <h2 class="cover-intro-heading">Rethinking How Diversification Gets Done</h2>
+            <p class="cover-intro-text">Most portfolios don't struggle with theory &mdash; they struggle with implementation. Advisors know diversification matters, but adding alternatives often means selling core positions, introducing unfamiliar line items, and defending positions that lag at the wrong time.</p>
+            <p class="cover-intro-highlight">What if diversification didn't require giving something up?</p>
+        </div>
+        <div class="cover-meta">
+            <span>&copy; Return Stacked&reg; Portfolio Solutions, 2026</span>
+            <span>For Investment Professional Use Only</span>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     PAGE 2 — THE PROBLEM (Theory vs Reality + The Real Trade-Off)
+     ════════════════════════════════════════════════════════════════════════════ -->
+
+<div class="page interior-page">
+    <div class="page-header">
+        <div class="page-header-logo"><img src="../Brand_elements/Logos/RS_Portfolio_Solutions_logos/Return Stacked Portfolio Solutions Black.png" alt="Return Stacked Portfolio Solutions"></div>
+        <div class="page-header-titles">
+            <div class="page-header-series">The Case for NOT Making Room</div>
+            <div class="page-header-topic">for Alternatives</div>
+        </div>
+        <div class="page-header-accent"></div>
+    </div>
+    <div class="interior-content">
+        <h2 class="section-heading">Theory vs. Reality: Why Diversification Is Harder Than It Should Be</h2>
+        <p class="body-text">Most advisors understand the value of diversification. The academic case is clear: combining assets with different return drivers can improve risk-adjusted returns over time. But knowing <em>what</em> to own is only half the battle. The real challenge is making diversification work inside actual portfolios, real models, and real client conversations.</p>
+
+        <!-- Growth-of-$100 Line Chart (exported from PowerPoint) -->
+        <div class="pptx-chart pptx-chart-wide">
+            <img src="chart_exports/chart_growth.png" alt="Growth of $100 line chart showing U.S. Stocks, U.S. Bonds, CTA Trend, Merger Arbitrage, and Gold from 12/31/1999 to 12/31/2024">
+        </div>
+        <div class="source-note">Source: Bloomberg; Credit Suisse; Soci&eacute;t&eacute; G&eacute;n&eacute;rale. U.S. Stocks is the S&amp;P 500 Total Return Index (SPX). U.S. Bonds is the Bloomberg US Aggregate Bond Index (LBUSTRUU). CTA Trend is the Soci&eacute;t&eacute; G&eacute;n&eacute;rale Trend Index (NEIXCTAT). Merger Arbitrage is the LAB Merger Arbitrage Liquid Index (CSLABMA). Gold is spot gold quoted in US Dollars (XAU Currency). You cannot invest in an index. Returns are gross of fees and taxes. Past performance is not indicative of future results. Period is 12/31/1999 through 12/31/2024.</div>
+
+        <h2 class="section-heading">The Real Trade-Off: The Uncomfortable Reality</h2>
+        <p class="body-text">To add diversifiers, most portfolios must reduce core stock and bond exposure, accept tracking error versus benchmarks, introduce new line items clients don't recognize, and defend positions that behave differently &mdash; especially at the wrong time.</p>
+
+        <!-- Two Pie Charts: 60/40 vs 50/30/20 (exported from PowerPoint) -->
+        <div class="pptx-chart pptx-chart-wide">
+            <img src="chart_exports/chart_pies.png" alt="Pie chart comparison: Traditional 60/40 portfolio (60% Stocks, 40% Bonds) vs 50/30/20 with Alternatives (50% Stocks, 30% Bonds, 20% Alts)">
+        </div>
+
+        <div class="source-note">&ldquo;60/40&rdquo; refers to a 60% allocation to stocks and a 40% allocation to bonds. &ldquo;50/30/20&rdquo; refers to a 50% allocation to stocks, a 30% allocation to bonds, and a 20% allocation to alternatives.</div>
+
+        <div class="callout-teal">Good diversification ideas often fail because of how they're implemented, not why they exist.</div>
+    </div>
+    <div class="page-footer">
+        <div class="page-footer-icon"><svg style="fill:white;" viewBox="0 0 188.9 197.4" xmlns="http://www.w3.org/2000/svg"><g><g><g><path d="M186.3,94.8l-27.5-15.3l27.5-15.3c1.6-0.9,2.6-2.6,2.6-4.4s-1-3.5-2.6-4.4L99.7,7.3c-1.5-0.9-3.4-0.9-4.9,0L8.1,55.4 L8,55.5c-1.5,0.9-2.5,2.6-2.5,4.4v39.4c0,1.8,1,3.5,2.6,4.4L35.6,119L8.1,134.3c-1.6,0.9-2.6,2.6-2.6,4.4c0,1.8,1,3.5,2.6,4.4 l86.6,48.2c0.8,0.4,1.6,0.6,2.5,0.6s1.7-0.2,2.5-0.6l86.6-48.2c1.6-0.9,2.6-2.6,2.6-4.4V99.3C188.9,97.4,187.9,95.7,186.3,94.8z M97.2,17.5l76.2,42.3l-76.2,42.3L79,92.1V72.6l15.7,8.6c1.5,0.8,3.4,0.8,4.9,0L130,64.3c1.6-0.9,2.6-2.6,2.6-4.4s-1-3.5-2.6-4.4 l-30.3-17c-1.5-0.9-3.4-0.9-4.9,0L39.3,69.4l-18.1-9.6L97.2,17.5z M77.1,60l20.1-11.2l19.9,11.1l-19.9,11L77.1,60z M15.6,68.3 l21.3,11.3c1.5,0.8,3.4,0.8,4.9,0l27.1-15.1v30.6c0,1.8,1,3.5,2.6,4.4l23.3,12.9c1.5,0.9,3.4,0.9,4.9,0l48.7-27.1l25,13.9 l-76.2,42.3L15.6,96.3V68.3z M97.2,181L21,138.7l25-13.9l48.7,27.1c0.8,0.4,1.6,0.6,2.5,0.6s1.7-0.2,2.5-0.6l79.1-44v27.8 L97.2,181z"/></g></g></g></svg></div>
+        <div class="page-footer-band"></div>
+        <div class="page-footer-url-area"><span class="page-footer-url">www.returnstacked.com</span></div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     PAGE 3 — THE CONSTRAINT
+     ════════════════════════════════════════════════════════════════════════════ -->
+
+<div class="page interior-page">
+    <div class="page-header">
+        <div class="page-header-logo"><img src="../Brand_elements/Logos/RS_Portfolio_Solutions_logos/Return Stacked Portfolio Solutions Black.png" alt="Return Stacked Portfolio Solutions"></div>
+        <div class="page-header-titles">
+            <div class="page-header-series">The Case for NOT Making Room</div>
+            <div class="page-header-topic">for Alternatives</div>
+        </div>
+        <div class="page-header-accent"></div>
+    </div>
+    <div class="interior-content">
+        <h2 class="section-heading">The Real Constraint: What If the Problem Isn't the Diversifier?</h2>
+        <p class="body-text">Diversifiers frequently get blamed for underperformance in portfolios. But the issue may not be the strategy itself &mdash; it may be how it's implemented. The behavioral and structural pressures of holding standalone alternative positions can undermine even the best-designed allocation.</p>
+
+        <div class="dark-panel">
+            <div class="dark-panel-heading">The Behavioral Challenge of Standalone Diversifiers</div>
+            <div class="dark-panel-body">
+                <ul>
+                    <li>They can lag during strong equity markets, creating opportunity cost anxiety</li>
+                    <li>They experience uncomfortable drawdowns when viewed in isolation</li>
+                    <li>They become the focus of &ldquo;why do we own this?&rdquo; conversations</li>
+                    <li>They get reduced or removed &mdash; often right before they're needed most</li>
+                </ul>
+            </div>
+        </div>
+
+        <p class="body-text">These are not flaws in the diversifiers. They are structural consequences of how diversifiers are typically held: as visible, standalone line items that compete for attention with core positions.</p>
+
+        <div class="dark-panel">
+            <div class="dark-panel-heading">What If Diversification Could Work Differently?</div>
+            <div class="dark-panel-body">
+                <ul>
+                    <li>What if it didn't require selling what already works?</li>
+                    <li>What if it didn't rely on large, visible allocations that draw scrutiny?</li>
+                    <li>What if it didn't introduce new behavioral pressure points?</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="callout-teal">Sometimes the issue isn't with what you own &mdash; it's how you own it.</div>
+
+        <div class="gray-section">
+            <p class="body-text" style="margin-bottom:0;"><strong>The pattern is familiar:</strong> an advisor adds a well-reasoned diversifier to client portfolios. It works exactly as intended &mdash; zigging when stocks zag. But during the next bull market run, the diversifier lags. Clients question it. The advisor, under pressure, trims or removes it. Then the next downturn arrives, and the protection is gone. The diversifier didn't fail. The implementation did.</p>
+        </div>
+    </div>
+    <div class="page-footer">
+        <div class="page-footer-icon"><svg style="fill:white;" viewBox="0 0 188.9 197.4" xmlns="http://www.w3.org/2000/svg"><g><g><g><path d="M186.3,94.8l-27.5-15.3l27.5-15.3c1.6-0.9,2.6-2.6,2.6-4.4s-1-3.5-2.6-4.4L99.7,7.3c-1.5-0.9-3.4-0.9-4.9,0L8.1,55.4 L8,55.5c-1.5,0.9-2.5,2.6-2.5,4.4v39.4c0,1.8,1,3.5,2.6,4.4L35.6,119L8.1,134.3c-1.6,0.9-2.6,2.6-2.6,4.4c0,1.8,1,3.5,2.6,4.4 l86.6,48.2c0.8,0.4,1.6,0.6,2.5,0.6s1.7-0.2,2.5-0.6l86.6-48.2c1.6-0.9,2.6-2.6,2.6-4.4V99.3C188.9,97.4,187.9,95.7,186.3,94.8z M97.2,17.5l76.2,42.3l-76.2,42.3L79,92.1V72.6l15.7,8.6c1.5,0.8,3.4,0.8,4.9,0L130,64.3c1.6-0.9,2.6-2.6,2.6-4.4s-1-3.5-2.6-4.4 l-30.3-17c-1.5-0.9-3.4-0.9-4.9,0L39.3,69.4l-18.1-9.6L97.2,17.5z M77.1,60l20.1-11.2l19.9,11.1l-19.9,11L77.1,60z M15.6,68.3 l21.3,11.3c1.5,0.8,3.4,0.8,4.9,0l27.1-15.1v30.6c0,1.8,1,3.5,2.6,4.4l23.3,12.9c1.5,0.9,3.4,0.9,4.9,0l48.7-27.1l25,13.9 l-76.2,42.3L15.6,96.3V68.3z M97.2,181L21,138.7l25-13.9l48.7,27.1c0.8,0.4,1.6,0.6,2.5,0.6s1.7-0.2,2.5-0.6l79.1-44v27.8 L97.2,181z"/></g></g></g></svg></div>
+        <div class="page-footer-band"></div>
+        <div class="page-footer-url-area"><span class="page-footer-url">www.returnstacked.com</span></div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     PAGE 4 — THE SOLUTION (Return Stacking + Portfolio Structure)
+     ════════════════════════════════════════════════════════════════════════════ -->
+
+<div class="page interior-page">
+    <div class="page-header">
+        <div class="page-header-logo"><img src="../Brand_elements/Logos/RS_Portfolio_Solutions_logos/Return Stacked Portfolio Solutions Black.png" alt="Return Stacked Portfolio Solutions"></div>
+        <div class="page-header-titles">
+            <div class="page-header-series">The Case for NOT Making Room</div>
+            <div class="page-header-topic">for Alternatives</div>
+        </div>
+        <div class="page-header-accent"></div>
+    </div>
+    <div class="interior-content">
+        <h2 class="section-heading">Introducing Return Stacking: A Structural Approach to Diversification</h2>
+        <p class="body-text">Some investors approach diversification as a portfolio-structure problem: combining exposures so diversification doesn't require giving something up. This framework &mdash; often called <strong>return stacking</strong> &mdash; seeks to improve diversification without increasing behavioral pressures by focusing on <em>how</em> exposures are combined at the portfolio level.</p>
+
+        <!-- Stacked Bar Diagram (exported from PowerPoint) -->
+        <div class="pptx-chart pptx-chart-tall">
+            <img src="chart_exports/chart_stackedbar.png" alt="Example Structure of a Return Stacked Fund showing 100% Portfolio Diversifier stacked on top of 100% Beta Exposure">
+        </div>
+        <div class="source-note">For illustrative purposes only. The red line represents the cutoff between a traditional portfolio exposure and the exposure an investor may receive through a return stacked portfolio.</div>
+
+        <h2 class="section-heading">Portfolio Structure Matters: How Diversification Shows Up</h2>
+
+        <div class="comparison-columns">
+            <div class="comparison-column">
+                <div class="dark-panel">
+                    <div class="dark-panel-heading">Traditional Approach</div>
+                    <div class="dark-panel-body">
+                        <ul>
+                            <li>Diversifiers appear as standalone line items and draw scrutiny</li>
+                            <li>Allocation decisions become an either-or choice between beta and diversifiers</li>
+                            <li>Creates pressure to defend positions when they lag</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="comparison-column">
+                <div class="dark-panel">
+                    <div class="dark-panel-heading" style="background:var(--cover-dark);">Return Stacked Approach</div>
+                    <div class="dark-panel-body">
+                        <ul>
+                            <li>Diversifiers are paired with core beta in a single line item</li>
+                            <li>Allocation decisions become &ldquo;yes, and&rdquo; &mdash; holding diversifiers without sacrificing beta</li>
+                            <li>Reduces pressure to explain standalone performance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout-teal">Structure can change the experience without changing the objective.</div>
+    </div>
+    <div class="page-footer">
+        <div class="page-footer-icon"><svg style="fill:white;" viewBox="0 0 188.9 197.4" xmlns="http://www.w3.org/2000/svg"><g><g><g><path d="M186.3,94.8l-27.5-15.3l27.5-15.3c1.6-0.9,2.6-2.6,2.6-4.4s-1-3.5-2.6-4.4L99.7,7.3c-1.5-0.9-3.4-0.9-4.9,0L8.1,55.4 L8,55.5c-1.5,0.9-2.5,2.6-2.5,4.4v39.4c0,1.8,1,3.5,2.6,4.4L35.6,119L8.1,134.3c-1.6,0.9-2.6,2.6-2.6,4.4c0,1.8,1,3.5,2.6,4.4 l86.6,48.2c0.8,0.4,1.6,0.6,2.5,0.6s1.7-0.2,2.5-0.6l86.6-48.2c1.6-0.9,2.6-2.6,2.6-4.4V99.3C188.9,97.4,187.9,95.7,186.3,94.8z M97.2,17.5l76.2,42.3l-76.2,42.3L79,92.1V72.6l15.7,8.6c1.5,0.8,3.4,0.8,4.9,0L130,64.3c1.6-0.9,2.6-2.6,2.6-4.4s-1-3.5-2.6-4.4 l-30.3-17c-1.5-0.9-3.4-0.9-4.9,0L39.3,69.4l-18.1-9.6L97.2,17.5z M77.1,60l20.1-11.2l19.9,11.1l-19.9,11L77.1,60z M15.6,68.3 l21.3,11.3c1.5,0.8,3.4,0.8,4.9,0l27.1-15.1v30.6c0,1.8,1,3.5,2.6,4.4l23.3,12.9c1.5,0.9,3.4,0.9,4.9,0l48.7-27.1l25,13.9 l-76.2,42.3L15.6,96.3V68.3z M97.2,181L21,138.7l25-13.9l48.7,27.1c0.8,0.4,1.6,0.6,2.5,0.6s1.7-0.2,2.5-0.6l79.1-44v27.8 L97.2,181z"/></g></g></g></svg></div>
+        <div class="page-footer-band"></div>
+        <div class="page-footer-url-area"><span class="page-footer-url">www.returnstacked.com</span></div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     PAGE 5 — OFFENSE + IMPLEMENTATION
+     ════════════════════════════════════════════════════════════════════════════ -->
+
+<div class="page interior-page">
+    <div class="page-header">
+        <div class="page-header-logo"><img src="../Brand_elements/Logos/RS_Portfolio_Solutions_logos/Return Stacked Portfolio Solutions Black.png" alt="Return Stacked Portfolio Solutions"></div>
+        <div class="page-header-titles">
+            <div class="page-header-series">The Case for NOT Making Room</div>
+            <div class="page-header-topic">for Alternatives</div>
+        </div>
+        <div class="page-header-accent"></div>
+    </div>
+    <div class="interior-content">
+        <h2 class="section-heading">Beyond Defense: Return Stacking for Offense</h2>
+        <p class="body-text">Most investors think of diversifiers as defensive tools. Return stacking reframes the question: instead of trying to be <em>better</em> than the benchmark, can we simply <strong>add to it</strong>?</p>
+
+        <p class="body-text">There are three fundamental approaches to pursuing outperformance:</p>
+
+        <div class="approach-cards">
+            <div class="approach-card">
+                <div class="approach-card-header" style="background:var(--blue-secondary);">Security Selection</div>
+                <div class="approach-card-body">
+                    <div class="approach-card-question">Can we pick better securities than the benchmark?</div>
+                    Relies on stock-picking skill to identify undervalued positions or avoid overvalued ones.
+                </div>
+            </div>
+            <div class="approach-card">
+                <div class="approach-card-header" style="background:var(--blue-light);">Tactical Allocation</div>
+                <div class="approach-card-body">
+                    <div class="approach-card-question">Can we time exposures better than the benchmark?</div>
+                    Relies on timing skill to shift between asset classes at the right moment.
+                </div>
+            </div>
+            <div class="approach-card">
+                <div class="approach-card-header" style="background:var(--teal-primary);">Return Stacking</div>
+                <div class="approach-card-body">
+                    <div class="approach-card-question">Can we add return streams on top of the benchmark?</div>
+                    Relies on structural efficiency to layer additional exposures without sacrificing core allocations.
+                </div>
+            </div>
+        </div>
+
+        <div class="callout-teal">Instead of trying to be better than the benchmark, return stacking asks whether we can simply add to it.</div>
+
+        <h2 class="section-heading">How We Think About Implementation</h2>
+        <p class="body-text">If this structural approach resonates, we typically start the conversation by exploring three questions:</p>
+
+        <div class="gray-section">
+            <ul class="body-list" style="padding-left:18pt; margin-bottom:0;">
+                <li><strong>Where has diversification been hardest to hold?</strong> Understanding past pain points reveals where structural solutions may help most.</li>
+                <li><strong>Which trade-offs matter most in your models?</strong> Not every portfolio has the same constraints. Identifying the binding ones helps focus the conversation.</li>
+                <li><strong>Would a structural approach help &mdash; or not?</strong> Return stacking isn't the answer to every portfolio question. Honest evaluation matters.</li>
+            </ul>
+        </div>
+
+        <div class="callout-teal">It's not about adding more. It's about adding smarter.</div>
+    </div>
+    <div class="page-footer">
+        <div class="page-footer-icon"><svg style="fill:white;" viewBox="0 0 188.9 197.4" xmlns="http://www.w3.org/2000/svg"><g><g><g><path d="M186.3,94.8l-27.5-15.3l27.5-15.3c1.6-0.9,2.6-2.6,2.6-4.4s-1-3.5-2.6-4.4L99.7,7.3c-1.5-0.9-3.4-0.9-4.9,0L8.1,55.4 L8,55.5c-1.5,0.9-2.5,2.6-2.5,4.4v39.4c0,1.8,1,3.5,2.6,4.4L35.6,119L8.1,134.3c-1.6,0.9-2.6,2.6-2.6,4.4c0,1.8,1,3.5,2.6,4.4 l86.6,48.2c0.8,0.4,1.6,0.6,2.5,0.6s1.7-0.2,2.5-0.6l86.6-48.2c1.6-0.9,2.6-2.6,2.6-4.4V99.3C188.9,97.4,187.9,95.7,186.3,94.8z M97.2,17.5l76.2,42.3l-76.2,42.3L79,92.1V72.6l15.7,8.6c1.5,0.8,3.4,0.8,4.9,0L130,64.3c1.6-0.9,2.6-2.6,2.6-4.4s-1-3.5-2.6-4.4 l-30.3-17c-1.5-0.9-3.4-0.9-4.9,0L39.3,69.4l-18.1-9.6L97.2,17.5z M77.1,60l20.1-11.2l19.9,11.1l-19.9,11L77.1,60z M15.6,68.3 l21.3,11.3c1.5,0.8,3.4,0.8,4.9,0l27.1-15.1v30.6c0,1.8,1,3.5,2.6,4.4l23.3,12.9c1.5,0.9,3.4,0.9,4.9,0l48.7-27.1l25,13.9 l-76.2,42.3L15.6,96.3V68.3z M97.2,181L21,138.7l25-13.9l48.7,27.1c0.8,0.4,1.6,0.6,2.5,0.6s1.7-0.2,2.5-0.6l79.1-44v27.8 L97.2,181z"/></g></g></g></svg></div>
+        <div class="page-footer-band"></div>
+        <div class="page-footer-url-area"><span class="page-footer-url">www.returnstacked.com</span></div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     PAGE 6 — CONTACT
+     ════════════════════════════════════════════════════════════════════════════ -->
+
+<div class="page contact-page">
+    <div class="page-content">
+        <div class="contact-backdrop">
+            <div class="contact-logo">
+                <img src="../Brand_elements/Logos/RS_Portfolio_Solutions_logos/Return Stacked Portfolio Solutions White.png" alt="Return Stacked Portfolio Solutions">
+            </div>
+            <div class="contact-content">
+                <div class="contact-title">Learn More</div>
+                <div class="contact-url">www.returnstacked.com</div>
+                <a class="contact-button" href="https://www.returnstacked.com" target="_blank">Contact Us</a>
+            </div>
+            <div class="contact-meta">
+                <span>&copy; Return Stacked&reg; Portfolio Solutions, 2026</span>
+                <span>For Investment Professional Use Only</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     PAGE 7 — DISCLOSURES
+     ════════════════════════════════════════════════════════════════════════════ -->
+
+<div class="page disclosures-page">
+    <div class="interior-content">
+        <div class="disc-header-bar">
+            <span class="disc-header-brand">Return Stacked&reg; Portfolio Solutions</span>
+            <span class="disc-header-year">2026</span>
+        </div>
+
+        <h2 class="disclosures-heading">General Disclosures</h2>
+
+        <p class="disclosures-text">The information set forth in this document has been obtained or derived from sources believed by Newfound Research LLC (&ldquo;Newfound&rdquo;) to be reliable. However, Newfound does not make any representation or warranty, express or implied, as to the information&rsquo;s accuracy or completeness, nor does Newfound recommend that the information serve as the basis of any investment decision.</p>
+
+        <p class="disclosures-text">Certain information contained in this document constitutes &ldquo;forward-looking statements,&rdquo; which can be identified by the use of forward-looking terminology such as &ldquo;may,&rdquo; &ldquo;will,&rdquo; &ldquo;should,&rdquo; &ldquo;expect,&rdquo; &ldquo;anticipate,&rdquo; &ldquo;project,&rdquo; &ldquo;estimate,&rdquo; &ldquo;intend,&rdquo; &ldquo;continue,&rdquo; or &ldquo;believe,&rdquo; or the negatives thereof or other variations or comparable terminology. Due to various risks and uncertainties, actual events or results or the actual performance of an investment managed using any of the investment strategies or styles described in this document may differ materially from those reflected in such forward-looking statements. The information in this document is made available on an &ldquo;as is,&rdquo; without representation or warranty basis.</p>
+
+        <p class="disclosures-text">There can be no assurance that any investment strategy or style will achieve any level of performance, and investment results may vary substantially from year to year or even from month to month. An investor could lose all or substantially all of his or her investment. Both the use of a single adviser and the focus on a single investment strategy could result in the lack of diversification and consequently, higher risk. The information herein is not intended to provide, and should not be relied upon for, accounting, legal or tax advice or investment recommendations. Any investment strategy and themes discussed herein may be unsuitable for investors depending on their specific investment objectives and financial situation. You should consult your investment adviser, tax, legal, accounting or other advisors about the matters discussed herein. These materials represent an assessment of the market environment at specific points in time and are intended neither to be a guarantee of future events nor as a primary basis for investment decisions. Past performance is not indicative of future performance and investments in equity securities do present risk of loss.</p>
+
+        <p class="disclosures-text">Investors should understand that while performance results may show a general rising trend at times, there is no assurance that any such trends will continue. If such trends are broken, then investors may experience real losses. The information included in this presentation reflects the different assumptions, views and analytical methods of Newfound as of the date of this document. The views expressed reflect the current views as of the date hereof and neither the author nor Newfound undertakes to advise you of any changes in the views expressed herein.</p>
+
+        <p class="disclosures-text">This presentation has been provided solely for informational purposes and does not constitute a current or past recommendation or an offer or solicitation of an offer, or any advice or recommendation, to purchase any securities or other financial instruments, and may not be construed as such. This presentation should not be considered as investment advice or a recommendation of any particular security, strategy or investment product.</p>
+
+        <p class="disclosures-text">Return stacking may involve the use of derivatives, leverage, and short selling, each of which may increase potential losses and risk.</p>
+
+        <p class="disclosures-text">No part of this document may be reproduced in any form, or referred to in any other publication, without express written permission from Newfound Research.</p>
+
+        <p class="copyright">&copy; Return Stacked&reg; Portfolio Solutions, 2026. All rights reserved.</p>
+        <p class="disclosures-text" style="margin-top:8pt; opacity:0.5;">Case #1c89b077-b462-4766-8a31-4d046eee8774</p>
+    </div>
+</div>
+
+</body>
+</html>

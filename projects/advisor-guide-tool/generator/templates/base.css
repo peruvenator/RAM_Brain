@@ -1,0 +1,836 @@
+/* ============================================================================
+   Return Stacked — Advisor Guide Master Stylesheet
+   ============================================================================
+   All brand rules encoded here. This is the single source of CSS truth.
+   Font files are embedded via @font-face with relative paths to Brand_elements.
+   ========================================================================== */
+
+/* ── @font-face declarations ─────────────────────────────────────────────── */
+/* Paths are injected by the generator relative to the output file location */
+
+@font-face { font-family: 'DM Sans'; src: url('{{FONT_DIR}}/DMSans-Thin.ttf'); font-weight: 100; font-style: normal; }
+@font-face { font-family: 'DM Sans'; src: url('{{FONT_DIR}}/DMSans-ThinItalic.ttf'); font-weight: 100; font-style: italic; }
+@font-face { font-family: 'DM Sans'; src: url('{{FONT_DIR}}/DMSans-ExtraLight.ttf'); font-weight: 200; font-style: normal; }
+@font-face { font-family: 'DM Sans'; src: url('{{FONT_DIR}}/DMSans-ExtraLightItalic.ttf'); font-weight: 200; font-style: italic; }
+@font-face { font-family: 'DM Sans'; src: url('{{FONT_DIR}}/DMSans-Light.ttf'); font-weight: 300; font-style: normal; }
+@font-face { font-family: 'DM Sans'; src: url('{{FONT_DIR}}/DMSans-LightItalic.ttf'); font-weight: 300; font-style: italic; }
+@font-face { font-family: 'DM Sans'; src: url('{{FONT_DIR}}/DMSans-Regular.ttf'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'DM Sans'; src: url('{{FONT_DIR}}/DMSans-Italic.ttf'); font-weight: 400; font-style: italic; }
+@font-face { font-family: 'DM Sans'; src: url('{{FONT_DIR}}/DMSans-Medium.ttf'); font-weight: 500; font-style: normal; }
+@font-face { font-family: 'DM Sans'; src: url('{{FONT_DIR}}/DMSans-MediumItalic.ttf'); font-weight: 500; font-style: italic; }
+@font-face { font-family: 'DM Sans'; src: url('{{FONT_DIR}}/DMSans-SemiBold.ttf'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'DM Sans'; src: url('{{FONT_DIR}}/DMSans-SemiBoldItalic.ttf'); font-weight: 600; font-style: italic; }
+@font-face { font-family: 'DM Sans'; src: url('{{FONT_DIR}}/DMSans-Bold.ttf'); font-weight: 700; font-style: normal; }
+@font-face { font-family: 'DM Sans'; src: url('{{FONT_DIR}}/DMSans-BoldItalic.ttf'); font-weight: 700; font-style: italic; }
+@font-face { font-family: 'DM Sans'; src: url('{{FONT_DIR}}/DMSans-ExtraBold.ttf'); font-weight: 800; font-style: normal; }
+@font-face { font-family: 'DM Sans'; src: url('{{FONT_DIR}}/DMSans-ExtraBoldItalic.ttf'); font-weight: 800; font-style: italic; }
+
+/* ── CSS Custom Properties (Brand Tokens) ────────────────────────────────── */
+
+:root {
+    /* Text & Backgrounds */
+    --text-primary: #2c3641;
+    --text-secondary: #625c6d;
+    --cover-dark: #172c3a;
+    --section-gray: #f0f1f1;
+    --white: #ffffff;
+    --border-gray: #bfbfbf;
+    --black: #000000;
+
+    /* Accents */
+    --teal-primary: #14cfa6;
+    --teal-light: #a1d7c6;
+    --blue-secondary: #3a6a9c;
+    --blue-light: #7da5ce;
+    --yellow: #ebe96a;
+
+    /* Typography */
+    --font-family: 'DM Sans', sans-serif;
+
+    /* Page dimensions */
+    --page-width: 8.5in;
+    --page-height: 11in;
+    --margin-top: 0.5in;
+    --margin-bottom: 0.31in;
+    --margin-left: 0.39in;
+    --margin-right: 0.39in;
+}
+
+/* ── Print Page Setup ────────────────────────────────────────────────────── */
+
+@page {
+    size: letter;
+    margin: 0;
+}
+
+@media print {
+    body { margin: 0; padding: 0; background: white; }
+    .page {
+        page-break-after: always;
+        page-break-inside: avoid;
+        box-shadow: none;
+        margin: 0;
+        height: 11in;
+        max-height: 11in;
+        overflow: hidden;
+    }
+    .page:last-child { page-break-after: auto; }
+    .screen-only { display: none; }
+}
+
+/* ── Base Reset ──────────────────────────────────────────────────────────── */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 10pt;
+}
+
+body {
+    font-family: var(--font-family);
+    font-weight: 400;
+    color: var(--text-primary);
+    background: white;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Page Container ──────────────────────────────────────────────────────── */
+
+.page {
+    width: var(--page-width);
+    height: var(--page-height);
+    background: var(--white);
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+/* Screen-only: gray background and shadows for visual separation between pages */
+@media screen {
+    body { background: #e0e0e0; }
+    .page { margin: 20px auto; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
+}
+
+.page-content {
+    position: absolute;
+    top: var(--margin-top);
+    left: var(--margin-left);
+    right: var(--margin-right);
+    bottom: var(--margin-bottom);
+}
+
+/* ============================================================================
+   COVER PAGE
+   ============================================================================
+   Structure (matching reference PDF):
+   - Teal accent bar runs full height of left edge
+   - White top area: logo top-left
+   - Banner: full-width backdrop image with title text left-aligned,
+     watermark "Advisor's Guide" at bottom of banner
+   - Intro zone: centered heading + text + teal highlight
+   - No footer bar on cover (per reference PDF)
+   ========================================================================== */
+
+.cover-page .page-content {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* ── Cover Left Accent Bar ── */
+/* Teal vertical bar running only the height of the banner, NOT full page.
+   Positioned via CSS to align with the banner. */
+
+.cover-left-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10pt;
+    height: 100%;
+    background: var(--teal-primary);
+    z-index: 5;
+    display: none;  /* disabled — accent only appears on banner via banner-left-accent */
+}
+
+/* ── Cover Top Area (logo) ── */
+
+.cover-top-bar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 80pt;
+    background: var(--white);
+    position: relative;
+    z-index: 2;
+    padding-left: 28pt;
+}
+
+.cover-top-logo {
+    height: 100%;
+    padding-left: 0;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.cover-top-logo img {
+    height: 42pt;
+    width: auto;
+}
+
+/* Legacy elements kept for compatibility but hidden on new layout */
+.cover-top-divider {
+    display: none;
+}
+
+.cover-top-backdrop {
+    display: none;
+}
+
+/* ── Cover Banner ── */
+
+.cover-banner {
+    background-color: var(--cover-dark);
+    background-image: url('{{BACKDROP_IMG}}');
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 340pt;
+    position: relative;
+    padding: 0 44pt 0 54pt; /* extra left padding to make room for accent bar */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Translucent overlay to soften the backdrop image */
+.cover-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('{{TRANSLUCENT_IMG}}');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.6;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Teal accent bar on far left of the banner only */
+.cover-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10pt;
+    height: 100%;
+    background: var(--teal-primary);
+    z-index: 2;
+}
+
+.cover-watermark {
+    position: absolute;
+    font-size: 72pt;
+    font-weight: 700;
+    color: var(--teal-light);
+    opacity: 0.22;
+    bottom: -10pt;
+    left: 14pt;
+    right: 0;
+    text-align: center;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+    line-height: 1;
+}
+
+.cover-title-block {
+    position: relative;
+    z-index: 3;
+    text-align: left;
+}
+
+/* Shadow layer: duplicate of title text positioned behind, offset to bottom-right.
+   This creates a hard, visible drop shadow that works on dark backgrounds
+   where CSS text-shadow (black on dark bg) would be invisible. */
+.cover-title-shadow {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    z-index: 0;
+    text-align: left;
+    pointer-events: none;
+    opacity: 1;
+}
+
+.cover-title-shadow .cover-title-line,
+.cover-title-shadow .cover-connector,
+.cover-title-shadow .cover-topic {
+    color: var(--black);
+    text-shadow: none;
+    -webkit-text-stroke: 0;
+    position: static;
+    z-index: auto;
+}
+
+.cover-title-line {
+    font-size: 42pt;
+    font-weight: 500;
+    color: var(--white);
+    line-height: 1.1;
+    text-shadow: none;
+    position: relative;
+    z-index: 2;
+}
+
+.cover-title-line strong {
+    font-weight: 700;
+}
+
+.cover-connector {
+    font-size: 38pt;
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.1;
+    text-shadow: none;
+    position: relative;
+    z-index: 2;
+}
+
+.cover-topic {
+    font-size: 48pt;
+    font-weight: 700;
+    color: var(--teal-primary);
+    line-height: 1.1;
+    margin-top: 4pt;
+    text-shadow: none;
+    position: relative;
+    z-index: 2;
+}
+
+/* ── Cover Intro Zone ── */
+
+.cover-intro {
+    padding: 28pt 44pt 28pt;
+    text-align: center;
+}
+
+.cover-intro-heading {
+    font-size: 22pt;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 14pt;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.cover-intro-text {
+    font-size: 13pt;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.5;
+    text-align: center;
+}
+
+.cover-intro-highlight {
+    font-size: 21pt;
+    font-weight: 700;
+    color: var(--teal-primary);
+    line-height: 1.4;
+    margin-top: 12pt;
+    text-align: center;
+}
+
+/* ── Cover Footer ── */
+/* Cover page has NO footer bar per reference PDF — all cover footer
+   styles removed. Interior pages use .page-footer instead. */
+
+.cover-footer-url {
+    font-size: 9pt;
+    font-weight: 700;
+    color: var(--white);
+}
+
+/* ============================================================================
+   INTERIOR PAGE HEADER
+   ============================================================================
+   Structure: logo (left) | right block: series title (green) + topic (dark)
+   + green rectangle accent on far right
+   ========================================================================== */
+
+.page-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56pt;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+    /* No border-bottom — clean separation per reference PDF */
+}
+
+.page-header-logo {
+    height: 100%;
+    padding-left: 28pt;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.page-header-logo img {
+    height: 34pt;
+    width: auto;
+}
+
+.page-header-titles {
+    flex: 1;
+    text-align: right;
+    padding-right: 12pt;
+}
+
+.page-header-series {
+    font-size: 11pt;
+    font-weight: 700;
+    font-style: normal;
+    color: var(--teal-primary);
+    line-height: 1.2;
+}
+
+.page-header-topic {
+    font-size: 11pt;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.page-header-accent {
+    width: 10pt;
+    height: 100%;
+    background: var(--teal-primary);
+    flex-shrink: 0;
+}
+
+/* ============================================================================
+   INTERIOR PAGE FOOTER
+   ============================================================================
+   Structure (matching reference PDF):
+   icon (dark bg, left) | teal band (center) | white area with URL (right)
+   ========================================================================== */
+
+.page-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 28pt;
+    display: flex;
+    align-items: stretch;
+    z-index: 10;
+}
+
+.page-footer-icon {
+    width: 28pt;
+    height: 28pt;
+    background: var(--cover-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.page-footer-icon img,
+.page-footer-icon svg {
+    height: 16pt;
+    width: 16pt;
+}
+
+/* Teal band — fills center of footer */
+.page-footer-band {
+    flex: 1;
+    height: 100%;
+    background: var(--teal-primary);
+}
+
+/* URL area — white background, right side */
+.page-footer-url-area {
+    height: 100%;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    padding: 0 20pt;
+    flex-shrink: 0;
+}
+
+.page-footer-url {
+    font-size: 9pt;
+    font-weight: 700;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+/* Legacy copyright element — hidden in new layout */
+.page-footer-copyright {
+    display: none;
+}
+
+/* ── Interior Page Content Zone ──────────────────────────────────────────── */
+
+.interior-content {
+    position: absolute;
+    top: 72pt;
+    left: 28pt;
+    right: 28pt;
+    bottom: 32pt;
+    overflow: hidden;  /* Clips to page boundaries */
+}
+
+/* ── Section Headings ────────────────────────────────────────────────────── */
+/* Main section headings: small teal rectangle (6pt × 14pt) to the left,
+   then bold dark text. The rectangle is rendered via a ::before pseudo-element
+   to precisely match the reference PDF (6.08pt wide × 14.40pt tall). */
+
+.section-heading {
+    font-size: 13pt;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+    margin-top: 10pt;
+    margin-bottom: 6pt;
+    padding-left: 14pt;
+    position: relative;
+    background: none;
+}
+
+.section-heading:first-child {
+    margin-top: 0;
+}
+
+.section-heading::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6pt;
+    height: 14pt;
+    background-color: var(--teal-primary);
+    border-radius: 0;
+}
+
+/* Sub-headings: plain bold dark text, no decoration */
+.subsection-heading {
+    font-size: 13pt;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+    margin-top: 8pt;
+    margin-bottom: 4pt;
+    padding: 0;
+}
+
+/* ── Body Text ───────────────────────────────────────────────────────────── */
+
+.body-text {
+    font-size: 10pt;
+    font-weight: 400;
+    color: var(--text-primary);
+    line-height: 1.5;
+    margin-bottom: 4pt;
+}
+
+.body-text strong {
+    font-weight: 700;
+}
+
+.body-text em {
+    font-style: italic;
+}
+
+/* ── Bullet Lists ────────────────────────────────────────────────────────── */
+
+.body-list {
+    font-size: 10pt;
+    font-weight: 400;
+    color: var(--text-primary);
+    line-height: 1.5;
+    margin-bottom: 4pt;
+    padding-left: 20pt;
+}
+
+.body-list li {
+    margin-bottom: 2pt;
+}
+
+/* ── Teal Callout ────────────────────────────────────────────────────────── */
+
+.callout-teal {
+    font-size: 13pt;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--teal-primary);
+    line-height: 1.35;
+    margin-top: 14pt;
+    margin-bottom: 6pt;
+    padding-left: 12pt;
+    border-left: 3pt solid var(--teal-primary);
+}
+
+/* ── Callout Panel (Teal header + light gray body) ──────────────────────── */
+/* Standardized from reference: teal heading bar + light gray content area */
+
+.dark-panel {
+    margin-top: 8pt;
+    margin-bottom: 8pt;
+    border-radius: 2pt;
+    overflow: hidden;
+}
+
+.dark-panel-heading {
+    font-size: 12pt;
+    font-weight: 700;
+    color: var(--white);
+    background-color: var(--teal-primary);
+    padding: 6pt 12pt;
+    line-height: 1.2;
+    margin-bottom: 0;
+}
+
+.dark-panel-body {
+    font-size: 10pt;
+    font-weight: 400;
+    color: var(--text-primary);
+    line-height: 1.5;
+    background-color: var(--section-gray);
+    padding: 10pt 12pt;
+}
+
+/* ── Gray Section Block ──────────────────────────────────────────────────── */
+
+.gray-section {
+    background-color: var(--section-gray);
+    padding: 10pt 12pt;
+    margin-top: 6pt;
+    margin-bottom: 6pt;
+    border-radius: 2pt;
+}
+
+/* ── Data Tables ─────────────────────────────────────────────────────────── */
+
+.data-table-wrapper {
+    margin-top: 6pt;
+    margin-bottom: 6pt;
+}
+
+.data-table-caption {
+    font-size: 10pt;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6pt;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;
+}
+
+.data-table th {
+    background-color: var(--text-primary);
+    color: var(--white);
+    font-weight: 700;
+    text-align: center;
+    padding: 6pt 8pt;
+    border: 0.5pt solid var(--border-gray);
+}
+
+.data-table th:first-child {
+    text-align: left;
+}
+
+.data-table td {
+    padding: 5pt 8pt;
+    border: 0.5pt solid var(--border-gray);
+    font-weight: 400;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.data-table td:first-child {
+    text-align: left;
+}
+
+.data-table tr:nth-child(even) td {
+    background-color: var(--section-gray);
+}
+
+/* ── Correlation Matrix ─────────────────────────────────────────────────── */
+/* Heat-mapped table: no header background, no row striping, no borders.
+   Cell backgrounds are set inline by the generator based on abs(value). */
+
+.correlation-matrix {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-size: 9pt;
+}
+
+.correlation-matrix .corr-header {
+    background: none;
+    color: var(--text-primary);
+    font-weight: 700;
+    text-align: center;
+    padding: 6pt 8pt;
+    border: none;
+}
+
+.correlation-matrix .corr-header:first-child {
+    text-align: left;
+}
+
+.correlation-matrix .corr-label {
+    text-align: left;
+    padding: 5pt 8pt;
+    border: none;
+    font-weight: 400;
+    color: var(--text-primary);
+    background: none;
+}
+
+.correlation-matrix .corr-value {
+    text-align: center;
+    padding: 5pt 8pt;
+    border: none;
+    font-weight: 500;
+}
+
+/* ── Chart/Image ─────────────────────────────────────────────────────────── */
+
+.chart-wrapper {
+    margin-top: 6pt;
+    margin-bottom: 6pt;
+    text-align: center;
+}
+
+.chart-wrapper img {
+    max-width: 100%;
+    max-height: 400pt;          /* Prevent tall charts from overflowing the page */
+    height: auto;
+    object-fit: contain;
+}
+
+.chart-caption {
+    font-size: 8pt;
+    font-weight: 400;
+    color: var(--text-secondary);
+    margin-top: 4pt;
+    text-align: left;
+    font-style: italic;
+}
+
+/* ── Source/Footnote ─────────────────────────────────────────────────────── */
+
+.source-note {
+    font-size: 7.5pt;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text-secondary);
+    margin-top: 4pt;
+    line-height: 1.25;
+    text-align: left;
+}
+
+/* ── Disclosures Page ────────────────────────────────────────────────────── */
+
+.disclosures-heading {
+    font-size: 12pt;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8pt;
+}
+
+.disclosures-text {
+    font-size: 8pt;
+    font-weight: 400;
+    color: var(--text-primary);
+    line-height: 1.25;
+    margin-bottom: 4pt;
+}
+
+.copyright {
+    font-size: 8pt;
+    font-weight: 400;
+    color: var(--text-primary);
+    margin-top: 12pt;
+}
+
+/* ── Glossary ────────────────────────────────────────────────────────────── */
+
+.glossary-heading {
+    font-size: 13pt;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-top: 16pt;
+    margin-bottom: 8pt;
+}
+
+.glossary-term {
+    font-size: 10pt;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-top: 6pt;
+}
+
+.glossary-definition {
+    font-size: 10pt;
+    font-weight: 400;
+    color: var(--text-primary);
+    line-height: 1.5;
+    margin-bottom: 4pt;
+}
+
+/* ── Page Break Hint ─────────────────────────────────────────────────────── */
+
+.page-break {
+    /* In the HTML, each .page div is a discrete page.
+       This class is available for manual break hints within content. */
+}
+
+/* ── Screen-only helpers ─────────────────────────────────────────────────── */
+
+.screen-only {
+    /* Elements hidden when printing */
+}
+
+.edit-hint {
+    display: none;
+}
+
+@media screen {
+    .edit-hint {
+        display: block;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        background: var(--teal-primary);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-size: 11pt;
+        font-weight: 500;
+        z-index: 9999;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+}

@@ -1,0 +1,55 @@
+{
+    "tool_name_short": "Grok",
+    "vendor_short": "xAI",
+    "banner_title": "Grok by xAI",
+    "overview": {
+        "tool_name": "Grok API, Grok via X Premium (Basic / Standard / Plus), SuperGrok & SuperGrok Heavy",
+        "vendor": "xAI Corp. \u2014 Palo Alto, CA",
+        "plan_tier": "X Premium Basic / X Premium / X Premium+ / SuperGrok / SuperGrok Heavy / Grok API",
+        "internal_owner": "Rodrigo Gordillo, President",
+        "assessment_date": "February 2026",
+        "policy_reference": "ReSolve Compliance Manual \u00a7VIII.G; ReSolve Artificial Intelligence Policy (Orion)"
+    },
+    "tool_description": "ReSolve uses xAI\u2019s Grok across multiple surfaces. The Grok API (api.x.ai) provides programmatic access under enterprise terms with contractual commitments that customer data is not used for training. X Premium tiers (Basic, Standard, Plus) provide conversational Grok access through the X platform; these are consumer plans where model training is ON by default and users must manually disable the training toggle in X Settings > Privacy and Safety > Grok. SuperGrok and SuperGrok Heavy are standalone subscriptions at grok.com that default to NOT training on conversations (opt-in model). All tiers include image generation via Grok\u2019s Aurora model. Use is restricted to corporate devices only, per ReSolve\u2019s AI policy in Orion. Note: xAI is a relatively young company (founded 2023); enterprise compliance infrastructure is still maturing compared to larger peers.",
+    "use_cases": [
+        {"text": "Drafting and refining investment research memos and internal communications,", "review": true},
+        "Summarizing documents, reports, and research materials to accelerate information retrieval",
+        "Programmatic data analysis and content generation via the Grok API",
+        {"text": "Generating images for internal presentations and research reports using Grok\u2019s Aurora image model,", "review": true},
+        "Brainstorming, ideation, and general research queries via Grok on X or SuperGrok",
+        "Deep research and extended reasoning via SuperGrok Heavy\u2019s Grok 4 Heavy model"
+    ],
+    "data_protection": [
+        {"control": "Model Training \u2014 X Premium Tiers", "details": "Consumer plans (Basic, Standard, Plus): training is ON by default. Users must manually toggle off via X Settings > Privacy and Safety > Data sharing and personalization > Grok. The X Terms of Service grant xAI a broad license to use Content for training unless this setting is disabled."},
+        {"control": "Model Training \u2014 SuperGrok / Heavy", "details": "Standalone grok.com subscriptions default to NOT training on conversations. Users must explicitly opt in via Settings > Data Controls > \u201cImprove the model.\u201d Private Chat mode is available for ephemeral conversations."},
+        {"control": "Model Training \u2014 Grok API", "details": "Disabled. xAI contractually commits not to use business data (inputs or outputs) for training models under the Enterprise Terms of Service. Zero Data Retention policy applies."},
+        {"control": "Encryption \u2014 In Transit", "details": "TLS encryption for all connections. Specific TLS version and cipher suites are not publicly documented for consumer tiers."},
+        {"control": "Encryption \u2014 At Rest", "details": "Data encrypted at rest across all tiers. Specific algorithms not publicly documented for consumer tiers. Enterprise Vault add-on (API/Enterprise) provides Customer-Managed Encryption Keys (CMEK) with physically isolated infrastructure."},
+        {"control": "Data Retention \u2014 Consumer Tiers", "details": "Conversations deleted within 30 days after user deletion. Private Chat mode prevents saving to history and triggers 30-day deletion. Human-reviewed conversations (subset for safety) may be retained up to 3 years, disconnected from account."},
+        {"control": "Data Retention \u2014 Grok API", "details": "Inputs and outputs automatically deleted within 30 days unless legally required. Enterprise customers can negotiate custom retention terms in writing."},
+        {"control": "Data Residency", "details": "Primary processing in the United States (Memphis, TN data centers; AWS infrastructure). No user-configurable data residency options. International transfers governed by Standard Contractual Clauses via the DPA."},
+        {"control": "Access Controls", "details": "Grok API: API key-based access. X Premium tiers: X account authentication. SuperGrok: standalone account at grok.com. No enterprise-grade IAM, SSO, or audit logging for consumer tiers."}
+    ],
+    "certifications": [
+        {"certification": "SOC 2 Type II", "status": "Compliant \u2014 Grok API and Grok Business/Enterprise. Consumer tiers (X Premium, SuperGrok) are not in audit scope."},
+        {"certification": "ISO 27001", "status": "Not publicly confirmed \u2014 no evidence of ISO 27001 certification in xAI documentation."},
+        {"certification": "GDPR", "status": "Compliant \u2014 API and Business/Enterprise tiers. DPA with Standard Contractual Clauses available."},
+        {"certification": "CCPA", "status": "Compliant \u2014 API and Business/Enterprise tiers."},
+        {"certification": "HIPAA", "status": "Supported for Enterprise tier only \u2014 BAA available upon request. Not available for consumer or SuperGrok tiers."},
+        {"certification": "FedRAMP", "status": "Not available."},
+        {"certification": "PCI-DSS", "status": "Not publicly stated."}
+    ],
+    "security_links": [
+        {"resource": "Trust Center", "url": "https://trust.x.ai/"},
+        {"resource": "Privacy Policy", "url": "https://x.ai/legal/privacy-policy"},
+        {"resource": "Consumer Terms of Service", "url": "https://x.ai/legal/terms-of-service"},
+        {"resource": "Enterprise Terms of Service", "url": "https://x.ai/legal/terms-of-service-enterprise"},
+        {"resource": "Data Processing Addendum", "url": "https://x.ai/legal/data-processing-addendum"},
+        {"resource": "Subprocessor List", "url": "https://x.ai/legal/subprocessor-list"}
+    ],
+    "approval_roles": [
+        "Tool Sponsor",
+        "Cybersecurity",
+        "Compliance"
+    ]
+}

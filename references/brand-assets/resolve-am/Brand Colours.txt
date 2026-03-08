@@ -1,0 +1,78 @@
+ReSolve Asset Management — Normalized Brand Color Palette
+================================================
+Derived from the All Terrain Strategy Primer (v8.3) design template
+and the official "RAM Colours" PowerPoint theme scheme.
+
+TEXT & BACKGROUNDS
+
+Text Primary:  #294A85  (medium blue — body text, headings on light backgrounds)
+Text Secondary:#00488C  (brand blue — supporting text, chart labels on light backgrounds)
+Text on Dark:  #FFFFFF  (white — all text on dark/navy backgrounds)
+Cover:         #04367B  (deep navy — cover page banner background)
+Section:       #032F69  (darkest navy — content section backgrounds)
+White:         #FFFFFF  (card overlays, light backgrounds)
+Border:        #B5C4CE  (silver gray — table borders, dividers)
+
+ACCENTS
+
+Amber:         #FBBA00  (callouts, highlights, key messaging)
+Bright Cyan:   #00ABFF  (decorative watermark text only)
+Sky Blue:      #89D2FF  (links, secondary accents, charts)
+Ice Blue:      #8ED8F1  (chart elements, data viz)
+Crimson:       #C00000  (sparingly, for highlights)
+
+EQUITY LINE CHARTS (data series order)
+
+Series 1:     #294A85  (medium blue)
+Series 2:     #00ABFF  (bright cyan)
+Series 3:     #FBBA00  (amber)
+Series 4:     #000000  (black)
+Series 5:     #D3D800  (chartreuse)
+Series 6:     #6F4596  (purple)
+
+EXTENDED REFERENCE
+Below are additional colors present in the theme and slide masters,
+retained for completeness when building charts, tables, or new layouts.
+
+  Theme Scheme ("RAM Colours")
+    Dark 1:    system   (windowText — renders as #000000)
+    Light 1:   system   (window — renders as #FFFFFF)
+    Dark 2:    #0E2841  (deep navy — theme dark accent)
+    Light 2:   #E8E8E8  (light gray — theme light accent)
+    Accent 1:  #00478D  (dark blue — primary brand blue)
+    Accent 2:  #FBBA00  (amber/gold — highlight accent)
+    Accent 3:  #000000  (black)
+    Accent 4:  #89D2FF  (sky blue — charts, light data viz)
+    Accent 5:  #6F4596  (purple — supplementary accent)
+    Accent 6:  #D3D800  (chartreuse/lime — supplementary accent)
+    Hyperlink: #00478D  (matches Accent 1)
+    Fol. Link: #96607D  (muted mauve)
+
+  Additional Blues (from slide masters and layouts)
+    Muted Blue:   #264681  (section titles, layout accents)
+    Ocean Blue:   #0B5E87  (table fills, mid-tone accent)
+    Cerulean:     #0081BA  (layout title bar gradients)
+    Azure:        #47A3DA  (layout headers, decorative bands)
+    Aqua:         #39A2DB  (layout gradient endpoints)
+    Light Cyan:   #41BFEF  (table highlights, supporting data)
+    Link Blue:    #00B0F0  (occasional table/chart highlights)
+
+  Warm Accents
+    Dark Gold:    #FFC000  (connector lines, divider accents)
+
+  Neutrals
+    Black:        #000000  (primary text, table borders)
+    Dark Gray:    #333333  (secondary text)
+    Light Gray:   #F2F2F2  (table alternating row fill)
+    Pale Gray:    #E8E8E8  (theme lt2 — subtle background)
+
+  Supplementary (low usage in current deck)
+    Purple:       #6F4596  (theme accent 5)
+    Chartreuse:   #D3D800  (theme accent 6)
+
+TYPOGRAPHY (fonts used in template)
+  Primary Body:    HelveticaNeueLT Com 45 Lt / HelveticaNeueLT Std Lt
+  Primary Heading: Helvetica 55 Roman
+  Ultra Light:     Helvetica 25 UltraLight
+  Standard:        Helvetica LT Std
+  Alternate:       DM Sans

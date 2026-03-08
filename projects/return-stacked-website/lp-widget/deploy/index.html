@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Return Stacking Visualizer — Landing Page Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       RETURN STACKED — LANDING PAGE STYLES
+       Preview version — full standalone page
+       ============================================ */
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #2c3641;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: #ffffff;
+    }
+
+    /* —— HERO SECTION —— */
+    .rs-hero {
+      position: relative;
+      background: #172c3a;
+      padding: 100px 24px 90px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .rs-hero__bg {
+      position: absolute;
+      inset: 0;
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    .rs-hero__bg svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .rs-hero__content {
+      position: relative;
+      z-index: 1;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .rs-hero__headline {
+      font-size: 2.85rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.18;
+      margin-bottom: 22px;
+      letter-spacing: -0.02em;
+    }
+
+    .rs-hero__headline span {
+      color: #14cfa6;
+    }
+
+    .rs-hero__subheadline {
+      font-size: 1.18rem;
+      color: rgba(255, 255, 255, 0.78);
+      font-weight: 400;
+      line-height: 1.7;
+      margin-bottom: 40px;
+      max-width: 620px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .rs-btn {
+      display: inline-block;
+      padding: 16px 44px;
+      background: #14cfa6;
+      color: #ffffff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.18rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+      box-shadow: 0 4px 14px rgba(20, 207, 166, 0.25);
+    }
+
+    .rs-btn:hover {
+      background: #11b893;
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(20, 207, 166, 0.35);
+    }
+
+    .rs-btn--outline {
+      background: transparent;
+      color: #ffffff;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      box-shadow: none;
+    }
+
+    .rs-btn--outline:hover {
+      border-color: #14cfa6;
+      color: #14cfa6;
+      background: rgba(20, 207, 166, 0.08);
+      box-shadow: none;
+    }
+
+    /* —— FEATURES SECTION —— */
+    .rs-features {
+      background: #f0f1f1;
+      padding: 80px 24px;
+    }
+
+    .rs-features__inner {
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+
+    .rs-features__label {
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #14cfa6;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      margin-bottom: 44px;
+    }
+
+    .rs-features__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .rs-feature-card {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 38px 30px;
+      border-top: 3px solid #14cfa6;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .rs-feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    .rs-feature-card__title {
+      font-size: 1.22rem;
+      font-weight: 700;
+      color: #2c3641;
+      margin-bottom: 14px;
+      line-height: 1.3;
+    }
+
+    .rs-feature-card__text {
+      font-size: 0.95rem;
+      color: #625c6d;
+      line-height: 1.75;
+    }
+
+    /* —— SOCIAL PROOF —— */
+    .rs-social-proof {
+      position: relative;
+      background: #172c3a;
+      padding: 70px 24px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .rs-social-proof__inner {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .rs-social-proof__bar {
+      width: 48px;
+      height: 3px;
+      background: #14cfa6;
+      margin: 0 auto 28px;
+      border-radius: 2px;
+    }
+
+    .rs-social-proof__text {
+      font-size: 1.22rem;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.88);
+      font-style: italic;
+      line-height: 1.85;
+    }
+
+    /* —— FINAL CTA + VIDEO + FORM —— */
+    .rs-cta-section {
+      background: #ffffff;
+      padding: 80px 24px 100px;
+      text-align: center;
+    }
+
+    .rs-cta-section__inner {
+      max-width: 740px;
+      margin: 0 auto;
+    }
+
+    .rs-cta-section__headline {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #2c3641;
+      margin-bottom: 12px;
+      line-height: 1.25;
+    }
+
+    .rs-cta-section__subtext {
+      font-size: 1.1rem;
+      color: #625c6d;
+      margin-bottom: 52px;
+      line-height: 1.6;
+    }
+
+    /* Video */
+    .rs-video-wrap {
+      margin-bottom: 52px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .rs-video-wrap video {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* —— RESPONSIVE —— */
+    @media (max-width: 900px) {
+      .rs-features__grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .rs-hero {
+        padding: 64px 20px 56px;
+      }
+
+      .rs-hero__headline {
+        font-size: 2rem;
+      }
+
+      .rs-hero__subheadline {
+        font-size: 1rem;
+      }
+
+      .rs-features {
+        padding: 56px 20px;
+      }
+
+      .rs-features__grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .rs-social-proof {
+        padding: 48px 20px;
+      }
+
+      .rs-social-proof__text {
+        font-size: 1.05rem;
+      }
+
+      .rs-cta-section {
+        padding: 56px 20px 72px;
+      }
+
+      .rs-cta-section__headline {
+        font-size: 1.6rem;
+      }
+
+      .rs-form-wrap {
+        padding: 28px 20px;
+      }
+    }
+
+    /* Smooth scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================
+       HERO SECTION
+       ============================ -->
+  <section class="rs-hero">
+    <div class="rs-hero__bg">
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+        viewBox="0 0 1138 639" preserveAspectRatio="xMidYMid slice" style="enable-background:new 0 0 1138 639;">
+        <style type="text/css">
+          .bg0{fill:#070005;}.bg1{clip-path:url(#bgClip);}
+          .l2{fill:none;stroke:#1583CE;stroke-width:1.55;stroke-miterlimit:10;}
+          .l3{fill:none;stroke:#1072B2;stroke-width:1.55;stroke-miterlimit:10;}
+          .l4{fill:none;stroke:#0E6CA8;stroke-width:1.55;stroke-miterlimit:10;}
+          .l5{fill:none;stroke:#0A5D8F;stroke-width:1.55;stroke-miterlimit:10;}
+          .l6{fill:none;stroke:#085785;stroke-width:1.55;stroke-miterlimit:10;}
+          .l7{fill:none;stroke:#064265;stroke-width:1.55;stroke-miterlimit:10;}
+          .l8{fill:none;stroke:#042E46;stroke-width:1.55;stroke-miterlimit:10;}
+          .l9{fill:none;stroke:#021926;stroke-width:1.55;stroke-miterlimit:10;}
+          .l10{fill:none;stroke:#010C13;stroke-width:1.55;stroke-miterlimit:10;}
+          .l11{fill:none;stroke:#000406;stroke-width:1.55;stroke-miterlimit:10;}
+        </style>
+        <rect class="bg0" width="1138" height="639"/>
+        <g><defs><rect id="bgRect" width="1138" height="639"/></defs>
+          <clipPath id="bgClip"><use xlink:href="#bgRect" style="overflow:visible;"/></clipPath>
+          <g class="bg1">
+            <polyline class="l2" points="-190,764.1 159.1,753.4 572.1,639 1221.8,755.6"/>
+            <path class="l2" d="M-184.2,723.4L144,708.1l388.9-110.5c1.2-0.5,24.3,3.2,25.6,3.4l357.1,62.5c0.5,0.1,8.8,1.5,9.3,1.5l301.8,40.9"/>
+            <path class="l3" d="M-175.4,662.3l296.9-22.2L474,535.6c2.9-1.3,24.6,1.5,28,2l391,66.3c1.2,0.2,9,1.4,10.2,1.3l330.8,26.3"/>
+            <path class="l3" d="M-166.6,601.3l265.5-29.2l316.3-98.5c4.7-2.2,25-0.2,30.3,0.6l424.9,70.1c1.9,0.3,9.2,1.4,11.1,1.2l359.8,11.7"/>
+            <path class="l4" d="M-157.9,540.2l234.2-36.1l280-92.6c6.5-3,25.4-1.9,32.7-0.8l458.8,73.8c2.6,0.5,9.4,1.3,12,1l388.8-2.9"/>
+            <path class="l5" d="M-149.1,479.2l202.8-43.1l243.8-86.6c8.2-3.8,25.8-3.6,35.1-2.2l492.6,77.6c3.3,0.6,9.6,1.2,12.9,0.9l417.8-17.5"/>
+            <path class="l5" d="M-140.3,418.2l171.5-50l207.5-80.7c10-4.6,26.2-5.3,37.4-3.6l526.5,81.3c4,0.7,9.8,1.1,13.8,0.7l446.8-32.1"/>
+            <path class="l6" d="M-131.6,357.1l140.1-57l171.2-74.7c11.8-5.4,26.6-7,39.8-5L780,305.5c4.7,0.8,10,1.1,14.8,0.5l475.8-46.7"/>
+            <path class="l7" d="M-122.8,279.6l305.4-127.2c14.1-5.7,30.1-7.3,45.4-4.4l564.8,96.2c8.1,1.9,16.6,2.1,24.8,0.7l468.9-56.9"/>
+            <path class="l8" d="M-113,184.2L220.2,65.2c16.9-5.7,35.7-6.7,53.4-2.7l553.3,112.7c13.3,3.6,27.5,3.9,41,1.1l441.2-65.8"/>
+            <path class="l9" d="M-103.2,88.9l360.9-111c19.8-5.8,41.3-6.1,61.3-0.9l541.8,129.1c18.5,5.3,38.4,5.8,57.2,1.5l413.5-74.7"/>
+            <path class="l10" d="M-93.4-6.5l388.6-102.9c22.6-5.8,46.9-5.6,69.3,0.8L894.8,37.1c23.7,6.9,49.3,7.6,73.5,1.9l385.9-83.6"/>
+            <path class="l11" d="M-87.6-63.7l405.3-98c24.3-5.9,50.2-5.2,74.1,1.9L915.2-4.3c26.8,8,55.9,8.7,83.2,2.1l369.3-88.9"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="rs-hero__content">
+      <h1 class="rs-hero__headline">
+        Visualize How <span>Return Stacking</span> Works The Way Institutions Have Done It for&nbsp;Decades
+      </h1>
+      <p class="rs-hero__subheadline">
+        A simple, interactive tool that shows you exactly what happens when you stack returns instead of choosing between them.
+      </p>
+      <a href="https://unique-dragon-0f3b0f.netlify.app/?s=20&amp;b=80&amp;ss=55&amp;t=50&amp;f=0&amp;m=50&amp;g=0" class="rs-btn">Launch the Visualizer</a>
+    </div>
+  </section>
+
+
+  <!-- ============================
+       FEATURES SECTION
+       ============================ -->
+  <section class="rs-features">
+    <div class="rs-features__inner">
+      <p class="rs-features__label">What You&rsquo;ll See</p>
+
+      <!-- Looping video -->
+      <div class="rs-video-wrap" style="max-width: 740px; margin: 0 auto 52px;">
+        <video autoplay loop muted playsinline>
+          <source src="Screen recording5.webm" type="video/webm">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      <div class="rs-features__grid">
+        <div class="rs-feature-card">
+          <h3 class="rs-feature-card__title">Stack. Compare. Understand.</h3>
+          <p class="rs-feature-card__text">
+            Choose different types of stacks and adjust their size to see how diversified leverage affects performance, drawdowns, and calendar year returns&nbsp;&mdash; all in real time.
+          </p>
+        </div>
+
+        <div class="rs-feature-card">
+          <h3 class="rs-feature-card__title">The Full Drawdown Story</h3>
+          <p class="rs-feature-card__text">
+            Go beyond average returns. See how stacked portfolios have behaved during the worst periods, with detailed drawdown profiles and recovery timelines.
+          </p>
+        </div>
+
+        <div class="rs-feature-card">
+          <h3 class="rs-feature-card__title">No Complexity Required</h3>
+          <p class="rs-feature-card__text">
+            This isn&rsquo;t a black box. It&rsquo;s a clear, visual way to build intuition around one of the most powerful ideas in portfolio construction.
+          </p>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 44px;">
+        <a href="https://unique-dragon-0f3b0f.netlify.app/?s=20&amp;b=80&amp;ss=55&amp;t=50&amp;f=0&amp;m=50&amp;g=0" class="rs-btn">Launch the Visualizer</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================
+       SOCIAL PROOF
+       ============================ -->
+  <section class="rs-social-proof">
+    <div class="rs-social-proof__inner">
+      <div class="rs-social-proof__bar"></div>
+      <p class="rs-social-proof__text">
+        The largest institutional investors in the world have used return stacking for decades. Now you can visualize exactly how it works&nbsp;&mdash; and why&nbsp;&mdash; in&nbsp;minutes.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ============================
+       FINAL CTA + VIDEO + FORM
+       ============================ -->
+  <section class="rs-cta-section">
+    <div class="rs-cta-section__inner">
+      <h2 class="rs-cta-section__headline">Curious what stacking actually looks&nbsp;like?</h2>
+      <p class="rs-cta-section__subtext">Launch the tool and start exploring immediately.</p>
+      <a href="https://unique-dragon-0f3b0f.netlify.app/?s=20&amp;b=80&amp;ss=55&amp;t=50&amp;f=0&amp;m=50&amp;g=0" class="rs-btn">Launch the Visualizer</a>
+    </div>
+  </section>
+
+</body>
+</html>
