@@ -7,6 +7,12 @@ CLAUDE.local.md
 .claude/settings.local.json
 .cp-images/
 
+# Brand assets (separate repo: resolve-lab/brand-assets)
+references/brand-assets/
+
+# Personal (private, never shared via git)
+personal/
+
 # Python
 __pycache__/
 *.pyc
