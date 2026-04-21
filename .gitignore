@@ -10,6 +10,12 @@ CLAUDE.local.md
 # Brand assets (separate repo: resolve-lab/brand-assets)
 references/brand-assets/
 
+# Trend & Carry Transition Plots standalone clone (separate repo: resolve-lab/rs-trend-carry-transition-plots)
+references/rs-trend-carry-transition-plots/
+
+# Trend & Carry transition plots (separate repo: resolve-lab/rs-trend-carry-transition-plots)
+projects/trend-carry-transition-plots/
+
 # Personal (private, never shared via git)
 personal/
 
