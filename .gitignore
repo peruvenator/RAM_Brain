@@ -10,11 +10,21 @@ CLAUDE.local.md
 # Brand assets (separate repo: resolve-lab/brand-assets)
 references/brand-assets/
 
+# Shared skill repos (separate repos under resolve-lab)
+references/RS-Claude-skills/
+references/RAM-Claude-skills/
+
 # Trend & Carry Transition Plots standalone clone (separate repo: resolve-lab/rs-trend-carry-transition-plots)
 references/rs-trend-carry-transition-plots/
 
+# All Terrain widget (separate repo: resolve-lab/All_Terrain_Plots_Widget)
+projects/all-terrain-weights-widget/
+
 # Trend & Carry transition plots (separate repo: resolve-lab/rs-trend-carry-transition-plots)
 projects/trend-carry-transition-plots/
+
+# AI tool compliance assessment (separate repo: resolve-lab/ram-ai-security-reports)
+projects/ai-compliance-assessment/
 
 # Personal (private, never shared via git)
 personal/
