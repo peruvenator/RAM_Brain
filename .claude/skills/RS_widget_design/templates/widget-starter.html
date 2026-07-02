@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RS Widget Starter</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Chart.js + annotation plugin -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3"></script>
+
+<style>
+/* ==========================================================================
+   NAMESPACE ROOT
+   All styles are scoped to .rsw-widget. Rename .rsw- prefix per-widget to
+   avoid class collisions (e.g., .rsv- for visualizer, .rst- for article, etc).
+   ========================================================================== */
+.rsw-widget * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.rsw-widget {
+  font-family: "DM Sans", sans-serif;
+  color: var(--text-primary);
+  background: var(--white);
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 0;
+  line-height: 1.5;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  isolation: isolate;
+
+  /* Brand tokens (canonical set — matches production Advanced Visualizer) */
+  --navy: #2a3f5b;
+  --navy-hover: #1d2e44;
+  --navy-light-hover: #e8ecf4;
+  --teal: #14cfa6;
+  --teal-dark: #0c7c64;
+  --teal-light: #a1d7c6;   /* header subtitle on dark bg */
+  --teal-hover: #10b892;
+  --accent-green: #60cca8;
+  --blue: #3a6a9c;
+  --blue-light: #7da5ce;
+  --yellow: #ebe96a;       /* warning callout borders */
+  --danger: #e74c3c;
+  --success-bg: #e6f9f3;
+  --success-text: #0a8f6a;
+  --error-bg: #fde8e6;
+  --error-text: #c0392b;
+
+  --text-primary: #2c3641;
+  --text-secondary: #625c6d;
+  --text-tertiary: #777;
+  --text-muted: #888;
+  --text-faint: #999;
+
+  --white: #ffffff;
+  --cover-dark: #172c3a;   /* branded header bg, modal overlay tint */
+  --page-bg: #f5f6fa;
+  --section-gray: #f5f6fa; /* tab bars, summary bars, date-range bars */
+  --section-bg: #f8f9fc;   /* callouts, slider groups */
+  --border: #dde2eb;       /* slider tracks */
+  --border-gray: #bfbfbf;  /* input/select borders */
+  --border-subtle: #f0f0f0;
+  --border-light: #eee;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+}
+
+/* ==========================================================================
+   DIVI DEFENSE
+   :where() zeroes specificity so component classes (e.g. .rsw-btn) always
+   win. This is the preferred pattern over blanket !important — it keeps the
+   CSS readable and lets us override surgically.
+   ========================================================================== */
+.rsw-widget :where(h1, h2, h3, h4, h5, h6) {
+  font-family: "DM Sans", sans-serif;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+  line-height: 1.3;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+}
+.rsw-widget :where(p) {
+  font-family: "DM Sans", sans-serif;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  font-size: inherit;
+}
+.rsw-widget :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.rsw-widget :where(table) {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: none;
+  width: auto;
+  table-layout: auto;
+}
+.rsw-widget :where(th, td) {
+  border: none;
+  padding: 0;
+  text-align: left;
+  font-weight: inherit;
+  vertical-align: middle;
+}
+.rsw-widget :where(input, select, textarea) {
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  margin: 0;
+  line-height: normal;
+  outline: none;
+}
+.rsw-widget :where(button) {
+  font-family: "DM Sans", sans-serif;
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  line-height: normal;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.rsw-widget :where(label) {
+  font-weight: inherit;
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+.rsw-widget :where(img) {
+  max-width: 100%;
+  height: auto;
+  border: none;
+}
+.rsw-widget canvas {
+  display: block;
+}
+
+/* Accessibility: keyboard focus + reduced motion */
+.rsw-widget :where(button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rsw-widget *, .rsw-widget *::before, .rsw-widget *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* Results entrance animation — keyframe name namespaced (never bare fade-in) */
+@keyframes rsw-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.rsw-animate-in { animation: rsw-fade-in 0.35s cubic-bezier(0.23, 1, 0.32, 1) both; }
+
+/* ==========================================================================
+   CARD / LAYOUT
+   ========================================================================== */
+.rsw-card {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  border-top: 4px solid var(--navy);
+  padding: 44px 48px;
+}
+
+/* Branded header — required on Return Stacked widgets.
+   Full-bleed dark band: negative margins escape the card padding, top corners
+   re-rounded to the card radius. When using it, REMOVE the card's border-top
+   (the navy accent bar is redundant under a dark header). Logo: base64 data
+   URI from the visualizer project's data/logo_ps_white_uri.txt. */
+.rsw-header {
+  background: var(--cover-dark);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 32px;
+  margin: -44px -48px 28px;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+.rsw-header h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+.rsw-header p  { font-size: 13px; color: var(--teal-light); font-weight: 400; }
+.rsw-header img { height: 40px; opacity: 0.9; flex-shrink: 0; }
+.rsw-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+.rsw-description {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+.rsw-section {
+  margin-bottom: 28px;
+}
+.rsw-section-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.rsw-section-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+.rsw-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color 0.15s cubic-bezier(0.23, 1, 0.32, 1),
+              border-color 0.15s cubic-bezier(0.23, 1, 0.32, 1),
+              color 0.15s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.rsw-btn:active { transform: scale(0.97); }
+.rsw-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Primary — navy (default action) */
+.rsw-btn--primary {
+  background: var(--navy);
+  color: var(--white);
+  border: none;
+}
+.rsw-btn--primary:hover { background: var(--navy-hover); }
+
+/* Outline — navy border, white fill */
+.rsw-btn--outline {
+  background: var(--white);
+  color: var(--navy);
+  border: 2px solid var(--navy);
+}
+.rsw-btn--outline:hover { background: var(--navy-light-hover); }
+
+/* CTA — teal (commit actions, primary conversion) */
+.rsw-btn--cta {
+  background: var(--teal);
+  color: var(--white);
+  border: none;
+  font-weight: 700;
+}
+.rsw-btn--cta:hover { background: var(--teal-hover); }
+
+/* Compact — inline chart download, small secondary actions */
+.rsw-btn--compact {
+  padding: 6px 14px;
+  font-size: 12px;
+  background: var(--navy);
+  color: var(--white);
+  border: none;
+}
+.rsw-btn--compact:hover { background: var(--navy-hover); }
+
+/* ==========================================================================
+   TABS
+   ========================================================================== */
+.rsw-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+.rsw-tab {
+  padding: 10px 18px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-faint);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.15s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.rsw-tab:hover { color: var(--text-secondary); }
+.rsw-tab.rsw-active { color: var(--navy); font-weight: 700; }
+.rsw-tab::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--navy);
+  transform: scaleX(0);
+  transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.rsw-tab.rsw-active::after { transform: scaleX(1); }
+
+/* ==========================================================================
+   SLIDERS
+   Variant A — Chunky (primary, article-embedded input)
+   ========================================================================== */
+.rsw-slider-group {
+  background: var(--section-bg);
+  border-radius: var(--radius-lg);
+  padding: 16px 24px;
+  margin-bottom: 14px;
+}
+.rsw-slider-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.rsw-slider-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+.rsw-slider-value {
+  background: var(--navy);
+  color: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 4px 12px;
+  font-size: 14px;
+  font-weight: 700;
+  min-width: 72px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.rsw-slider-chunky {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  outline: none;
+}
+.rsw-slider-chunky::-webkit-slider-runnable-track {
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+}
+.rsw-slider-chunky::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  border: 3px solid var(--white);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  margin-top: -10px;
+  transition: transform 0.15s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.rsw-slider-chunky::-webkit-slider-thumb:hover { transform: scale(1.15); }
+.rsw-slider-chunky::-moz-range-track {
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  border: none;
+}
+.rsw-slider-chunky::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  border: 3px solid var(--white);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.rsw-slider-chunky::-moz-range-thumb:hover { transform: scale(1.15); }
+.rsw-slider-range {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--text-faint);
+}
+
+/* Variant B — Compact (chart-adjacent, inline) */
+.rsw-slider-compact {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+.rsw-slider-compact input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 160px;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+.rsw-slider-compact input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+}
+.rsw-slider-compact input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--navy);
+  border: 2px solid var(--white);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  margin-top: -7px;
+  transition: transform 0.15s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.rsw-slider-compact input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.1); }
+.rsw-slider-compact input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--navy);
+  border: 2px solid var(--white);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+.rsw-slider-compact .slider-val {
+  background: var(--navy);
+  color: var(--white);
+  border-radius: 12px;
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  min-width: 60px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   PILL TOGGLES
+   ========================================================================== */
+.rsw-pill-group { display: flex; flex-wrap: wrap; gap: 8px; }
+.rsw-pill {
+  padding: 6px 14px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  border: 2px solid var(--border);
+  border-radius: 20px;
+  background: var(--white);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s, color 0.15s;
+}
+.rsw-pill:hover { border-color: var(--navy); color: var(--navy); }
+.rsw-pill.rsw-active {
+  border-color: var(--navy);
+  background: var(--navy-light-hover);
+  color: var(--navy);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   STAT BOXES
+   ========================================================================== */
+.rsw-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+.rsw-stat {
+  background: var(--section-bg);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+}
+.rsw-stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+.rsw-stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+}
+.rsw-stat-value.rsw-positive { color: var(--accent-green); }
+.rsw-stat-value.rsw-negative { color: var(--danger); }
+.rsw-stat-context {
+  font-size: 12px;
+  color: var(--text-faint);
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   RESULTS TABLE
+   ========================================================================== */
+.rsw-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  font-size: 13px;
+}
+.rsw-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  padding: 12px 14px;
+  border-bottom: 2px solid var(--border);
+}
+.rsw-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.rsw-table th:not(:first-child),
+.rsw-table td:not(:first-child) {
+  text-align: right;
+}
+.rsw-table tbody tr:nth-child(even) td { background: #f9fafb; }
+.rsw-table tbody tr:hover td { background: #eef1f6; }
+.rsw-table td.rsw-positive { color: var(--accent-green); font-weight: 700; }
+.rsw-table td.rsw-negative { color: var(--danger); font-weight: 700; }
+
+/* ==========================================================================
+   CHART CONTAINER
+   ========================================================================== */
+.rsw-chart-area {
+  margin-top: 24px;
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+.rsw-chart-container {
+  padding: 16px;
+  position: relative;
+  height: 420px;
+}
+.rsw-chart-stats {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 6px 16px 10px;
+  line-height: 1.7;
+}
+.rsw-chart-stats .rsw-hl { color: var(--accent-green); font-weight: 700; }
+.rsw-chart-stats .rsw-neg { color: var(--danger); font-weight: 700; }
+
+/* ==========================================================================
+   CALLOUT + TOOLTIP
+   ========================================================================== */
+.rsw-callout {
+  background: var(--section-bg);
+  border-left: 4px solid var(--danger);
+  padding: 14px 20px;
+  margin: 16px 0;
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.rsw-callout.info { border-left-color: var(--blue); }
+.rsw-callout.success { border-left-color: var(--accent-green); }
+
+.rsw-tooltip {
+  position: relative;
+  display: inline-block;
+  color: var(--text-faint);
+  cursor: help;
+  font-size: 12px;
+  font-weight: 700;
+}
+.rsw-tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  width: 220px;
+  background: var(--navy);
+  color: var(--white);
+  text-align: left;
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+  position: absolute;
+  z-index: 10;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+.rsw-tooltip:hover .rsw-tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ==========================================================================
+   DISCLOSURES
+   ========================================================================== */
+.rsw-disclosures {
+  margin-top: 32px;
+  border-top: 1px solid var(--border-light);
+  padding-top: 20px;
+}
+.rsw-disclosures-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+/* .rsw-arrow, never bare .arrow — Divi's icon font hijacks .arrow and renders "?".
+   Fallback fonts because DM Sans lacks the U+25B6 glyph. */
+.rsw-disclosures-toggle .rsw-arrow {
+  transition: transform 0.2s;
+  font-size: 10px;
+  font-family: Arial, "Segoe UI Symbol", "Apple Symbols", sans-serif;
+  font-style: normal;
+}
+.rsw-disclosures-toggle.rsw-open .rsw-arrow { transform: rotate(90deg); }
+.rsw-disclosures-content {
+  display: none;
+  padding: 12px 0;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  line-height: 1.6;
+  text-align: justify;
+}
+.rsw-disclosures-content.rsw-open { display: block; }
+
+/* ==========================================================================
+   RESPONSIVE
+   Confirm the right mobile breakpoint per widget — typically 600–800px.
+   ========================================================================== */
+@media (max-width: 720px) {
+  .rsw-widget { width: 95%; margin: 20px auto; }
+  .rsw-card { padding: 28px 20px; }
+  /* Header negative margins must mirror the reduced card padding */
+  .rsw-header { padding: 16px 20px; margin: -28px -20px 20px; }
+  .rsw-header h1 { font-size: 18px; }
+  .rsw-title { font-size: 20px; }
+  .rsw-chart-container { height: 280px; }
+  .rsw-stat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="rsw-widget">
+  <div class="rsw-card">
+
+    <!-- Branded header (Return Stacked widgets): dark full-bleed band with logo.
+         Replace the img src with the base64 data URI from
+         projects/portfolio-visualizer-widget/data/logo_ps_white_uri.txt
+         (or inject it as an f-string variable from a build script).
+         When using this header, remove border-top from .rsw-card. -->
+    <div class="rsw-header">
+      <div>
+        <h1>Return Stacked&reg; Widget Name</h1>
+        <p>One-line subtitle describing what the widget does</p>
+      </div>
+      <img src="data:image/png;base64,REPLACE_WITH_LOGO_URI" alt="Return Stacked">
+    </div>
+
+    <h2 class="rsw-title">Widget Title</h2>
+    <p class="rsw-description">
+      One- or two-sentence description of what the reader should look for when interacting with the widget.
+    </p>
+
+    <!-- Section: inputs -->
+    <div class="rsw-section">
+      <div class="rsw-section-label"><span class="rsw-section-num">1</span> Configure</div>
+
+      <!-- Chunky slider -->
+      <div class="rsw-slider-group">
+        <div class="rsw-slider-row">
+          <span class="rsw-slider-label">Stock allocation</span>
+          <span class="rsw-slider-value" id="stock-val">60%</span>
+        </div>
+        <input type="range" class="rsw-slider-chunky" id="stock-slider" min="0" max="100" value="60">
+        <div class="rsw-slider-range"><span>0%</span><span>100%</span></div>
+      </div>
+
+      <!-- Pill toggle -->
+      <div class="rsw-pill-group" style="margin-top: 14px;">
+        <button class="rsw-pill rsw-active" data-period="5">5Y</button>
+        <button class="rsw-pill" data-period="10">10Y</button>
+        <button class="rsw-pill" data-period="20">20Y</button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="rsw-tabs">
+      <button class="rsw-tab rsw-active" data-tab="growth">Growth of $1</button>
+      <button class="rsw-tab" data-tab="drawdown">Drawdown</button>
+      <button class="rsw-tab" data-tab="rolling">Rolling Returns</button>
+    </div>
+
+    <!-- Chart -->
+    <div class="rsw-chart-area">
+      <div class="rsw-chart-container">
+        <canvas id="main-chart"></canvas>
+      </div>
+      <p class="rsw-chart-stats">
+        Max drawdown: <span class="rsw-neg">-24.5%</span> &middot; Longest streak: <span class="rsw-hl">5 years</span>
+      </p>
+    </div>
+
+    <!-- Stats grid -->
+    <div class="rsw-stat-grid">
+      <div class="rsw-stat">
+        <div class="rsw-stat-label">Annualized Return</div>
+        <div class="rsw-stat-value rsw-positive">7.8%</div>
+      </div>
+      <div class="rsw-stat">
+        <div class="rsw-stat-label">Volatility</div>
+        <div class="rsw-stat-value">10.2%</div>
+      </div>
+      <div class="rsw-stat">
+        <div class="rsw-stat-label">Max Drawdown</div>
+        <div class="rsw-stat-value rsw-negative">-24.5%</div>
+      </div>
+      <div class="rsw-stat">
+        <div class="rsw-stat-label">Sharpe</div>
+        <div class="rsw-stat-value">0.68</div>
+      </div>
+    </div>
+
+    <!-- Action buttons -->
+    <div style="display: flex; gap: 10px; margin-top: 24px;">
+      <button class="rsw-btn rsw-btn--cta" id="compute-btn">Compute</button>
+      <button class="rsw-btn rsw-btn--outline">Reset</button>
+      <button class="rsw-btn rsw-btn--compact">Export</button>
+    </div>
+
+    <!-- Disclosures -->
+    <div class="rsw-disclosures">
+      <button class="rsw-disclosures-toggle" id="disc-toggle">
+        <span class="rsw-arrow">&#9654;</span>
+        <span>Disclosures</span>
+      </button>
+      <div class="rsw-disclosures-content" id="disc-content">
+        <p>Source attribution, methodology notes, and compliance disclaimers go here.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // Scope DOM queries to the widget root to avoid colliding with Divi/WP markup.
+  var root = document.querySelector('.rsw-widget');
+  var $ = function (sel) { return root.querySelector(sel); };
+  var $$ = function (sel) { return root.querySelectorAll(sel); };
+
+  // Widget state. Plain JS object, no framework.
+  var state = {
+    stockPct: 60,
+    period: 5,
+    tab: 'growth'
+  };
+
+  // Chart.js theme defaults (apply once for the widget).
+  if (window.Chart) {
+    Chart.defaults.font.family = '"DM Sans", sans-serif';
+    Chart.defaults.font.size = 12;
+    Chart.defaults.color = '#555';
+    Chart.defaults.animation = { duration: 300, easing: 'easeOutCubic' };
+  }
+
+  var chart = null;
+
+  function renderChart() {
+    var ctx = $('#main-chart');
+    if (!ctx || !window.Chart) return;
+
+    if (chart) chart.destroy();
+
+    // Placeholder data — replace with real series.
+    var labels = Array.from({ length: 60 }, function (_, i) {
+      var year = 2019 + Math.floor(i / 12);
+      var month = String((i % 12) + 1).padStart(2, '0');
+      return year + '-' + month + '-01';
+    });
+    var data = labels.map(function (_, i) { return 100 * Math.pow(1.006, i); });
+
+    chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Portfolio',
+          data: data,
+          borderColor: '#2a3f5b',
+          backgroundColor: 'rgba(42, 63, 91, 0.25)',
+          borderWidth: 2.5,
+          fill: false,
+          tension: 0.1,
+          pointRadius: 0,
+          pointHitRadius: 8,
+          pointBorderColor: '#2a3f5b',
+          pointBackgroundColor: 'rgba(42, 63, 91, 0.25)'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: { padding: { left: 10 } },
+        plugins: {
+          legend: {
+            labels: {
+              font: { family: 'DM Sans', size: 13, weight: 600 },
+              usePointStyle: true,
+              pointStyle: 'circle',
+              boxWidth: 10,
+              boxHeight: 10,
+              padding: 20
+            }
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            backgroundColor: 'rgba(42,63,91,0.95)',
+            titleFont: { family: 'DM Sans', size: 13 },
+            bodyFont: { family: 'DM Sans', size: 13 },
+            padding: 12,
+            cornerRadius: 8
+          }
+        },
+        scales: {
+          x: {
+            type: 'category',
+            ticks: {
+              font: { family: 'DM Sans', size: 11 },
+              color: '#555',
+              maxRotation: 35,
+              minRotation: 35,
+              autoSkip: true,
+              maxTicksLimit: 12,
+              callback: function (v) {
+                var l = this.getLabelForValue(v);
+                if (!l) return '';
+                var parts = l.split('-');
+                return parts.length >= 2 ? parts[1] + '/' + parts[0] : l.substring(0, 4);
+              }
+            },
+            grid: { display: false },
+            border: { color: '#000', width: 1.5 }
+          },
+          y: {
+            ticks: { font: { family: 'DM Sans', size: 11 }, color: '#555' },
+            grid: { color: '#f0f0f0' },
+            border: { color: '#000', width: 1.5 },
+            title: {
+              display: true,
+              text: 'Growth of $1',
+              font: { family: 'DM Sans', size: 12, weight: 600 },
+              color: '#555'
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Debounce helper — prevents chart thrashing on slider drags.
+  function debounce(fn, ms) {
+    var t;
+    return function () {
+      var args = arguments, ctx = this;
+      clearTimeout(t);
+      t = setTimeout(function () { fn.apply(ctx, args); }, ms);
+    };
+  }
+
+  var recompute = debounce(function () {
+    // Real compute logic lives here. For the template, just re-render the chart.
+    renderChart();
+  }, 150);
+
+  // ---- Event wiring ----
+  $('#stock-slider').addEventListener('input', function (e) {
+    state.stockPct = parseInt(e.target.value, 10);
+    $('#stock-val').textContent = state.stockPct + '%';
+    recompute();
+  });
+
+  $$('.rsw-pill').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      $$('.rsw-pill').forEach(function (b) { b.classList.remove('rsw-active'); });
+      btn.classList.add('rsw-active');
+      state.period = parseInt(btn.dataset.period, 10);
+      recompute();
+    });
+  });
+
+  $$('.rsw-tab').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      $$('.rsw-tab').forEach(function (b) { b.classList.remove('rsw-active'); });
+      btn.classList.add('rsw-active');
+      state.tab = btn.dataset.tab;
+      recompute();
+    });
+  });
+
+  $('#compute-btn').addEventListener('click', recompute);
+
+  $('#disc-toggle').addEventListener('click', function () {
+    this.classList.toggle('rsw-open');
+    $('#disc-content').classList.toggle('rsw-open');
+  });
+
+  // Initial render
+  renderChart();
+})();
+</script>
+
+</body>
+</html>
