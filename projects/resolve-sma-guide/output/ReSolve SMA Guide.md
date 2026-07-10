@@ -1,0 +1,313 @@
+---
+title: "ReSolve Separately Managed Account (SMA) Guide"
+subtitle: "Understanding Your ReSolve SMA: Structure, Strategies, and Operations"
+date: "2026-04-01"
+cover-date: "March 2026"
+report-type: "CLIENT GUIDE"
+---
+
+## Introduction
+
+ReSolve Asset Management offers separately managed accounts (SMAs) for eligible investors seeking exposure to systematic, capital-efficiency investment strategies. An SMA allows you to access ReSolve’s institutional investment programs while maintaining full custody of your assets.  your holdings are never commingled with other clients.
+
+This guide provides a clear overview of how ReSolve SMAs work: what assets you can use to fund the account, how strategies are managed, what fees apply, and what to expect on an ongoing basis. It is designed to be a reference document throughout your relationship with ReSolve.
+
+## How Your SMA Works
+
+### The Key Concept: Notional Funding
+
+Unlike a traditional mutual fund or ETF, a futures-based SMA does not require you to invest the full ‘portfolio size’ in cash. Futures contracts require only a fraction of their notional value as margin — a performance bond, not a cost of borrowing.
+
+This means:
+
+- **Your existing assets become collateral.** Cash, Treasury bills, stocks, bonds, ETFs, and certain mutual funds you already hold can serve as the margin collateral for ReSolve’s futures positions. You do not need to liquidate your portfolio.
+- **Your ‘Nominal Account Size’ is the agreed strategy allocation.** This is the dollar amount ReSolve manages as if it were the portfolio’s capital base — it is distinct from the physical assets in the account. The Nominal Account Size changes daily with the strategy’s profit and loss.
+- **Your assets remain in your name.** All assets are held at the custodian in your account name. ReSolve has access to execute trades; it does not have the ability to withdraw assets.
+### The Two Numbers You Will See
+
+| Concept | What It Means |
+| --- | --- |
+| Nominal Account Size | The agreed portfolio size — the ‘return base.’ Changes daily with strategy P&L. Can be increased or decreased by written instruction. |
+| Investment Assets | The actual cash, T-bills, stocks, and other securities in your IBKR account serving as collateral. The amount and composition is at your discretion. |
+
+### What You Can and Cannot Do
+
+Because the reconciliation and trade management systems at ReSolve are automated around a single manager of the account, there are important restrictions:
+
+- **You may not place trades independently within the managed account.**
+- **You may add or withdraw collateral at any time.** Simply notify ReSolve’s Operations team in writing using the templates provided in Section 5. Any additions or withdrawals do not automatically change your Nominal Account Size — you must specify if you want the strategy allocation adjusted.
+- **You control what assets serve as collateral. Y**ou may hold cash, T-bills, equities, bonds, and eligible mutual funds as collateral.
+## Account Minimums & Eligibility
+
+### Minimum Nominal Account Size
+
+| Threshold | Details |
+| --- | --- |
+| $5,000,000 (minimum) | Accounts at this level are fully operational. Minor tracking differences relative to the model may occur due to minimum futures contract sizes, but these are symmetric and do not represent a persistent return drag. |
+| $10,000,000+ (preferred) | At this level and above, accounts closely replicate the model portfolio with negligible tracking error. |
+
+The tracking error that can occur at the $5M level is largely a result of minimum futures contract sizes. Where mini-contracts are available (the majority of markets we trade), granularity is minimal. 
+
+### Eligible Investors
+
+U.S. clients must meet applicable regulatory eligibility requirements for managed futures accounts, including Qualified Eligible Person (QEP) status under CFTC regulations where applicable. Please confirm your eligibility with your advisor or ReSolve’s product specialist team before proceeding.
+
+### Supported Brokers
+
+Interactive Brokers (IBKR), StoneX and Société Générale  are supported futures and custodial platforms available for SMA accounts. 
+
+## Eligible Collateral & Account Funding
+
+### What Can Serve as Collateral?
+
+The following asset types are eligible as collateral in your IBKR Portfolio Margin account:
+
+| Asset Type | Notes | Eligible? |
+| --- | --- | --- |
+| Cash (USD) | Earns interest rate; approaches T-bill yields for larger balances | Yes |
+| U.S. Treasury Bills | Preferred idle collateral; accepted for margin by IBKR | Yes |
+| U.S. Treasury Bonds/Notes | Accepted with duration-based IBKR haircuts | Yes |
+| Exchange-Listed Equities | Accepted subject to IBKR portfolio margin treatment | Yes* |
+| ETFs | Generally accepted; IBKR margin haircuts apply | Yes |
+| Mutual Funds | Eligible; note reporting nuances during settlement (see below) | Yes* |
+| Illiquid / Private Assets | Not accepted as margin collateral | No |
+- * Mutual fund purchases within the managed account create temporary pauses in daily reporting during the settlement period. Where possible, purchasing mutual funds in a separate account and transferring settled units into the managed account is the preferred approach.*
+
+### Adding Collateral
+
+When you wish to add assets to the account, please email Operations and your Portfolio Manager using the following format:
+
+> Subject: Increasing collateral value in my account
+I will be adding $[AMOUNT] of collateral in the form of [cash / T-bills / stock ticker / mutual fund ticker] on [DATE]. Please maintain existing nominal account size.
+Send to: operations@investresolve.com — CC your Portfolio Manager
+> 
+
+### Withdrawing Collateral
+
+> Subject: Decreasing collateral value in my account
+I will be withdrawing $[AMOUNT] of collateral in the form of [cash / T-bills / stock ticker / mutual fund ticker] on [DATE]. Please maintain existing nominal account size.
+Send to: operations@investresolve.com — CC your Portfolio Manager
+> 
+
+## Investment Strategies
+
+ReSolve offers the following strategies in SMA format. A key design feature of each strategy is that the target volatility level is a configurable parameter — agreed upon with you at account setup — rather than a fixed attribute. This allows us to tailor the strategy’s risk profile to your objectives.
+
+### Systematic Macro
+
+**What it does:** Seeks to generate consistent capital appreciation by deploying a diversified ensemble of systematic alpha strategies across global exchange-traded futures markets. The strategy harvests a variety of return drivers including trend, momentum, carry, relative value, volatility, skewness, and seasonality.
+
+**How it works:** Advanced statistical and machine learning methods identify marginal market inefficiencies across a broad universe of global futures. Positions are sized to maximize risk-adjusted return. Portfolio exposure is actively managed to maintain the target volatility level — scaling up in calm markets and scaling down during periods of elevated volatility and correlation.
+
+**Volatility target:** Configurable. Common range: 12%–20% annualized. A 16% target is a frequently used default.
+
+**Instruments:** Global exchange-traded futures across equities, fixed income, currencies, commodities, and other markets.
+
+**Fee structure:** Management fee + Performance fee (see Section 6).
+
+### Futures Yield Program (Carry)
+
+**What it does:** Systematically harvests the carry premium embedded in global futures markets — capturing returns from holding positions where forward prices are at a discount to spot (backwardation) or managing the cost in contango markets.
+
+**How it works:** The expanded-universe version of this strategy trades a broad set of global futures markets, identifying and sizing carry opportunities systematically with ongoing risk management to control drawdowns.
+
+**Volatility target:** Configurable. A 20% target is commonly used. A smaller-universe version of this strategy is also available in ETF format for investors who prefer a liquid fund structure.
+
+**Fee structure:** Management fee only (no performance fee).
+
+### All Terrain
+
+**What it does:** Delivers diversified risk-adjusted returns across all market environments by combining three complementary sleeves: a risk-balanced beta portfolio, a fast-moving systematic macro overlay, and a long-volatility sleeve for tail-risk protection.
+
+**How it works:** The beta sleeve holds a risk-balanced allocation across global equities (run as a whole, not split by region), bonds, gold, and commodities — managed using long-term trend and mean-reversion signals. The systematic macro overlay deploys quickly during market corrections to dampen beta losses. The long-volatility sleeve is designed to trigger specifically during abrupt equity market shocks (when VIX term structure inverts and implied volatility exceeds realized volatility), typically associated with equity drawdowns of 10–15%+.
+
+**Volatility target:** [TBD — confirm for SMA format.]
+
+**Availability:** Available in both SMA format and U.S. fund structure.
+
+**Fee structure:** Management fee + Performance fee with a hurdle rate (see Section 6).
+
+### Trend Replication
+
+**What it does:** Captures trend-following returns across global futures markets using a disciplined, rules-based replication approach.
+
+**Volatility target:** [TBD].
+
+**Fee structure:** Management fee only (no performance fee).
+
+## Volatility Targeting & Risk
+
+### What ‘Volatility Target’ Means
+
+The volatility target is the annualized standard deviation of returns the strategy aims to maintain. It is a risk measure — not a return guarantee. The strategy’s actual volatility may be higher or lower than the target depending on market conditions.
+
+To maintain the target, ReSolve actively adjusts the strategy’s gross exposure to futures markets:
+
+- When market volatility is low and correlations are low, the strategy may hold more exposure to hit its target.
+- When market volatility is high and correlations spike, the strategy reduces exposure to prevent realized volatility from exceeding the target.
+### Leverage and Risk
+
+**Important:** Higher volatility targets imply higher gross exposure (leverage). Leveraged portfolios can lose more than the initial collateral deposited. The Investment Guidelines you sign will include an explicit acknowledgment of this risk.
+
+| Target Volatility | Risk Profile | Typical Use Case |
+| --- | --- | --- |
+| 10–12% | Moderate | Core diversifier, lower drawdown tolerance |
+| 14–16% | Moderate-High | Balanced growth and diversification |
+| 18–20%+ | High | Satellite allocation, maximum return potential |
+
+## Fee Structure
+
+### Overview by Strategy
+
+| Alpha Strategies | Management Fee | Performance Fee | Performance Fee Billing |
+| --- | --- | --- | --- |
+| Systematic Macro | 1.50% per annum | 15% above High-Water Mark  | Quarterly |
+| All Terrain | 1.00% per annum* | 10% above Benchmark* above a High-Water Mark | Quarterly |
+
+* All Terrain fee reflects the Founders Class. Confirm current availability and hurdle rate benchmark with your Portfolio Manager.*
+
+| Factor Strategies | Management Fee | Performance Fee |
+| --- | --- | --- |
+| Futures Yield / Carry | 0.95% per annum | None |
+| Trend Replication | 0.95% per annum | None |
+
+### Management Fee
+
+The management fee accrues daily, calculated on that day’s Nominal Account Size. At the end of each month, the total daily accruals are deducted from the account.
+
+### Performance Fee & High-Water Mark
+
+- **What triggers the fee:** A performance fee is charged only when the quarter-end Nominal Account Size exceeds the previous High-Water Mark — meaning the strategy has generated new net profits above the previous peak.
+- **High-Water Mark (HWM):** Set at the Nominal Account Size at the end of the most recent quarter in which a performance fee was paid. If no fee has been paid since account opening, the HWM is the initial Nominal Account Size, adjusted proportionately for any withdrawals.
+- **No double-charging:** Performance fees are only charged on new gains above the HWM. Prior losses must be recovered before any further performance fee accrues.
+- **Billing cycle:** Performance fees are calculated and charged on a calendar quarter basis.
+## Cash Management
+
+### How ReSolve Manages Cash in Your Account (IBKR Example)
+
+Because futures trading generates daily P&L and variation margin flows, your account will typically hold some idle cash at any point during the month. ReSolve manages this cash to optimize returns while maintaining the liquidity needed for ongoing margin requirements.
+
+### Standard Protocol
+
+- **Monthly sweep:** At month-end, excess cash above an operational buffer is swept into short-dated U.S. Treasury bills.
+- **10% intra-month threshold:** If cash balances grow to exceed 10% of the Nominal Account Size intra-month, ReSolve will purchase T-bills before the scheduled month-end sweep.
+- **Buffer maintenance:** A cash buffer is always maintained to cover margin fluctuations and operational needs. The size of this buffer is set by the trading team based on current market conditions.
+### Cash vs. T-Bills: The Economics
+
+For most clients, the difference between holding cash and T-bills is small but worth understanding:
+
+- IBKR pays interest on USD cash balances, but only above a minimum threshold and typically at a rate slightly below prevailing T-bill yields.
+- T-bills earn their own yield directly.
+- If the account holds a negative cash balance (i.e., borrowing against T-bill collateral for foreign margin), IBKR charges a borrowing rate typically 0.5–1.0% above T-bill yields. The after-tax cost of this is often modest, given the deductibility of margin interest.
+
+## Margin & the Nominal Account Size
+
+### How Margin Works in Your Account
+
+Futures margin is not a borrowing cost — it is a performance bond posted with the exchange to guarantee contract obligations. The actual margin consumed by ReSolve’s futures positions is a fraction of the Nominal Account Size. Your Investment Assets (T-bills, stocks, bonds, etc.) collectively satisfy this margin requirement.
+
+IBKR’s Portfolio Margin framework applies margin requirements based on the net risk of the overall portfolio, enabling efficient capital utilization across diversified, uncorrelated futures positions.
+
+### What Happens if Margin Is Insufficient?
+
+If the value of your Investment Assets falls below the level needed to support the existing futures positions, ReSolve will take one of two steps:
+
+- **Request additional collateral:** You will be notified in writing and asked to deposit additional assets.
+- **Reduce the Nominal Account Size:** If additional collateral is not provided, ReSolve may reduce the Nominal Account Size to a level consistent with available margin. The Nominal Account Size will be restored as permitted by improved conditions. Any such change will be communicated to you in writing.
+
+### Changing Your Nominal Account Size
+
+You can request an increase or decrease to your Nominal Account Size at any time by written instruction to your Portfolio Manager and Operations. Note that simply adding or removing collateral without an accompanying instruction does not change the Nominal Account Size — the strategy continues running at its current authorized level.
+
+## Reporting & Communications
+
+### Daily Performance Report
+
+You will have full access to your custodial account including detailed account statements, showing all positions, cash flows, interest credits and debits, and transaction history. 
+
+ReSolve will provide a quarterly performance report at the end of each calendar quarter.
+
+### How to Contact Us
+
+| Team | Email | For |
+| --- | --- | --- |
+| Operations | operations@investresolve.com | Collateral changes, account setup, trade confirmations |
+| Portfolio Management | Via your Portfolio Manager | Strategy questions, Nominal Account Size changes, performance |
+
+## Tax Considerations
+
+**Disclaimer:** *The following overview is for informational purposes only. It does not constitute tax advice. Please consult your tax advisor regarding your specific circumstances.*
+
+### Section 1256 Contracts: The 60/40 Rule
+
+Most U.S.-listed exchange-traded futures contracts qualify as Section 1256 contracts under the Internal Revenue Code. These receive a blended capital gains tax treatment:
+
+- 60% of net gains are treated as long-term capital gains (lower tax rate).
+- 40% of net gains are treated as short-term capital gains (ordinary income rates).
+This 60/40 treatment applies regardless of how long positions are held. It is one of the most tax-efficient features of futures-based investment strategies compared to short-term equity trading.
+
+Additionally, Section 1256 losses can be carried back up to three years, providing a unique tax planning tool not available with most other capital losses.
+
+### Non-Section 1256 Contracts (Foreign Futures)
+
+Some foreign futures contracts do not qualify as Section 1256 contracts. For these positions:
+
+- Tax treatment is based on actual holding period. Most foreign futures positions are held for shorter durations and are likely to generate short-term capital gains taxed at ordinary income rates.
+- The average holding period for non-Section 1256 positions in the Systematic Macro strategy has historically been approximately 90 days, though this varies with market conditions.
+
+### Interest Income and Expense
+
+- Interest earned on T-bills and cash is generally taxable as ordinary income at the federal level and may be exempt from state income tax (for U.S. Treasury obligations).
+- Interest paid on margin borrowing is generally deductible as investment interest expense, subject to applicable limitations.
+## Getting Started: Onboarding Overview
+
+### The Process
+
+| Step | Stage | What Happens |
+| --- | --- | --- |
+| 1 | Initial Discussion | Agree on strategy, volatility target, initial Nominal Account Size, and fee structure with your Portfolio Manager. |
+| 2 | Documentation | Sign the Investment Guidelines Agreement (specifying strategy, Nominal Account Size, volatility target, fee schedule, and IBKR account number). |
+| 3 | Account Setup | Open or confirm IBKR Portfolio Margin account; grant ReSolve Limited Power of Attorney for trade execution. |
+| 4 | Funding | Transfer your chosen collateral assets into the IBKR account. Notify Operations per the collateral addition template. |
+| 5 | Strategy Launch | ReSolve establishes futures positions at the agreed Nominal Account Size. Daily reporting begins once account is in steady state. |
+| 6 | Ongoing | Receive daily performance reports. ReSolve manages cash sweeps, margin, and rebalancing. Review monthly IBKR statements. |
+
+## Frequently Asked Questions
+
+### Can I hold my existing stock and bond portfolio as collateral?
+
+Yes. You do not need to liquidate your current portfolio to fund the SMA. Eligible assets (equities, bonds, ETFs, T-bills, and certain mutual funds) can serve as collateral within the IBKR portfolio margin framework. IBKR applies haircuts to non-cash collateral, so heavily concentrated or volatile equity positions may contribute less to margin capacity than their market value suggests.
+
+### What happens to my account if markets sell off sharply?
+
+ReSolve’s volatility-targeting approach naturally reduces futures exposure during periods of elevated market volatility, providing some built-in downside mitigation. However, no approach eliminates risk entirely, and leveraged futures strategies can sustain significant losses. If losses reduce Investment Assets to the point where margin is insufficient, ReSolve will request additional collateral or reduce the Nominal Account Size to a sustainable level.
+
+### Why does my account sometimes show a large cash balance?
+
+Cash accumulates intra-month from daily trading P&L, margin fluctuations, and timing of collateral movements. ReSolve sweeps excess cash into T-bills at month-end (and sooner if cash exceeds 10% of the Nominal Account Size). Temporary cash balances do not represent an inefficiency — they are a normal part of how futures-based accounts operate.
+
+### Can I add to the account mid-month?
+
+Yes. Simply notify Operations and your Portfolio Manager using the standard collateral addition template. Specify whether you want the Nominal Account Size increased (i.e., the strategy allocation expanded) or simply the collateral buffer increased without changing the strategy scale.
+
+### Will the strategy be affected by my other IBKR accounts?
+
+No. The SMA is managed in a single IBKR account that ReSolve operates independently. Your other IBKR accounts (or accounts at other brokers) are separate and have no impact on the managed account.
+
+### Can my account be managed in Canada in the future?
+
+Canada and other jurisdictions are on ReSolve’s roadmap for SMA availability. Please speak with your Portfolio Manager for the latest timeline.
+
+### What are the tax benefits of futures-based strategies?
+
+U.S. exchange-traded futures contracts benefit from Section 1256 tax treatment — 60% long-term / 40% short-term capital gains regardless of holding period. Section 1256 losses can also be carried back up to three years. These features make futures-based strategies comparatively tax-efficient. Consult your tax advisor for guidance on your specific situation.
+
+## Important Disclosures
+
+ReSolve Asset Management is registered in the United States with the Commodity Futures Trading Commission (CFTC) as a Commodity Trading Advisor (CTA) and Commodity Pool Operator (CPO), administered through the National Futures Association (NFA). ReSolve is also registered with the Securities and Exchange Commission (SEC) as a Registered Investment Advisor (RIA).
+
+Past performance is not indicative of future results. The strategies described in this guide use leverage and can exhibit significant volatility. The use of leverage can lead to substantial portfolio losses, including losses that exceed the initial investment. Separately managed accounts are not appropriate for all investors.
+
+This guide is intended as a general reference and does not constitute investment, legal, or tax advice. Clients should review their Investment Guidelines Agreement for the specific terms governing their account. Any discrepancies between this guide and the Investment Guidelines Agreement are governed by the Agreement.
+
+*Version 1.0 (Draft) | March 2026 | ReSolve Asset Management*

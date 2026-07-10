@@ -1,0 +1,18 @@
+{
+  "input_path": "C:\\Users\\RodrigoGordillo\\ReSolve AM Dropbox\\Rodrigo Gordillo\\RG Documents\\RAM_Brain\\projects\\resolve-sma-guide\\ReSolve SMA Guide.md",
+  "entrypoint": "ReSolve SMA Guide.md",
+  "profile": "resolve:report",
+  "brand": "resolve",
+  "document_kind": "report",
+  "output_dir": "C:\\Users\\RodrigoGordillo\\ReSolve AM Dropbox\\Rodrigo Gordillo\\RG Documents\\RAM_Brain\\projects\\resolve-sma-guide\\output",
+  "font_path": "C:\\Users\\RodrigoGordillo\\ReSolve AM Dropbox\\Rodrigo Gordillo\\RG Documents\\RAM_Brain\\references\\brand-assets\\resolve-am\\Fonts\\Helvetica Neue LT Std",
+  "artifacts": {
+    "source": "ReSolve SMA Guide.md",
+    "repaired": null,
+    "semantic": "ReSolve SMA Guide.semantic.qmd",
+    "planned": "ReSolve SMA Guide.planned.qmd",
+    "latex": "ReSolve SMA Guide.tex",
+    "pdf": "ReSolve SMA Guide.pdf",
+    "archive": "artifacts.zip"
+  }
+}

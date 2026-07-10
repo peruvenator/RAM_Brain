@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Literature — Return Stacked® ETFs — Option C: Resource Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:           #14cfa6;
+      --teal-light:     rgba(20, 207, 166, 0.1);
+      --teal-border:    rgba(20, 207, 166, 0.25);
+      --navy:           #172c3a;
+      --navy-mid:       #1e3749;
+      --navy-light:     #243f52;
+      --blue:           #3a6a9c;
+      --text-primary:   #2c3641;
+      --text-secondary: #5a6a7e;
+      --text-dim:       #8a9ab0;
+      --white:          #ffffff;
+      --bg:             #f5f7fa;
+      --border:         #e2e8f0;
+      --sidebar-width:  268px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      background: #0a0a0a;
+      padding: 0 48px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .nav-brand {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex; gap: 32px; list-style: none;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: #fff; }
+
+    /* ── HERO ── */
+    .hero {
+      background-color: #0a0a0a;
+      background-image:
+        linear-gradient(rgba(20, 207, 166, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 207, 166, 0.05) 1px, transparent 1px),
+        linear-gradient(rgba(20, 207, 166, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 207, 166, 0.02) 1px, transparent 1px);
+      background-size: 80px 80px, 80px 80px, 20px 20px, 20px 20px;
+      padding: 48px 48px 40px;
+      flex-shrink: 0;
+    }
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 48px;
+    }
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+    .hero-title {
+      font-size: 44px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
+    .hero-tagline {
+      max-width: 320px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.65;
+      padding-top: 6px;
+    }
+    .hero-tagline strong { color: var(--teal); font-weight: 500; }
+
+    /* ── BODY LAYOUT (sidebar + main) ── */
+    .body-layout {
+      flex: 1;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      padding: 32px 48px 64px;
+      gap: 28px;
+      align-items: flex-start;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-width);
+      flex-shrink: 0;
+      background: var(--navy);
+      border-radius: 12px;
+      overflow: hidden;
+      position: sticky;
+      top: 24px;
+    }
+    .sidebar-header {
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .sidebar-header-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 12px;
+    }
+    .sidebar-search {
+      position: relative;
+    }
+    .sidebar-search input {
+      width: 100%;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 8px 12px 8px 32px;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      outline: none;
+    }
+    .sidebar-search input::placeholder { color: rgba(255,255,255,0.3); }
+    .sidebar-search input:focus {
+      border-color: var(--teal-border);
+      background: rgba(20, 207, 166, 0.07);
+    }
+    .sidebar-search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.3);
+      font-size: 13px;
+    }
+
+    .sidebar-nav { padding: 8px 0 16px; }
+    .sidebar-nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: background 0.15s, border-color 0.15s;
+      user-select: none;
+      gap: 8px;
+    }
+    .sidebar-nav-item:hover {
+      background: rgba(255,255,255,0.05);
+    }
+    .sidebar-nav-item.active {
+      background: rgba(20, 207, 166, 0.1);
+      border-left-color: var(--teal);
+    }
+    .sidebar-nav-item-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.6);
+      flex: 1;
+      line-height: 1.3;
+    }
+    .sidebar-nav-item.active .sidebar-nav-item-name {
+      color: #fff;
+      font-weight: 600;
+    }
+    .sidebar-nav-item-count {
+      font-size: 11px;
+      color: rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.06);
+      padding: 1px 7px;
+      border-radius: 20px;
+      flex-shrink: 0;
+    }
+    .sidebar-nav-item.active .sidebar-nav-item-count {
+      background: rgba(20, 207, 166, 0.15);
+      color: var(--teal);
+    }
+
+    .sidebar-footer {
+      padding: 14px 20px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      font-size: 11px;
+      color: rgba(255,255,255,0.25);
+      text-align: center;
+    }
+
+    /* ── MAIN PANEL ── */
+    .main-panel {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* Category content panels */
+    .cat-panel {
+      display: none;
+    }
+    .cat-panel.active {
+      display: block;
+    }
+
+    .cat-panel-header {
+      margin-bottom: 28px;
+    }
+    .cat-panel-title {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+    .cat-panel-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 600px;
+    }
+    .cat-panel-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 14px;
+    }
+    .cat-panel-count {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--teal);
+      background: var(--teal-light);
+      border: 1px solid var(--teal-border);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .cat-panel-divider {
+      height: 1px;
+      background: var(--border);
+      flex: 1;
+    }
+
+    /* Doc cards within a panel */
+    .doc-section { margin-bottom: 32px; }
+    .doc-section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .doc-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 18px;
+      text-decoration: none;
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+    }
+    .doc-card:hover {
+      border-color: var(--teal-border);
+      box-shadow: 0 2px 12px rgba(20, 207, 166, 0.08);
+      transform: translateX(3px);
+    }
+    .doc-card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+    .doc-card-icon.type-brief   { background: rgba(20, 207, 166, 0.12); color: var(--teal); }
+    .doc-card-icon.type-deck    { background: rgba(58, 106, 156, 0.12); color: var(--blue); }
+    .doc-card-icon.type-guide   { background: rgba(125, 165, 206, 0.15); color: #5a8ab8; }
+    .doc-card-icon.type-article { background: rgba(44, 54, 65, 0.08);   color: var(--text-secondary); }
+    .doc-card-icon.type-commentary { background: rgba(235, 233, 106, 0.15); color: #9e9b1a; }
+
+    .doc-card-body { flex: 1; min-width: 0; }
+    .doc-card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.35;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .doc-card:hover .doc-card-title { color: var(--navy); }
+    .doc-card-sub {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+    .doc-card-badge {
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .doc-card-badge.type-brief     { background: rgba(20, 207, 166, 0.12); color: var(--teal); }
+    .doc-card-badge.type-deck      { background: rgba(58, 106, 156, 0.12); color: var(--blue); }
+    .doc-card-badge.type-guide     { background: rgba(125, 165, 206, 0.15); color: #5a8ab8; }
+    .doc-card-badge.type-article   { background: rgba(44, 54, 65, 0.08);   color: var(--text-secondary); }
+    .doc-card-badge.type-commentary { background: rgba(235, 233, 106, 0.15); color: #9e9b1a; }
+
+    .doc-card-arrow {
+      flex-shrink: 0;
+      color: var(--border);
+      font-size: 14px;
+      transition: color 0.15s, transform 0.15s;
+    }
+    .doc-card:hover .doc-card-arrow {
+      color: var(--teal);
+      transform: translateX(3px);
+    }
+
+    /* ── OPTION LABEL ── */
+    .option-label {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      background: var(--teal);
+      color: #0a0a0a;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 5px 12px;
+      border-radius: 20px;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: #0a0a0a;
+      padding: 20px 48px;
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+    }
+
+    @media (max-width: 860px) {
+      .body-layout { flex-direction: column; padding-left: 20px; padding-right: 20px; }
+      .sidebar { width: 100%; position: static; }
+      .hero { padding: 36px 20px 28px; }
+      .hero-inner { flex-direction: column; }
+      .hero-title { font-size: 32px; }
+      .nav { padding: 0 20px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="option-label">Option C — Resource Hub</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-brand" href="#">Return Stacked® ETFs</a>
+  <ul class="nav-links">
+    <li><a href="#">Our ETFs</a></li>
+    <li><a href="#">Education</a></li>
+    <li><a href="#" class="active">Literature</a></li>
+    <li><a href="#">Tools</a></li>
+    <li><a href="#">About</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Return Stacked® ETFs</div>
+      <h1 class="hero-title">Literature</h1>
+    </div>
+    <div class="hero-tagline">
+      Our ETFs are designed to stack diversifying strategies <strong>on top of</strong> core stock and bond exposure, not in place of it.
+    </div>
+  </div>
+</header>
+
+<!-- BODY: Sidebar + Main Panel -->
+<div class="body-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-header-label">Browse by strategy</div>
+      <div class="sidebar-search">
+        <span class="sidebar-search-icon">⌕</span>
+        <input type="text" placeholder="Search resources..." />
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-nav-item active" onclick="showPanel('intro')">
+        <span class="sidebar-nav-item-name">Return Stacking 101</span>
+        <span class="sidebar-nav-item-count">11</span>
+      </div>
+      <div class="sidebar-nav-item" onclick="showPanel('mft')">
+        <span class="sidebar-nav-item-name">Managed Futures Trend</span>
+        <span class="sidebar-nav-item-count">8</span>
+      </div>
+      <div class="sidebar-nav-item" onclick="showPanel('carry')">
+        <span class="sidebar-nav-item-name">Futures Yield (Carry)</span>
+        <span class="sidebar-nav-item-count">7</span>
+      </div>
+      <div class="sidebar-nav-item" onclick="showPanel('gold')">
+        <span class="sidebar-nav-item-name">Gold / Bitcoin</span>
+        <span class="sidebar-nav-item-count">5</span>
+      </div>
+      <div class="sidebar-nav-item" onclick="showPanel('mergarb')">
+        <span class="sidebar-nav-item-name">Merger Arbitrage</span>
+        <span class="sidebar-nav-item-count">5</span>
+      </div>
+      <div class="sidebar-nav-item" onclick="showPanel('bonds')">
+        <span class="sidebar-nav-item-name">Bonds / Equities</span>
+        <span class="sidebar-nav-item-count">3</span>
+      </div>
+    </nav>
+    <div class="sidebar-footer">39 resources across 6 strategies</div>
+  </aside>
+
+  <!-- MAIN PANEL -->
+  <main class="main-panel">
+
+    <!-- Return Stacking 101 -->
+    <div class="cat-panel active" id="panel-intro">
+      <div class="cat-panel-header">
+        <h2 class="cat-panel-title">Return Stacking 101</h2>
+        <p class="cat-panel-desc">Core concepts, foundational frameworks, and quarterly updates. Everything you need to understand the return stacking philosophy and communicate it to clients.</p>
+        <div class="cat-panel-meta">
+          <span class="cat-panel-count">11 resources</span>
+          <div class="cat-panel-divider"></div>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <div class="doc-section-label">Foundational Resources</div>
+        <div class="doc-cards">
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-deck">▶</div>
+            <div class="doc-card-body">
+              <div class="doc-card-title">Return Stacked Primer Presentation</div>
+              <div class="doc-card-sub">Core concept overview — start here</div>
+            </div>
+            <span class="doc-card-badge type-deck">Deck</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-guide">≡</div>
+            <div class="doc-card-body">
+              <div class="doc-card-title">Guide: Leverage For the Long Run</div>
+              <div class="doc-card-sub">Academic and empirical case for long-term leveraged diversification</div>
+            </div>
+            <span class="doc-card-badge type-guide">Guide</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-article">A</div>
+            <div class="doc-card-body">
+              <div class="doc-card-title">Return Stacking: Strategies for Overcoming a Low Return Environment</div>
+            </div>
+            <span class="doc-card-badge type-article">Article</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-article">A</div>
+            <div class="doc-card-body">
+              <div class="doc-card-title">Keeping What Works, Adding What's Missing</div>
+            </div>
+            <span class="doc-card-badge type-article">Article</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-article">A</div>
+            <div class="doc-card-body">
+              <div class="doc-card-title">Stacking 101: Your Mortgage is Return Stacking!</div>
+            </div>
+            <span class="doc-card-badge type-article">Article</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <div class="doc-section-label">Commentaries</div>
+        <div class="doc-cards">
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-commentary">Q</div>
+            <div class="doc-card-body"><div class="doc-card-title">ETF Commentary — Q4 2025</div></div>
+            <span class="doc-card-badge type-commentary">Commentary</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-commentary">Q</div>
+            <div class="doc-card-body"><div class="doc-card-title">ETF Commentary — Q3 2025</div></div>
+            <span class="doc-card-badge type-commentary">Commentary</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-commentary">Q</div>
+            <div class="doc-card-body"><div class="doc-card-title">ETF Commentary — Q2 2025</div></div>
+            <span class="doc-card-badge type-commentary">Commentary</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-commentary">Q</div>
+            <div class="doc-card-body"><div class="doc-card-title">ETF Commentary — Q1 2025</div></div>
+            <span class="doc-card-badge type-commentary">Commentary</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <div class="doc-section-label">Case Studies</div>
+        <div class="doc-cards">
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-guide">≡</div>
+            <div class="doc-card-body"><div class="doc-card-title">Guide: Top Return Stacking Case Studies</div></div>
+            <span class="doc-card-badge type-guide">Guide</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-guide">≡</div>
+            <div class="doc-card-body"><div class="doc-card-title">Return Stacked All-Terrain Portfolio Primer</div></div>
+            <span class="doc-card-badge type-guide">Guide</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Managed Futures Trend -->
+    <div class="cat-panel" id="panel-mft">
+      <div class="cat-panel-header">
+        <h2 class="cat-panel-title">Managed Futures Trend</h2>
+        <p class="cat-panel-desc">Research, client guides, and product materials for trend-following strategies stacked on top of equity exposure (RSST, RSBT).</p>
+        <div class="cat-panel-meta">
+          <span class="cat-panel-count">8 resources</span>
+          <div class="cat-panel-divider"></div>
+        </div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">Research &amp; Education</div>
+        <div class="doc-cards">
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-article">A</div>
+            <div class="doc-card-body"><div class="doc-card-title">Why We Stack: Managed Futures</div></div>
+            <span class="doc-card-badge type-article">Article</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-guide">≡</div>
+            <div class="doc-card-body"><div class="doc-card-title">Guide to Client Conversations: Managed Futures Trend</div></div>
+            <span class="doc-card-badge type-guide">Guide</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-article">A</div>
+            <div class="doc-card-body"><div class="doc-card-title">Bulls Vs Bears: Return Stacking Managed Futures</div></div>
+            <span class="doc-card-badge type-article">Article</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-article">A</div>
+            <div class="doc-card-body"><div class="doc-card-title">Peering Around Corners: How to Replicate Trend Following MF</div></div>
+            <span class="doc-card-badge type-article">Article</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+        </div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">Product Materials</div>
+        <div class="doc-cards">
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-brief">◼</div>
+            <div class="doc-card-body"><div class="doc-card-title">RSST Product Brief</div><div class="doc-card-sub">Return Stacked® Stocks &amp; Managed Futures ETF</div></div>
+            <span class="doc-card-badge type-brief">Brief</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-brief">◼</div>
+            <div class="doc-card-body"><div class="doc-card-title">RSBT Product Brief</div><div class="doc-card-sub">Return Stacked® Bonds &amp; Managed Futures ETF</div></div>
+            <span class="doc-card-badge type-brief">Brief</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-deck">▶</div>
+            <div class="doc-card-body"><div class="doc-card-title">RSST Presentation</div></div>
+            <span class="doc-card-badge type-deck">Deck</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-deck">▶</div>
+            <div class="doc-card-body"><div class="doc-card-title">RSBT Presentation</div></div>
+            <span class="doc-card-badge type-deck">Deck</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Futures Yield (Carry) -->
+    <div class="cat-panel" id="panel-carry">
+      <div class="cat-panel-header">
+        <h2 class="cat-panel-title">Futures Yield (Carry)</h2>
+        <p class="cat-panel-desc">Research and product materials for systematic carry strategies stacked on equities (RSSY, RSBY).</p>
+        <div class="cat-panel-meta">
+          <span class="cat-panel-count">7 resources</span>
+          <div class="cat-panel-divider"></div>
+        </div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">Research &amp; Education</div>
+        <div class="doc-cards">
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-article">A</div>
+            <div class="doc-card-body"><div class="doc-card-title">Why We Stack: Futures Yield (Carry)</div></div>
+            <span class="doc-card-badge type-article">Article</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-guide">≡</div>
+            <div class="doc-card-body"><div class="doc-card-title">Guide to Client Conversations: Futures Yield (Carry)</div></div>
+            <span class="doc-card-badge type-guide">Guide</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-guide">≡</div>
+            <div class="doc-card-body"><div class="doc-card-title">Managed Futures Carry: A Practitioner's Guide</div></div>
+            <span class="doc-card-badge type-guide">Guide</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+        </div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">Product Materials</div>
+        <div class="doc-cards">
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-brief">◼</div>
+            <div class="doc-card-body"><div class="doc-card-title">RSSY Product Brief</div></div>
+            <span class="doc-card-badge type-brief">Brief</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-brief">◼</div>
+            <div class="doc-card-body"><div class="doc-card-title">RSBY Product Brief</div></div>
+            <span class="doc-card-badge type-brief">Brief</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-deck">▶</div>
+            <div class="doc-card-body"><div class="doc-card-title">RSSY Presentation</div></div>
+            <span class="doc-card-badge type-deck">Deck</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-deck">▶</div>
+            <div class="doc-card-body"><div class="doc-card-title">RSBY Presentation</div></div>
+            <span class="doc-card-badge type-deck">Deck</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gold / Bitcoin -->
+    <div class="cat-panel" id="panel-gold">
+      <div class="cat-panel-header">
+        <h2 class="cat-panel-title">Gold / Bitcoin</h2>
+        <p class="cat-panel-desc">Research and product materials for real asset and crypto exposure stacked on portfolios (RSSX).</p>
+        <div class="cat-panel-meta">
+          <span class="cat-panel-count">5 resources</span>
+          <div class="cat-panel-divider"></div>
+        </div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">Research &amp; Education</div>
+        <div class="doc-cards">
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-article">A</div>
+            <div class="doc-card-body"><div class="doc-card-title">Why We Stack: Gold &amp; Bitcoin</div></div>
+            <span class="doc-card-badge type-article">Article</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-guide">≡</div>
+            <div class="doc-card-body"><div class="doc-card-title">Guide to Client Conversations: Gold &amp; Bitcoin</div></div>
+            <span class="doc-card-badge type-guide">Guide</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-article">A</div>
+            <div class="doc-card-body"><div class="doc-card-title">Golden Opportunities: Enhancing Portfolios with Gold Futures Stack</div></div>
+            <span class="doc-card-badge type-article">Article</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+        </div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">Product Materials</div>
+        <div class="doc-cards">
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-brief">◼</div>
+            <div class="doc-card-body"><div class="doc-card-title">RSSX Product Brief</div></div>
+            <span class="doc-card-badge type-brief">Brief</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-deck">▶</div>
+            <div class="doc-card-body"><div class="doc-card-title">RSSX Presentation</div></div>
+            <span class="doc-card-badge type-deck">Deck</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Merger Arbitrage -->
+    <div class="cat-panel" id="panel-mergarb">
+      <div class="cat-panel-header">
+        <h2 class="cat-panel-title">Merger Arbitrage</h2>
+        <p class="cat-panel-desc">Research and product materials for event-driven strategies stacked on fixed income (RSBA).</p>
+        <div class="cat-panel-meta">
+          <span class="cat-panel-count">5 resources</span>
+          <div class="cat-panel-divider"></div>
+        </div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">Research &amp; Education</div>
+        <div class="doc-cards">
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-article">A</div>
+            <div class="doc-card-body"><div class="doc-card-title">Why We Stack: Merger Arbitrage</div></div>
+            <span class="doc-card-badge type-article">Article</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-guide">≡</div>
+            <div class="doc-card-body"><div class="doc-card-title">Guide to Client Conversations: Merger Arbitrage</div></div>
+            <span class="doc-card-badge type-guide">Guide</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-article">A</div>
+            <div class="doc-card-body"><div class="doc-card-title">Boosting Bonds: Stacking Merger Arbitrage to Enhance Fixed Income Portfolios</div></div>
+            <span class="doc-card-badge type-article">Article</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+        </div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">Product Materials</div>
+        <div class="doc-cards">
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-brief">◼</div>
+            <div class="doc-card-body"><div class="doc-card-title">RSBA Product Brief</div></div>
+            <span class="doc-card-badge type-brief">Brief</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-deck">▶</div>
+            <div class="doc-card-body"><div class="doc-card-title">RSBA Presentation</div></div>
+            <span class="doc-card-badge type-deck">Deck</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bonds / Equities -->
+    <div class="cat-panel" id="panel-bonds">
+      <div class="cat-panel-header">
+        <h2 class="cat-panel-title">Bonds / Equities</h2>
+        <p class="cat-panel-desc">Research and product materials for core equity and bond stacking building blocks (RSSB).</p>
+        <div class="cat-panel-meta">
+          <span class="cat-panel-count">3 resources</span>
+          <div class="cat-panel-divider"></div>
+        </div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">Resources</div>
+        <div class="doc-cards">
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-article">A</div>
+            <div class="doc-card-body"><div class="doc-card-title">Why We Stack: Bonds</div></div>
+            <span class="doc-card-badge type-article">Article</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-brief">◼</div>
+            <div class="doc-card-body"><div class="doc-card-title">RSSB Product Brief</div></div>
+            <span class="doc-card-badge type-brief">Brief</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+          <a class="doc-card" href="#">
+            <div class="doc-card-icon type-deck">▶</div>
+            <div class="doc-card-body"><div class="doc-card-title">RSSB Presentation</div></div>
+            <span class="doc-card-badge type-deck">Deck</span>
+            <span class="doc-card-arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </main><!-- /main-panel -->
+</div><!-- /body-layout -->
+
+<footer class="footer">
+  Return Stacked® ETFs &nbsp;·&nbsp; returnstackedetfs.com &nbsp;·&nbsp; Not investment advice. For financial professional use.
+</footer>
+
+<script>
+  // Map sidebar nav items to panel IDs
+  const panelMap = { intro: 'panel-intro', mft: 'panel-mft', carry: 'panel-carry', gold: 'panel-gold', mergarb: 'panel-mergarb', bonds: 'panel-bonds' };
+
+  function showPanel(key) {
+    // Hide all panels
+    document.querySelectorAll('.cat-panel').forEach(p => p.classList.remove('active'));
+    // Deactivate all sidebar items
+    document.querySelectorAll('.sidebar-nav-item').forEach(n => n.classList.remove('active'));
+    // Activate selected
+    document.getElementById(panelMap[key]).classList.add('active');
+    // Activate sidebar item (find by onclick attr)
+    const items = document.querySelectorAll('.sidebar-nav-item');
+    items.forEach(item => {
+      if (item.getAttribute('onclick') && item.getAttribute('onclick').includes("'" + key + "'")) {
+        item.classList.add('active');
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

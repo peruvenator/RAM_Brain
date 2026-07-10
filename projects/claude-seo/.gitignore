@@ -1,0 +1,7 @@
+# Google API credentials -- never commit these
+*.json
+credentials/
+
+# Python
+__pycache__/
+*.pyc

@@ -1,0 +1,25 @@
+{
+  "name": "Newton Comp",
+  "slots": [
+    {
+      "enabled": true,
+      "portfolioName": "Global Equities + 20% Diversified Stack"
+    },
+    {
+      "enabled": true,
+      "portfolioName": "Global Equities + 40% Diversified Stack"
+    },
+    {
+      "enabled": true,
+      "portfolioName": "Small Cap Growth"
+    },
+    {
+      "enabled": true,
+      "portfolioName": "Global Equities"
+    },
+    {
+      "enabled": false,
+      "portfolioName": "Portfolio 5 (rename)"
+    }
+  ]
+}

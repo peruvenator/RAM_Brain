@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<!--
+  ═══════════════════════════════════════════════════════════════
+  RETURN STACKED® ETFs — Blog Library
+  ═══════════════════════════════════════════════════════════════
+
+  EMBEDDING INSTRUCTIONS FOR DIVI:
+
+  1. PAGE BANNER
+     - Create natively in Divi (the site's standard page title
+       pattern). Suggested content:
+       - Eyebrow: "Return Stacked® ETFs"
+       - Title: "Blog Library"
+       - Tagline: "Explore our complete collection of articles
+         on return stacking, portfolio construction, and
+         capital-efficient investing."
+
+  2. BLOG LIBRARY (this file)
+     - Create a regular Divi section
+     - Add a Code module (fullwidth row recommended)
+     - Paste everything inside <div id="rs-blog"> into
+       the Code module
+     - Include the <style> block and <script> block
+
+  3. CSS is scoped under #rs-blog to avoid Divi conflicts
+  4. JS functions are namespaced as rsBlog*()
+  5. Font: DM Sans is already loaded by the theme — no extra
+     import needed when embedded
+
+  COLOR REFERENCE (matches site palette):
+     Teal:     #14cfa6
+     Navy:     #283742
+     Blue:     #3f73ab
+     Light BG: #f7f6f6
+     Border:   #d9d9d9
+  ═══════════════════════════════════════════════════════════════
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Library — Return Stacked® ETFs</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    /* ── SCOPED RESET ── */
+    #rs-blog *,
+    #rs-blog *::before,
+    #rs-blog *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ── VARIABLES & CONTAINER ── */
+    #rs-blog {
+      --teal:           #14cfa6;
+      --teal-dark:      #0c7c64;
+      --teal-light:     rgba(20, 207, 166, 0.1);
+      --navy:           #283742;
+      --blue:           #3f73ab;
+      --blue-light:     #7da5ce;
+      --text-primary:   #283742;
+      --text-secondary: #5a6a7e;
+      --text-dim:       #8a9ab0;
+      --bg:             #f7f6f6;
+      --white:          #ffffff;
+      --border:         #d9d9d9;
+
+      font-family: 'DM Sans', Helvetica, Arial, Lucida, sans-serif;
+      color: var(--text-primary);
+    }
+
+    /* ── SEARCH BAR ── */
+    #rs-blog .search-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 48px 0;
+    }
+    #rs-blog .search-input {
+      width: 100%;
+      padding: 12px 16px 12px 44px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text-primary);
+      background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' stroke='%238a9ab0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='8' cy='8' r='5.5'/%3E%3Cpath d='m12.5 12.5 3 3'/%3E%3C/svg%3E") 14px center no-repeat;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    #rs-blog .search-input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(20, 207, 166, 0.15);
+    }
+    #rs-blog .search-input::placeholder { color: var(--text-dim); }
+    #rs-blog .search-count {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 8px;
+    }
+
+    /* ── TABS ── */
+    #rs-blog .tabs-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+    }
+    #rs-blog .tab {
+      padding: 14px 28px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dim);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      user-select: none;
+      margin-bottom: -1px;
+    }
+    #rs-blog .tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+    #rs-blog .tab:hover:not(.active) { color: var(--text-primary); }
+
+    /* ── STRATEGY FILTER CHIPS ── */
+    #rs-blog .filter-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 48px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    #rs-blog .filter-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-right: 4px;
+    }
+    #rs-blog .filter-chip {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--text-secondary);
+      transition: all 0.2s;
+      user-select: none;
+    }
+    #rs-blog .filter-chip:hover { border-color: var(--teal); color: var(--text-primary); }
+    #rs-blog .filter-chip.active {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #fff;
+    }
+
+    /* ── CONTENT ── */
+    #rs-blog .content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 48px 80px;
+    }
+
+    /* ── VIEWS (tab panels) ── */
+    #rs-blog .view { display: none; }
+    #rs-blog .view.active { display: block; }
+
+    /* ── FEATURED SECTION ── */
+    #rs-blog .featured-section { margin-bottom: 40px; }
+    #rs-blog .featured-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #rs-blog .featured-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    #rs-blog .featured-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 16px;
+    }
+    #rs-blog .featured-card {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--white);
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    #rs-blog .featured-card:hover {
+      box-shadow: 0 8px 32px rgba(20, 207, 166, 0.12);
+      transform: translateY(-3px);
+    }
+    #rs-blog .featured-card-stripe {
+      height: 4px;
+      background: linear-gradient(90deg, var(--teal), var(--blue));
+    }
+    #rs-blog .featured-card-body {
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    #rs-blog .featured-card-type {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+    #rs-blog .featured-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+    #rs-blog .featured-card.large .featured-card-title { font-size: 18px; }
+    #rs-blog .featured-card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    #rs-blog .featured-card-cta {
+      margin-top: auto;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--teal);
+    }
+
+    /* ── SECTION LABEL ── */
+    #rs-blog .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #rs-blog .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── CAT GRID ── */
+    #rs-blog .cat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+
+    /* ── CATEGORY TILE ── */
+    #rs-blog .cat-tile {
+      background: var(--white);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+      transition: box-shadow 0.2s;
+    }
+    #rs-blog .cat-tile:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+    #rs-blog .cat-tile-header {
+      background: var(--navy);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    #rs-blog .cat-tile-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+    #rs-blog .cat-tile-desc {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 2px;
+    }
+    #rs-blog .cat-tile-count {
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(20, 207, 166, 0.8);
+      background: rgba(20, 207, 166, 0.12);
+      border: 1px solid rgba(20, 207, 166, 0.2);
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    /* ── DOC LIST ── */
+    #rs-blog .doc-list { list-style: none; padding: 8px 0; }
+    #rs-blog .doc-list li { display: flex; }
+    #rs-blog .doc-list li.hidden { display: none; }
+    #rs-blog .doc-list a {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      width: 100%;
+      padding: 10px 20px;
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 1.4;
+      transition: background 0.15s, color 0.15s;
+      border-left: 3px solid transparent;
+    }
+    #rs-blog .doc-list a:hover {
+      background: var(--teal-light);
+      color: var(--text-primary);
+      border-left-color: var(--teal);
+    }
+    #rs-blog .doc-title-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    #rs-blog .doc-bullet {
+      flex-shrink: 0;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--border);
+      margin-top: 6px;
+      transition: background 0.15s;
+    }
+    #rs-blog .doc-list a:hover .doc-bullet { background: var(--teal); }
+    #rs-blog .doc-label { flex: 1; }
+    #rs-blog .doc-tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding-left: 13px;
+    }
+
+    /* ── STRATEGY TAGS ── */
+    #rs-blog .strat-tag {
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 2px 7px;
+      border-radius: 4px;
+      white-space: nowrap;
+      border: 1px solid transparent;
+      transition: opacity 0.15s;
+    }
+    #rs-blog .strat-tag.s-trend    { background: rgba(58,106,156,0.1);   color: var(--blue);     border-color: rgba(58,106,156,0.2); }
+    #rs-blog .strat-tag.s-carry    { background: rgba(125,165,206,0.15); color: #3d6f9a;         border-color: rgba(125,165,206,0.3); }
+    #rs-blog .strat-tag.s-gold     { background: rgba(235,233,106,0.18); color: #7a7a10;         border-color: rgba(235,233,106,0.4); }
+    #rs-blog .strat-tag.s-bitcoin  { background: rgba(247,147,26,0.12);  color: #b5740e;         border-color: rgba(247,147,26,0.3); }
+    #rs-blog .strat-tag.s-mergarb  { background: rgba(59,184,35,0.1);    color: #2d8218;         border-color: rgba(59,184,35,0.2); }
+    #rs-blog .strat-tag.s-bonds    { background: rgba(58,106,156,0.07);  color: #5580a4;         border-color: rgba(58,106,156,0.15); }
+    #rs-blog .strat-tag.s-equities { background: rgba(20,207,166,0.1);   color: #0d9479;         border-color: rgba(20,207,166,0.25); }
+
+    /* ── CATEGORY BADGES (By Strategy view) ── */
+    #rs-blog .cat-badge {
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 4px;
+      white-space: nowrap;
+      background: rgba(0,0,0,0.04);
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+    }
+
+    /* ── NO RESULTS ── */
+    #rs-blog .no-results {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--text-dim);
+      font-size: 14px;
+    }
+    #rs-blog .no-results-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      #rs-blog .cat-grid { grid-template-columns: 1fr 1fr; }
+      #rs-blog .featured-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      #rs-blog .cat-grid { grid-template-columns: 1fr; }
+      #rs-blog .tabs-bar { padding: 0 20px; }
+      #rs-blog .content { padding-left: 20px; padding-right: 20px; }
+      #rs-blog .search-wrap { padding: 16px 20px 0; }
+      #rs-blog .filter-bar { padding: 12px 20px 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="rs-blog">
+
+  <!-- ═══ SEARCH ═══ -->
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="rsBlogSearch" placeholder="Search articles by title, topic, or keyword..." oninput="rsBlogFilter()">
+    <div class="search-count" id="rsBlogCount"></div>
+  </div>
+
+  <!-- ═══ CATEGORY FILTER CHIPS ═══ -->
+  <div class="filter-bar">
+    <span class="filter-label">Category:</span>
+    <span class="filter-chip active" data-cat="all" onclick="rsBlogCatFilter(this)">All</span>
+    <span class="filter-chip" data-cat="Foundations" onclick="rsBlogCatFilter(this)">Foundations</span>
+    <span class="filter-chip" data-cat="Strategy Spotlights" onclick="rsBlogCatFilter(this)">Strategy Spotlights</span>
+    <span class="filter-chip" data-cat="Portfolio Construction" onclick="rsBlogCatFilter(this)">Portfolio Construction</span>
+    <span class="filter-chip" data-cat="Leverage Explained" onclick="rsBlogCatFilter(this)">Leverage Explained</span>
+    <span class="filter-chip" data-cat="Mechanics & Operations" onclick="rsBlogCatFilter(this)">Mechanics & Operations</span>
+    <span class="filter-chip" data-cat="Practice Management" onclick="rsBlogCatFilter(this)">Practice Management</span>
+    <span class="filter-chip" data-cat="Research & Case Studies" onclick="rsBlogCatFilter(this)">Research & Case Studies</span>
+  </div>
+
+  <!-- ═══ STRATEGY FILTER CHIPS ═══ -->
+  <div class="filter-bar">
+    <span class="filter-label">Strategy:</span>
+    <span class="filter-chip active" data-strat="all" onclick="rsBlogStratFilter(this)">All</span>
+    <span class="filter-chip" data-strat="Trend" onclick="rsBlogStratFilter(this)">Trend</span>
+    <span class="filter-chip" data-strat="Carry" onclick="rsBlogStratFilter(this)">Carry</span>
+    <span class="filter-chip" data-strat="Gold" onclick="rsBlogStratFilter(this)">Gold</span>
+    <span class="filter-chip" data-strat="Bitcoin" onclick="rsBlogStratFilter(this)">Bitcoin</span>
+    <span class="filter-chip" data-strat="Merger Arb" onclick="rsBlogStratFilter(this)">Merger Arb</span>
+    <span class="filter-chip" data-strat="Bonds" onclick="rsBlogStratFilter(this)">Bonds</span>
+    <span class="filter-chip" data-strat="Equities" onclick="rsBlogStratFilter(this)">Equities</span>
+  </div>
+
+  <!-- ═══ TABS ═══ -->
+  <div class="tabs-bar">
+    <div class="tab active" onclick="rsBlogSwitchTab('topic')">By Topic</div>
+    <div class="tab" onclick="rsBlogSwitchTab('strategy')">By Strategy</div>
+  </div>
+
+  <main>
+    <div class="content">
+
+      <!-- ══════════════════════════════════
+           VIEW: BY TOPIC
+      ══════════════════════════════════ -->
+      <div id="view-topic" class="view active">
+
+        <!-- Latest Posts -->
+        <div class="featured-section" id="rsBlogLatest"></div>
+
+        <!-- Start Here -->
+        <div class="featured-section" id="rsBlogStartHere"></div>
+
+        <!-- Category Tiles -->
+        <div class="section-label">All Articles &mdash; By Topic</div>
+        <div class="cat-grid" id="rsBlogTopicGrid"></div>
+
+      </div><!-- /view-topic -->
+
+      <!-- ══════════════════════════════════
+           VIEW: BY STRATEGY
+      ══════════════════════════════════ -->
+      <div id="view-strategy" class="view">
+        <div class="section-label">All Articles &mdash; By Strategy</div>
+        <div class="cat-grid" id="rsBlogStratGrid"></div>
+      </div><!-- /view-strategy -->
+
+    </div><!-- /content -->
+  </main>
+
+</div><!-- /rs-blog -->
+
+<script>
+(function() {
+  'use strict';
+
+  // ── BLOG DATA (inlined from blog-index.json) ──
+  var POSTS = [{"t": "What is Return Stacking for Outperformance", "u": "https://www.returnstacked.com/what-is-return-stacking-for-outperformance/", "d": "", "c": ["Foundations"], "s": [], "e": "How return stacking layers diversifying alternatives on top of a traditional stock and bond portfolio in pursuit of outperformance, without giving up core market exposure.", "k": "return stacking portable alpha capital efficiency outperformance diversification alpha portfolio construction", "f": false, "sh": true}, {"t": "What is Return Stacking for Diversification", "u": "https://www.returnstacked.com/what-is-return-stacking", "d": "", "c": ["Foundations"], "s": [], "e": "An introduction to return stacking: adding diversifying alternative investments on top of traditional stocks and bonds without reducing core allocations.", "k": "return stacking diversification portable alpha capital efficiency portfolio construction correlation", "f": false, "sh": true}, {"t": "Investing in Gold", "u": "https://www.returnstacked.com/investing-in-gold", "d": "", "c": ["Strategy Spotlights"], "s": ["Gold"], "e": "A guide to gold as a portfolio diversifier and inflation hedge, its history and valuation, and how a gold stack can be used within return stacking.", "k": "gold diversification inflation real assets return stacking hedge", "f": false, "sh": false}, {"t": "Managed Futures Trend Following", "u": "https://www.returnstacked.com/managed-futures-trend-following", "d": "", "c": ["Strategy Spotlights"], "s": ["Trend"], "e": "A guide to managed futures and trend following: history, theory, performance characteristics, and how a trend stack fits into portfolio construction.", "k": "trend following managed futures crisis alpha momentum diversification return stacking", "f": false, "sh": false}, {"t": "Managed Futures Yield (Carry)", "u": "https://www.returnstacked.com/managed-futures-yield-carry", "d": "", "c": ["Strategy Spotlights"], "s": ["Carry"], "e": "A guide to carry strategies in managed futures: theory, history, implementation, and applications to return stacking for portfolio enhancement.", "k": "carry futures yield managed futures term structure return stacking diversification", "f": false, "sh": false}, {"t": "Merger Arbitrage", "u": "https://www.returnstacked.com/merger-arbitrage", "d": "", "c": ["Strategy Spotlights"], "s": ["Merger Arb"], "e": "A guide to merger arbitrage: how the strategy profits from deal spreads in M&A, its performance characteristics, and its role in return stacking.", "k": "merger arbitrage event driven deal spread diversification return stacking alternatives", "f": false, "sh": false}, {"t": "Managed Futures - Why Now! Positioning, Energy, De-Dollarization, and Portfolio Blind Spots", "u": "https://www.returnstacked.com/podcasts/managed-futures-why-now", "d": "", "c": ["Strategy Spotlights"], "s": ["Trend"], "e": "ReSolve co-founders on why managed futures matter in today's macro environment: positioning, commodities, de-dollarization, and making the strategy behaviorally palatable through return stacking.", "k": "managed futures trend following commodities diversification return stacking", "f": false, "sh": false}, {"t": "Is Now the Right Time to Add My Stack?", "u": "https://www.returnstacked.com/is-now-the-right-time-to-add-my-stack/", "d": "2026-05-11", "c": ["Portfolio Construction"], "s": [], "e": "A framework for managing timing risk when adding a stack: stacking versus funding approaches, timing luck, and three practical ways to phase in implementation.", "k": "return stacking market timing implementation diversification managed futures capital efficiency correlation", "f": true, "sh": false}, {"t": "What's the Optimal Stack?", "u": "https://www.returnstacked.com/whats-the-optimal-stack/", "d": "2026-04-14", "c": ["Portfolio Construction", "Research & Case Studies"], "s": [], "e": "Bootstrap analysis of optimal return stacking allocations, why the mathematically ideal stack is behaviorally unsustainable, and practical blends using tracking error constraints.", "k": "return stacking portfolio construction diversification tracking error managed futures merger arbitrage gold risk management", "f": true, "sh": false}, {"t": "Why Bonds Still Belong: Rethinking Fixed Income in Modern Portfolios", "u": "https://www.returnstacked.com/why-bonds-still-belong-rethinking-fixed-income-in-modern-portfolios/", "d": "2026-02-10", "c": ["Strategy Spotlights"], "s": ["Carry", "Bonds"], "e": "Despite recent challenges, bonds retain unique diversification, planning, and return stacking potential that equity-only alternatives cannot fully replicate.", "k": "return stacking volatility diversification correlation bonds alternatives inflation interest rate tax", "f": true, "sh": false}, {"t": "Return Stacking with Fast and Slow Diversification: A Framework for Market Volatility", "u": "https://www.returnstacked.com/return-stacking-with-fast-and-slow-diversification-a-framework-for-market-volatility/", "d": "2025-11-13", "c": ["Strategy Spotlights", "Portfolio Construction"], "s": ["Trend", "Merger Arb"], "e": "For financial advisors aiming to protect client portfolios during turbulent markets, incorporating alternative strategies into diversification efforts is increasingly essential.", "k": "return stacking portable alpha managed futures volatility diversification correlation drawdown equities alpha portfolio construction exposure", "f": false, "sh": false}, {"t": "Return Stacking and Fund Distributions: How Structure Drives Tax Drag", "u": "https://www.returnstacked.com/return-stacking-and-fund-distributions-how-structure-drives-tax-drag/", "d": "2025-10-30", "c": ["Mechanics & Operations"], "s": [], "e": "This article explores how a Return Stacked® strategy combining U.S. equities and Treasuries can be implemented in multiple ways, and how those structural choices influence fund distributions and potential tax drag for investors.", "k": "return stacking capital efficiency collateral margin bonds equities tax distributions ETF portfolio construction exposure", "f": false, "sh": false}, {"t": "Stacking for Different Objectives Part 3: Inflation Hedging", "u": "https://www.returnstacked.com/stacking-for-different-objectives-part-3-inflation-hedging/", "d": "2025-09-29", "c": ["Strategy Spotlights", "Portfolio Construction"], "s": [], "e": "This post outlines two inflation‑oriented stacks, a directional inflation beta sleeve and an inflation convexity sleeve, that can be added to a 60 / 40 portfolio to help preserve real wealth when price levels move unexpectedly.", "k": "return stacking leverage volatility diversification correlation bonds equities inflation interest rate beta portfolio construction exposure", "f": false, "sh": false}, {"t": "Should We Constrain Equity Exposure in Managed Futures When Stacking on Equities?", "u": "https://www.returnstacked.com/should-we-constrain-equity-exposure-in-managed-futures-when-stacking-on-equities/", "d": "2025-09-25", "c": ["Strategy Spotlights"], "s": ["Trend", "Equities"], "e": "Empirical evidence shows that equity exposure within managed futures programs is not redundant risk but a significant, diversifying return contributor with low correlation to buy-and-hold equities.", "k": "return stacking managed futures trend following leverage diversification correlation equities exposure", "f": false, "sh": false}, {"t": "Stacking for Different Objectives Part 2: Absolute Return", "u": "https://www.returnstacked.com/stacking-for-different-objectives-part-2-absolute-return/", "d": "2025-09-22", "c": ["Strategy Spotlights", "Portfolio Construction"], "s": [], "e": "This post examines an Absolute Return stack that layers diversifying return streams over a core 60 / 40 portfolio.", "k": "return stacking leverage volatility diversification correlation bonds equities interest rate portfolio construction exposure benchmark", "f": false, "sh": false}, {"t": "Stacking for Different Objectives Part 1: Anti-Beta", "u": "https://www.returnstacked.com/stacking-for-different-objectives-part-1-anti-beta/", "d": "2025-09-17", "c": ["Strategy Spotlights", "Portfolio Construction"], "s": ["Carry", "Equities"], "e": "This article explains how an “anti‑beta” stack can potentially narrow the depth and duration of portfolio drawdowns by adding a 20% overlay of diversifying strategies to a traditional 60 / 40 portfolio.", "k": "return stacking carry leverage diversification correlation drawdown bonds equities inflation beta portfolio construction overlay", "f": false, "sh": false}, {"t": "Pent Up Energy - Carry / Managed Futures Why Now?", "u": "https://www.returnstacked.com/pent-up-energy-carry-managed-futures-why-now/", "d": "2025-09-03", "c": ["Strategy Spotlights"], "s": ["Trend", "Carry"], "e": "This piece examines how recent macro shocks have reshaped the landscape for carry, where drawdowns may conceal new sources of return.", "k": "return stacking managed futures carry volatility sharpe ratio drawdown", "f": false, "sh": false}, {"t": "We’re All EM Investors Now", "u": "https://www.returnstacked.com/were-all-em-investors-now/", "d": "2025-08-15", "c": ["Strategy Spotlights", "Research & Case Studies"], "s": ["Trend", "Carry", "Gold", "Bitcoin", "Equities"], "e": "This piece draws a provocative parallel between today’s U.S. macro environment and the structural constraints long familiar to emerging market investors - high debt, limited policy flexibility, and currency vulnerability", "k": "return stacking carry gold bitcoin diversification inflation interest rate emerging markets exposure", "f": false, "sh": false}, {"t": "Gold & Bitcoin: From Fringe to Foundational", "u": "https://www.returnstacked.com/gold-bitcoin-from-fringe-to-foundational/", "d": "2025-07-30", "c": ["Strategy Spotlights", "Portfolio Construction"], "s": ["Gold", "Bitcoin"], "e": "This blog explores how a modern portfolio construction approach, using overlays instead of substitutions, can allow clients to incorporate gold and Bitcoin", "k": "gold bitcoin volatility inflation portfolio construction real assets overlay exposure", "f": false, "sh": false}, {"t": "Using a Gold Stack to Hedge U.S. Home Equity Bias", "u": "https://www.returnstacked.com/using-a-gold-stack-to-hedge-u-s-home-equity-bias/", "d": "2025-07-28", "c": ["Strategy Spotlights"], "s": ["Gold"], "e": "This article is for U.S. investors that have a home-country bias and are concerned about underperforming international equities but still want to retain their home market tilt.", "k": "gold diversification correlation equities beta risk premium overlay exposure benchmark", "f": false, "sh": false}, {"t": "Golden Opportunities: Enhancing Traditional Portfolios with a Gold Futures Stack", "u": "https://www.returnstacked.com/golden-opportunities-enhancing-traditional-portfolios-with-a-gold-futures-stack/", "d": "2025-07-23", "c": ["Strategy Spotlights"], "s": ["Gold"], "e": "Explore how gold futures overlays can enhance traditional portfolios. Discover diversification strategies, return stacking, and more in our latest whitepaper.", "k": "return stacking gold diversification capital efficiency 60/40 bonds inflation risk premium overlay exposure", "f": false, "sh": false}, {"t": "Filling the Gap: Enhancing Traditional Stock and Bond Portfolios with a Managed Futures Stack", "u": "https://www.returnstacked.com/filling-the-gap-enhancing-traditional-stock-and-bond-portfolios-with-a-managed-futures-stack/", "d": "2025-06-25", "c": ["Strategy Spotlights"], "s": ["Trend"], "e": "Our latest paper explores how investors might enhance traditional stock and bond portfolios by overlaying managed futures - systematic trend-following strategies—on top of existing allocations", "k": "return stacking portable alpha managed futures volatility diversification correlation drawdown risk-adjusted 60/40 bonds equities inflation behavioral alpha beta", "f": false, "sh": false}, {"t": "Boosting Bonds: Stacking Merger Arbitrage to Enhance Fixed Income Portfolios", "u": "https://www.returnstacked.com/boosting-bonds-stacking-merger-arbitrage-to-enhance-fixed-income-portfolios/", "d": "2025-05-14", "c": ["Strategy Spotlights"], "s": ["Merger Arb", "Bonds"], "e": "Our latest paper examines why traditional bond alpha has been hard to find and offers an innovative, capital-efficient structure that could be considered as an adjunct or replacement to traditional corporate bond allocations. The paper examines an overlay of merger arbitrage strategies onto traditional U.S. Treasury investments.", "k": "return stacking portable alpha merger arbitrage bonds interest rate yield curve alpha beta overlay exposure benchmark", "f": false, "sh": false}, {"t": "Diversification 2.0 Redefining Risk Management with Return Stacking", "u": "https://www.returnstacked.com/diversification-2-0-redefining-risk-management-with-return-stacking/", "d": "2025-05-12", "c": ["Foundations", "Portfolio Construction"], "s": [], "e": "Conventional asset allocation strategies have long relied on diversification across different asset classes to manage risk and enhance returns. However, these traditional approaches can face several limitations.", "k": "return stacking portable alpha diversification correlation tracking error bonds tax alpha ETF portfolio construction asset allocation commodities exposure benchmark", "f": false, "sh": false}, {"t": "Re-Thinking the ‘40’ in 60/40: How Return Stacking May Enhance Portfolio Diversification", "u": "https://www.returnstacked.com/re-thinking-the-40-in-60-40-how-return-stacking-may-enhance-portfolio-diversification/", "d": "2025-05-05", "c": ["Foundations", "Portfolio Construction"], "s": ["Trend"], "e": "Advisors seeking to diversify more effectively may want to consider new tools that build on the principles of the 60/40 portfolio - while enhancing the “40” to make it potentially more robust.", "k": "return stacking portable alpha managed futures trend following diversification 60/40 bonds equities inflation interest rate alpha asset allocation commodities", "f": false, "sh": false}, {"t": "Return Stacking: Turning \"Lazy Collateral\" Into Opportunity", "u": "https://www.returnstacked.com/return-stacking-turning-lazy-collateral-into-opportunity/", "d": "2025-04-21", "c": ["Foundations", "Leverage Explained"], "s": ["Trend"], "e": "This article dives into how advisors can unlock the hidden potential of that “lazy” capital by layering in traditional equity or bond exposures - without altering the behavior of the core strategy.", "k": "return stacking managed futures leverage diversification capital efficiency collateral bonds equities alternatives behavioral beta portfolio construction exposure", "f": false, "sh": false}, {"t": "Reclaim Core Exposure with Return Stacking", "u": "https://www.returnstacked.com/reclaim-core-exposure-with-return-stacking/", "d": "2025-04-14", "c": ["Foundations", "Portfolio Construction"], "s": [], "e": "As portfolios evolve over time, return stacking provides an adaptable framework that may help advisors navigate the tradeoffs between maintaining traditional exposures and adding alternative assets.", "k": "return stacking portable alpha diversification 60/40 bonds equities alternatives behavioral alpha overlay exposure", "f": false, "sh": false}, {"t": "Trend Following Through Turmoil: Why the Best Protection Comes After the First Punch", "u": "https://www.returnstacked.com/trend-following-through-turmoil-why-the-best-protection-comes-after-the-first-punch/", "d": "2025-04-09", "c": ["Strategy Spotlights"], "s": ["Trend"], "e": "This article examines the historical performance of managed futures trend following strategies during significant S&P 500 drawdowns.", "k": "managed futures trend following diversification drawdown alpha", "f": false, "sh": false}, {"t": "Don’t Skew It Up: Return Stacking for Smoother Returns", "u": "https://www.returnstacked.com/dont-skew-it-up-return-stacking-for-smoother-returns/", "d": "2025-04-07", "c": ["Portfolio Construction"], "s": ["Trend", "Equities"], "e": "This article explores how implementing a 100% stocks + 100% managed futures approach may help improve portfolio skewness and reduce drawdowns during periods of market stress.", "k": "return stacking portable alpha managed futures diversification correlation drawdown alpha skewness portfolio construction exposure", "f": false, "sh": false}, {"t": "Diversification Without Compromise: Three Ways to Use Return Stacking in a Portfolio", "u": "https://www.returnstacked.com/diversification-without-compromise-three-ways-to-use-return-stacking-in-a-portfolio/", "d": "2025-03-27", "c": ["Foundations", "Practice Management"], "s": ["Trend"], "e": "This article explores three practical ways to implement a return stacking solution: introducing alternatives without sacrificing equities, reintroducing equity beta to an alternative-heavy portfolio, and reducing line-item risk to improve client retention.", "k": "return stacking portable alpha managed futures diversification risk-adjusted equities alternatives line-item risk alpha beta portfolio construction exposure", "f": false, "sh": false}, {"t": "Avoiding LICE: The Right and Wrong Ways to Use Leverage in Long-Term Investing", "u": "https://www.returnstacked.com/avoiding-lice-the-right-and-wrong-ways-to-use-leverage-in-long-term-investing/", "d": "2025-03-13", "c": ["Leverage Explained"], "s": [], "e": "By understanding the nuances of leverage, financial advisors can make more informed decisions and help construct more resilient portfolios.", "k": "leverage diversification capital efficiency liquidity factor", "f": false, "sh": true}, {"t": "Return Stacking: A Fresh Perspective on Long-Only Active U.S. Equity Strategies", "u": "https://www.returnstacked.com/return-stacking-a-fresh-perspective-on-long-only-active-u-s-equity-strategies/", "d": "2025-03-11", "c": ["Portfolio Construction", "Research & Case Studies"], "s": ["Trend", "Equities"], "e": "This article explores the structural constraints of long-only active management and why explicit return-stacking solutions may offer a more flexible and efficient path to enhanced portfolio outcomes.", "k": "return stacking managed futures bonds alpha beta overlay exposure benchmark", "f": false, "sh": false}, {"t": "Behavioral Alpha: How Return Stacking Can Help Investors Avoid Line-Item Risk", "u": "https://www.returnstacked.com/behavioral-alpha-how-return-stacking-can-help-investors-avoid-line-item-risk/", "d": "2025-03-06", "c": ["Practice Management"], "s": ["Trend", "Equities"], "e": "This article explores how return stacking can improve investor discipline, enhance portfolio resilience, and help financial advisors build more behaviorally friendly investment strategies.", "k": "return stacking managed futures drawdown alternatives behavioral line-item risk alpha", "f": false, "sh": false}, {"t": "The Potential Return Advantage of Stacking Managed Futures on Equities", "u": "https://www.returnstacked.com/the-potential-return-advantage-of-stacking-managed-futures-on-equities/", "d": "2025-03-04", "c": ["Strategy Spotlights", "Research & Case Studies"], "s": ["Trend", "Equities"], "e": "Learn how capital-efficient strategies like return stacking could redefine how advisors think about diversification and return enhancement.", "k": "return stacking portable alpha managed futures diversification drawdown risk-adjusted equities alpha exposure benchmark", "f": false, "sh": false}, {"t": "Portable Alpha with Managed Futures: A Diversification Overlay", "u": "https://www.returnstacked.com/portable-alpha-with-managed-futures-a-diversification-overlay/", "d": "2025-02-25", "c": ["Strategy Spotlights", "Leverage Explained"], "s": ["Trend"], "e": "By maintaining full equity exposure while layering a managed futures overlay, investors can potentially improve risk-adjusted returns without sacrificing market participation.", "k": "return stacking portable alpha managed futures trend following diversification drawdown risk-adjusted equities behavioral alpha overlay exposure", "f": false, "sh": false}, {"t": "Margin Management in Return Stacking", "u": "https://www.returnstacked.com/margin-management-in-return-stacking/", "d": "2025-02-10", "c": ["Leverage Explained"], "s": ["Trend"], "e": "Understanding how margin requirements work, the conditions that could lead to a margin call, and the available mitigation strategies is crucial for any investor implementing a return stacking approach.", "k": "return stacking managed futures diversification risk-adjusted collateral margin bonds equities liquidity ETF commodities exposure", "f": false, "sh": false}, {"t": "Rethinking Corporate Bonds: Swapping Credit Risk for Merger Arbitrage", "u": "https://www.returnstacked.com/rethinking-corporate-bonds-swapping-credit-risk-for-merger-arbitrage/", "d": "2025-02-03", "c": ["Strategy Spotlights"], "s": ["Carry", "Merger Arb"], "e": "Replacing credit risk with merger arbitrage could be one way to generate excess returns while improving portfolio resilience across different market environments.", "k": "carry merger arbitrage diversification bonds risk premium exposure", "f": false, "sh": false}, {"t": "The “Rebalance Drag” Myth in Leveraged ETFs: What Advisors Need to Know", "u": "https://www.returnstacked.com/the-rebalance-drag-myth-in-leveraged-etfs-what-advisors-need-to-know/", "d": "2025-01-30", "c": ["Portfolio Construction", "Leverage Explained"], "s": [], "e": "The “rebalancing premium” in multi-asset strategies isn’t about rebalancing transactions but about maintaining diversification and using the interplay between multiple, less-than-perfectly-correlated return streams.", "k": "return stacking portable alpha leverage diversification capital efficiency rebalance behavioral alpha ETF portfolio construction overlay exposure", "f": false, "sh": false}, {"t": "Carry the Yield, Ride the Trend: A Strategic Partnership", "u": "https://www.returnstacked.com/carry-the-yield-ride-the-trend-a-strategic-partnership/", "d": "2025-01-09", "c": ["Strategy Spotlights"], "s": ["Trend", "Carry"], "e": "Carry strategies concentrate on yield differentials embedded in asset prices, harvesting risk premia that compensate investors for bearing certain economic, liquidity, or credit risks.", "k": "return stacking portable alpha managed futures trend following carry diversification correlation liquidity behavioral alpha portfolio construction", "f": false, "sh": false}, {"t": "Boosting Bond Returns: Return Stacking for Enhancing Liquidity Buckets", "u": "https://www.returnstacked.com/boosting-bond-returns-return-stacking-for-enhancing-liquidity-buckets/", "d": "2024-12-19", "c": ["Strategy Spotlights", "Mechanics & Operations"], "s": ["Trend", "Bonds"], "e": "Learn how to optimize your retirement portfolios by enhancing intermediate-term liquidity buckets through return stacking.", "k": "return stacking portable alpha trend following diversification correlation bonds equities inflation retirement liquidity alpha", "f": false, "sh": false}, {"t": "Delta's Pension Miracle: A Portable Alpha Case Study", "u": "https://www.returnstacked.com/deltas-pension-miracle-a-portable-alpha-case-study/", "d": "2024-12-16", "c": ["Research & Case Studies"], "s": [], "e": "This case study demonstrates how Delta Air Lines transformed its underfunded pension into a fully funded asset using Portable Alpha.", "k": "return stacking portable alpha liquidity alpha", "f": false, "sh": false}, {"t": "Diversification 2.0 Understanding Return Stacking and the Evolution of Portfolio Construction", "u": "https://www.returnstacked.com/diversification-2-0-understanding-return-stacking-and-the-evolution-of-portfolio-construction/", "d": "2024-12-03", "c": ["Foundations", "Portfolio Construction"], "s": ["Bonds"], "e": "Explore how innovative strategies like Return Stacked® Portfolios, once exclusive to institutional investors, are now accessible to everyone.", "k": "return stacking portable alpha diversification capital efficiency 60/40 yield curve alpha portfolio construction", "f": false, "sh": false}, {"t": "Stacking in a Higher Interest Rate Environment", "u": "https://www.returnstacked.com/stacking-in-high-interest-rate-environments/", "d": "2024-11-28", "c": ["Foundations"], "s": ["Bonds"], "e": "This article explores the relevance of leverage in investment strategies amid higher interest rates.", "k": "return stacking portable alpha leverage capital efficiency interest rate alpha risk premium", "f": false, "sh": false}, {"t": "The Return Stacking How-To Guide", "u": "https://www.returnstacked.com/return-stacking-how-to-guide/", "d": "2024-11-26", "c": ["Foundations", "Portfolio Construction"], "s": ["Bonds"], "e": "We provide a how-to guide on some basic implementations of return stacking such as sourcing cash and stacking alternatives.", "k": "return stacking portable alpha capital efficiency 60/40 bonds equities alternatives cash drag alpha portfolio construction exposure", "f": false, "sh": false}, {"t": "The Risks of Leverage", "u": "https://www.returnstacked.com/the-risks-of-leverage/", "d": "2024-11-21", "c": ["Leverage Explained"], "s": [], "e": "We explore the two primary risks of leverage – performance risk and path dependency risk – and ways for investors to mitigate them.", "k": "portable alpha leverage diversification liquidity alpha", "f": false, "sh": false}, {"t": "Bonds Plus Alternatives and Chill?", "u": "https://www.returnstacked.com/bonds-plus-alternatives-and-chill/", "d": "2024-11-19", "c": ["Portfolio Construction"], "s": ["Trend", "Bonds"], "e": "Can a return stacked \"bonds plus\" approach serve as a potential equity replacement with nominal yields at multi-decade highs?", "k": "portable alpha managed futures correlation bonds alternatives interest rate alpha", "f": false, "sh": false}, {"t": "Tracking Error: Return Stacking versus Replacement", "u": "https://www.returnstacked.com/tracking-error-return-stacking-versus-replacement/", "d": "2024-11-14", "c": ["Portfolio Construction", "Mechanics & Operations"], "s": [], "e": "Adding alternatives to a portfolio may improve diversification, but it definitely improves tracking error. Can return stacking help?", "k": "return stacking portable alpha volatility diversification tracking error alternatives alpha portfolio construction asset allocation benchmark", "f": false, "sh": false}, {"t": "Stacking the Odds in Retirement", "u": "https://www.returnstacked.com/stacking-the-odds-in-retirement/", "d": "2024-11-12", "c": ["Portfolio Construction"], "s": ["Trend"], "e": "We explore the impact of strategic stock/bond portfolio + managed futures stack on retirement failure rates and safe withdrawal rates.", "k": "return stacking portable alpha managed futures diversification retirement alpha asset allocation", "f": false, "sh": false}, {"t": "Return Stacking and the Cost of Leverage", "u": "https://www.returnstacked.com/return-stacking-and-the-cost-of-leverage/", "d": "2024-11-07", "c": ["Leverage Explained"], "s": [], "e": "How much does it cost to return stack? In this piece we explore the implied cost of leverage associated with futures contracts.", "k": "return stacking portable alpha leverage margin interest rate alpha beta exposure", "f": false, "sh": false}, {"t": "Return Stacking in an Inverted Yield Curve Environment", "u": "https://www.returnstacked.com/return-stacking-in-an-inverted-yield-curve-environment/", "d": "2024-11-05", "c": ["Portfolio Construction"], "s": ["Bonds"], "e": "When the yield curve is inverted, does it still make sense to return stack bonds? Explore four reasons why we believe the answer is \"yes.\"", "k": "return stacking portable alpha leverage diversification capital efficiency collateral 60/40 bonds alternatives yield curve alpha asset allocation notional exposure", "f": false, "sh": false}, {"t": "Portable Alpha: Enhancing Portfolio Returns Through Strategy Separation", "u": "https://www.returnstacked.com/portable-alpha/", "d": "2024-09-24", "c": ["Foundations", "Portfolio Construction", "Leverage Explained"], "s": [], "e": "Explore the concept of portable alpha and discover its origins, key features, and applications in modern portfolio construction.", "k": "return stacking portable alpha capital efficiency 60/40 interest rate alpha beta portfolio construction asset allocation exposure", "f": false, "sh": false}, {"t": "Return Stacking and Taxes", "u": "https://www.returnstacked.com/return-stacking-and-taxes/", "d": "2024-06-25", "c": ["Mechanics & Operations"], "s": ["Trend"], "e": "Is return stacking tax efficient? In this article, we explore how investors can think about the tax implications of stacked strategies.", "k": "return stacking managed futures trend following leverage capital efficiency margin equities tax exposure", "f": false, "sh": false}, {"t": "The Return Stacking Visualizer", "u": "https://www.returnstacked.com/the-return-stacking-visualizer/", "d": "2024-05-30", "c": ["Foundations"], "s": ["Trend"], "e": "In this post, we provide a detailed how-to guide on using the Return Stacking Visualizer tool.", "k": "return stacking capital efficiency 60/40 equities", "f": false, "sh": false}, {"t": "Return Stacking: A Different Way to Outperform our Benchmarks", "u": "https://www.returnstacked.com/a-different-way-to-outperform-benchmarks/", "d": "2024-03-04", "c": ["Portfolio Construction"], "s": [], "e": "Return stacking provides investors with a potential way to outperform benchmarks. In this article, we examine a few case studies.", "k": "return stacking diversification capital efficiency alternatives alpha benchmark", "f": false, "sh": false}, {"t": "Excess Returns through a Structural Edge", "u": "https://www.returnstacked.com/excess-returns-through-a-structural-edge/", "d": "2024-02-20", "c": ["Research & Case Studies"], "s": ["Trend", "Bitcoin", "Merger Arb"], "e": "We explore how investors can use return stacking to pursue excess returns rather than traditional stock picking or tactical asset allocation.", "k": "return stacking volatility capital efficiency 60/40 bonds alternatives alpha beta asset allocation exposure", "f": false, "sh": false}, {"t": "The Glide Path Re-Imagined (Part 2)", "u": "https://www.returnstacked.com/the-glide-path-re-imagined-part-2/", "d": "2024-02-12", "c": ["Portfolio Construction"], "s": [], "e": "Discover how glidepaths adapted to individuals combined with diversification and return stacking benefit result in retirement improvement.", "k": "return stacking leverage diversification inflation retirement glide path tax asset allocation factor", "f": false, "sh": false}, {"t": "Capital Market Assumptions when Return Stacking", "u": "https://www.returnstacked.com/capital-market-assumptions-when-return-stacking/", "d": "2024-02-12", "c": ["Portfolio Construction"], "s": ["Equities"], "e": "Given existing capital market assumptions (\"CMAs\"), how can we develop CMAs for return stacked portfolios?", "k": "return stacking leverage correlation bonds portfolio construction exposure", "f": false, "sh": false}, {"t": "The Glide Path Re-Imagined (Part 1)", "u": "https://www.returnstacked.com/the-glide-path-re-imagined/", "d": "2024-01-29", "c": ["Portfolio Construction"], "s": [], "e": "Discover how glidepaths dynamically adapted to individual circumstances, combined with return stacking, may optimize retirement outcomes.", "k": "return stacking leverage drawdown bonds equities inflation retirement glide path asset allocation factor", "f": false, "sh": false}, {"t": "More Than Enough is Too Much", "u": "https://www.returnstacked.com/more-than-enough-is-too-much/", "d": "2023-12-20", "c": ["Research & Case Studies"], "s": [], "e": "Explore how the combination of return stacking and tactical asset allocation can be used to to dynamically adjust portfolio allocations.", "k": "return stacking leverage volatility diversification bonds equities asset allocation exposure benchmark", "f": false, "sh": false}, {"t": "Can Randomly Allocated Portfolios Generate Excess Returns?", "u": "https://www.returnstacked.com/can-randomly-allocated-portfolios-generate-excess-returns/", "d": "2023-12-04", "c": ["Research & Case Studies"], "s": [], "e": "Is diversification and leverage powerful enough for even a completely randomly allocated portfolio to generate excess returns?", "k": "leverage volatility diversification 60/40 bonds equities asset allocation benchmark", "f": false, "sh": false}, {"t": "TIPS versus Commodities: Just Return Stacking?", "u": "https://www.returnstacked.com/tips-versus-commodities-just-return-stacking/", "d": "2023-11-21", "c": ["Strategy Spotlights"], "s": ["Trend"], "e": "Are TIPS really just Treasuries plus Commodities? If so, which makes a better hedge against inflation in our portfolio?", "k": "return stacking managed futures diversification inflation yield curve retirement ETF commodities TIPS exposure", "f": false, "sh": false}, {"t": "Financial Advisors: Immunize Business Risk from Bear Markets & Inflation Regimes", "u": "https://www.returnstacked.com/financial-advisors-immunize-business-risk-from-bear-markets-inflation-regimes/", "d": "2023-11-07", "c": ["Portfolio Construction", "Practice Management"], "s": [], "e": "Why the business risk of your financial advisory practice and the diversification of client portfolios go hand in hand.", "k": "return stacking volatility diversification bonds inflation interest rate business risk portfolio construction asset allocation", "f": false, "sh": false}, {"t": "Cash Drag, Liquidity Needs, and Return Stacking", "u": "https://www.returnstacked.com/cash-drag-liquidity-needs-and-return-stacking/", "d": "2023-10-11", "c": ["Mechanics & Operations", "Practice Management"], "s": [], "e": "Cash is a valuable tool, but holding too much in a portfolio can create cash drag. Can return stacking help solve this problem?", "k": "return stacking capital efficiency retirement liquidity cash drag practice management", "f": false, "sh": false}, {"t": "A Mystery Equity Factor", "u": "https://www.returnstacked.com/a-mystery-equity-factor/", "d": "2023-10-03", "c": ["Research & Case Studies"], "s": ["Trend", "Equities"], "e": "We introduce an equity factor that has historically provided meaningful diversification and positive returns for investors.", "k": "volatility diversification correlation bonds factor momentum", "f": false, "sh": false}, {"t": "If You're a Successful Financial Advisor You Got LUCKY", "u": "https://www.returnstacked.com/if-youre-a-successful-financial-advisor-you-got-lucky/", "d": "2023-09-27", "c": ["Practice Management"], "s": [], "e": "The last decade was kind to traditional stock/bond portfolios. Did you over-optimize your client portfolios to the environment?", "k": "return stacking diversification tracking error business risk practice management", "f": false, "sh": false}, {"t": "The Key Business Risk Metric I Use Financial Advisors Don't", "u": "https://www.returnstacked.com/the-key-business-risk-metric-i-use-financial-advisors-dont/", "d": "2023-09-22", "c": ["Practice Management"], "s": [], "e": "In this video, I discuss a key metric that is crucial for managing the risk of an asset management firm and is highly relevant for financial advisors as well. I introduce the concept of the revenue weighted average portfolio and explain how it can help assess the volatility of firm revenue and identify key risk factors.", "k": "return stacking portable alpha volatility diversification business risk practice management alpha factor overlay", "f": false, "sh": false}, {"t": "The Return Stacking Checklist", "u": "https://www.returnstacked.com/the-return-stacking-checklist/", "d": "2023-09-05", "c": ["Foundations"], "s": ["Trend"], "e": "The 9 step checklist we work through before implementing return stacking™ concepts in any client mandates or portfolios.", "k": "return stacking diversification tax liquidity exposure", "f": false, "sh": false}, {"t": "Return Stacking and Volatility Drag", "u": "https://www.returnstacked.com/return-stacking-and-volatility-drag/", "d": "2023-07-13", "c": ["Leverage Explained"], "s": [], "e": "Learn what volatility drag is, why levered ETFs typically suffer from it, and how diversification changes the equation.", "k": "return stacking leverage volatility diversification ETF", "f": false, "sh": false}, {"t": "Volatility is Bad for Your Wealth", "u": "https://www.returnstacked.com/volatility-is-bad-for-your-wealth/", "d": "2023-07-11", "c": ["Leverage Explained"], "s": [], "e": "Learn why volatility is a critically important ingredient in determining the long-run growth rate of an investor's portfolio.", "k": "volatility distributions", "f": false, "sh": false}, {"t": "Return Stacking: Strategy for a Low Return Environment", "u": "https://www.returnstacked.com/return-stacking%ef%b8%8f-strategy-for-a-low-return-environment/", "d": "2023-05-15", "c": ["Foundations"], "s": ["Trend"], "e": "In this episode, we explore the concept of portfolio diversification by way of capital-efficient investing, through a strategy coined ‘Return Stacking™’ and how historically, institutions have traditionally had more access to sophisticated products than retail investors and financial advisors.", "k": "return stacking managed futures leverage diversification tracking error capital efficiency 60/40 inflation ETF factor", "f": false, "sh": false}, {"t": "Building a 100% Stock Portfolio Using Return Stacking", "u": "https://www.returnstacked.com/building-a-100-stock-portfolio-using-return-stacking/", "d": "2023-05-01", "c": ["Foundations", "Portfolio Construction"], "s": ["Equities"], "e": "In this episode of Millennial Investing, Rebecca Hotsko and Corey Hoffstein discuss: the core ideas of return stacking™; the different ways the strategy can be implemented; how to decide how much leverage to take; different types of funds that are available to investors to implement return stacking; common mistakes investors make; and the factors that will impact the effectiveness of the approach.", "k": "return stacking leverage ETF factor", "f": false, "sh": false}];
+
+  // ── CONSTANTS ──
+  var CATEGORIES = [
+    { key: 'Foundations', desc: 'What is return stacking and why it matters' },
+    { key: 'Strategy Spotlights', desc: 'Deep dives into individual strategies' },
+    { key: 'Portfolio Construction', desc: 'How to build stacked portfolios' },
+    { key: 'Leverage Explained', desc: 'Understanding leverage, margin, and volatility' },
+    { key: 'Mechanics & Operations', desc: 'Taxes, distributions, tracking error' },
+    { key: 'Practice Management', desc: 'How return stacking helps your business' },
+    { key: 'Research & Case Studies', desc: 'Evidence and real-world examples' }
+  ];
+
+  var STRATEGIES = [
+    { key: 'Trend', cls: 's-trend', label: 'Trend' },
+    { key: 'Carry', cls: 's-carry', label: 'Carry' },
+    { key: 'Gold', cls: 's-gold', label: 'Gold' },
+    { key: 'Bitcoin', cls: 's-bitcoin', label: 'Bitcoin' },
+    { key: 'Merger Arb', cls: 's-mergarb', label: 'Merger Arb' },
+    { key: 'Bonds', cls: 's-bonds', label: 'Bonds' },
+    { key: 'Equities', cls: 's-equities', label: 'Equities' }
+  ];
+
+  var stratMap = {};
+  STRATEGIES.forEach(function(s) { stratMap[s.key] = s; });
+
+  var activeCat = 'all';
+  var activeStrat = 'all';
+  var searchQuery = '';
+
+  // ── HELPERS ──
+  function matchesFilter(post) {
+    if (activeCat !== 'all' && post.c.indexOf(activeCat) === -1) return false;
+    if (activeStrat !== 'all' && post.s.indexOf(activeStrat) === -1) return false;
+    if (searchQuery) {
+      var q = searchQuery.toLowerCase();
+      var haystack = (post.t + ' ' + post.e + ' ' + post.k + ' ' + post.c.join(' ') + ' ' + post.s.join(' ')).toLowerCase();
+      return haystack.indexOf(q) !== -1;
+    }
+    return true;
+  }
+
+  function stratTagsHtml(strategies) {
+    return strategies.map(function(s) {
+      var info = stratMap[s];
+      return info ? '<span class="strat-tag ' + info.cls + '">' + info.label + '</span>' : '';
+    }).join('');
+  }
+
+  function catBadgesHtml(categories) {
+    return categories.map(function(c) {
+      return '<span class="cat-badge">' + c + '</span>';
+    }).join('');
+  }
+
+  function postRow(post, badgeType) {
+    // badgeType: 'strategy' shows strategy tags, 'category' shows category badges
+    var tagsRow = '';
+    if (badgeType === 'category') {
+      tagsRow = catBadgesHtml(post.c);
+    } else {
+      tagsRow = stratTagsHtml(post.s);
+    }
+    var tagsDiv = tagsRow ? '<div class="doc-tags-row">' + tagsRow + '</div>' : '';
+    return '<li data-url="' + post.u + '">' +
+      '<a href="' + post.u + '" target="_blank" rel="noopener">' +
+        '<div class="doc-title-row">' +
+          '<span class="doc-bullet"></span>' +
+          '<span class="doc-label">' + post.t + '</span>' +
+        '</div>' +
+        tagsDiv +
+      '</a></li>';
+  }
+
+  function featuredCard(post, isLarge) {
+    var cls = isLarge ? 'featured-card large' : 'featured-card';
+    var stripeStyle = isLarge ? '' : ' style="background: linear-gradient(90deg, #3f73ab, #7da5ce)"';
+    return '<a class="' + cls + '" href="' + post.u + '" target="_blank" rel="noopener">' +
+      '<div class="featured-card-stripe"' + stripeStyle + '></div>' +
+      '<div class="featured-card-body">' +
+        '<div class="featured-card-type">' + post.c[0] + '</div>' +
+        '<div class="featured-card-title">' + post.t + '</div>' +
+        '<div class="featured-card-desc">' + post.e + '</div>' +
+        '<div class="featured-card-cta">Read article &rarr;</div>' +
+      '</div></a>';
+  }
+
+  // ── RENDER ──
+  function render() {
+    var filtered = POSTS.filter(matchesFilter);
+
+    // Update count
+    var countEl = document.getElementById('rsBlogCount');
+    if (searchQuery || activeStrat !== 'all') {
+      countEl.textContent = filtered.length + ' of ' + POSTS.length + ' articles';
+    } else {
+      countEl.textContent = POSTS.length + ' articles';
+    }
+
+    // ── Latest Posts ──
+    var latestEl = document.getElementById('rsBlogLatest');
+    var latest = filtered.filter(function(p) { return p.f; }).slice(0, 3);
+    if (latest.length > 0 && !searchQuery) {
+      var html = '<div class="featured-label">Latest Posts</div><div class="featured-grid">';
+      latest.forEach(function(p, i) { html += featuredCard(p, i === 0); });
+      html += '</div>';
+      latestEl.innerHTML = html;
+      latestEl.style.display = '';
+    } else {
+      latestEl.style.display = 'none';
+    }
+
+    // ── Start Here ──
+    var startEl = document.getElementById('rsBlogStartHere');
+    var startHere = filtered.filter(function(p) { return p.sh; }).slice(0, 3);
+    if (startHere.length > 0 && !searchQuery) {
+      var html2 = '<div class="featured-label">Start Here</div><div class="featured-grid">';
+      startHere.forEach(function(p, i) { html2 += featuredCard(p, i === 0); });
+      html2 += '</div>';
+      startEl.innerHTML = html2;
+      startEl.style.display = '';
+    } else {
+      startEl.style.display = 'none';
+    }
+
+    // ── By Topic tiles ──
+    var topicGrid = document.getElementById('rsBlogTopicGrid');
+    var topicHtml = '';
+    CATEGORIES.forEach(function(cat) {
+      var catPosts = filtered.filter(function(p) { return p.c.indexOf(cat.key) !== -1; });
+      if (catPosts.length === 0) return;
+      topicHtml += '<div class="cat-tile">' +
+        '<div class="cat-tile-header"><div>' +
+          '<div class="cat-tile-name">' + cat.key + '</div>' +
+          '<div class="cat-tile-desc">' + cat.desc + '</div>' +
+        '</div>' +
+        '<span class="cat-tile-count">' + catPosts.length + '</span></div>' +
+        '<ul class="doc-list">';
+      catPosts.forEach(function(p) { topicHtml += postRow(p, 'strategy'); });
+      topicHtml += '</ul></div>';
+    });
+    if (!topicHtml) {
+      topicHtml = '<div class="no-results" style="grid-column:1/-1"><div class="no-results-title">No articles found</div>Try adjusting your search or filters.</div>';
+    }
+    topicGrid.innerHTML = topicHtml;
+
+    // ── By Strategy tiles ──
+    var stratGrid = document.getElementById('rsBlogStratGrid');
+    var stratHtml = '';
+
+    // Strategy tiles
+    STRATEGIES.forEach(function(strat) {
+      var sPosts = filtered.filter(function(p) { return p.s.indexOf(strat.key) !== -1; });
+      if (sPosts.length === 0) return;
+      stratHtml += '<div class="cat-tile">' +
+        '<div class="cat-tile-header"><div>' +
+          '<div class="cat-tile-name">' + strat.label + '</div>' +
+        '</div>' +
+        '<span class="cat-tile-count">' + sPosts.length + '</span></div>' +
+        '<ul class="doc-list">';
+      sPosts.forEach(function(p) { stratHtml += postRow(p, 'category'); });
+      stratHtml += '</ul></div>';
+    });
+
+    // General (no strategy tag) tile
+    var generalPosts = filtered.filter(function(p) { return p.s.length === 0; });
+    if (generalPosts.length > 0 && activeStrat === 'all') {
+      stratHtml += '<div class="cat-tile">' +
+        '<div class="cat-tile-header"><div>' +
+          '<div class="cat-tile-name">General</div>' +
+          '<div class="cat-tile-desc">Core return stacking concepts</div>' +
+        '</div>' +
+        '<span class="cat-tile-count">' + generalPosts.length + '</span></div>' +
+        '<ul class="doc-list">';
+      generalPosts.forEach(function(p) { stratHtml += postRow(p, 'category'); });
+      stratHtml += '</ul></div>';
+    }
+
+    if (!stratHtml) {
+      stratHtml = '<div class="no-results" style="grid-column:1/-1"><div class="no-results-title">No articles found</div>Try adjusting your search or filters.</div>';
+    }
+    stratGrid.innerHTML = stratHtml;
+  }
+
+  // ── EVENT HANDLERS ──
+  window.rsBlogSwitchTab = function(view) {
+    var container = document.getElementById('rs-blog');
+    container.querySelectorAll('.tab').forEach(function(tab, i) {
+      tab.classList.toggle('active', (view === 'topic' && i === 0) || (view === 'strategy' && i === 1));
+    });
+    document.getElementById('view-topic').classList.toggle('active', view === 'topic');
+    document.getElementById('view-strategy').classList.toggle('active', view === 'strategy');
+  };
+
+  window.rsBlogCatFilter = function(chip) {
+    var cat = chip.getAttribute('data-cat');
+    activeCat = cat;
+    document.querySelectorAll('#rs-blog .filter-chip[data-cat]').forEach(function(c) {
+      c.classList.toggle('active', c.getAttribute('data-cat') === cat);
+    });
+    render();
+  };
+
+  window.rsBlogStratFilter = function(chip) {
+    var strat = chip.getAttribute('data-strat');
+    activeStrat = strat;
+    document.querySelectorAll('#rs-blog .filter-chip[data-strat]').forEach(function(c) {
+      c.classList.toggle('active', c.getAttribute('data-strat') === strat);
+    });
+    render();
+  };
+
+  window.rsBlogFilter = function() {
+    searchQuery = document.getElementById('rsBlogSearch').value.trim();
+    render();
+  };
+
+  // ── INIT ──
+  render();
+})();
+</script>
+
+</body>
+</html>

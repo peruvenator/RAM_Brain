@@ -1,0 +1,3101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>And, Not Or: How RSSB Creates Space in Any Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3"></script>
+
+  <!-- ══════════════════════════════════════════════════════════
+       Article prose styles — #rssb-post namespace
+       ══════════════════════════════════════════════════════════ -->
+  <style>
+    #rssb-post *, #rssb-post *::before, #rssb-post *::after {
+      box-sizing: border-box !important;
+    }
+
+    #rssb-post {
+      font-family: 'DM Sans', sans-serif !important;
+      color: #2A3F5B !important;
+      background: #fff !important;
+    }
+
+    #rssb-post .rsp-prose {
+      max-width: 740px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      padding: 0 20px !important;
+    }
+
+    #rssb-post .rsp-prose h1 {
+      font-size: 2.0rem !important;
+      font-weight: 700 !important;
+      color: #2A3F5B !important;
+      line-height: 1.25 !important;
+      margin-bottom: 12px !important;
+      text-transform: none !important;
+      letter-spacing: normal !important;
+    }
+
+    #rssb-post .rsp-prose .rsp-tagline {
+      font-size: 1.05rem !important;
+      color: #555 !important;
+      font-style: italic !important;
+      margin-bottom: 32px !important;
+      line-height: 1.6 !important;
+    }
+
+    #rssb-post .rsp-prose .rsp-overview {
+      font-size: 0.9375rem !important;
+      color: #555 !important;
+      font-style: italic !important;
+      margin-bottom: 32px !important;
+      line-height: 1.6 !important;
+    }
+
+    #rssb-post .rsp-prose h2 {
+      font-size: 1.35rem !important;
+      font-weight: 700 !important;
+      color: #2A3F5B !important;
+      margin-top: 48px !important;
+      margin-bottom: 16px !important;
+      text-transform: none !important;
+      letter-spacing: normal !important;
+    }
+
+    #rssb-post .rsp-prose p {
+      font-size: 1rem !important;
+      line-height: 1.8 !important;
+      color: #333 !important;
+      margin-bottom: 20px !important;
+    }
+
+    #rssb-post .rsp-prose ul {
+      margin-bottom: 20px !important;
+      padding-left: 20px !important;
+    }
+
+    #rssb-post .rsp-prose li {
+      font-size: 1rem !important;
+      line-height: 1.8 !important;
+      color: #333 !important;
+      margin-bottom: 12px !important;
+    }
+
+    #rssb-post .rsp-prose strong {
+      font-weight: 700 !important;
+      color: #2A3F5B !important;
+    }
+
+    #rssb-post .rsp-prose hr {
+      border: none !important;
+      border-top: 1px solid #e8ecf4 !important;
+      margin: 40px 0 !important;
+    }
+
+    #rssb-post .rsp-prose .rsp-disc-section h2 {
+      font-size: 1.1rem !important;
+      margin-top: 32px !important;
+    }
+
+    #rssb-post .rsp-prose .rsp-disc-section p,
+    #rssb-post .rsp-prose .rsp-disc-section li {
+      font-size: 0.8rem !important;
+      color: #666 !important;
+      line-height: 1.65 !important;
+    }
+  </style>
+
+  <!-- ══════════════════════════════════════════════════════════
+       Widget: The Funding Problem — styles
+       ══════════════════════════════════════════════════════════ -->
+  <style>
+    #rssb-fp2 *, #rssb-fp2 *::before, #rssb-fp2 *::after {
+      box-sizing: border-box !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    #rssb-fp2 {
+      font-family: 'DM Sans', sans-serif !important;
+      background: #f5f6fa !important;
+      padding: 24px !important;
+      color: #2A3F5B !important;
+    }
+
+    #rssb-fp2 .fp2-card {
+      background: #fff !important;
+      border-radius: 12px !important;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08) !important;
+      border-top: 4px solid #2A3F5B !important;
+      padding: 40px 44px !important;
+      max-width: 780px !important;
+      margin: 0 auto !important;
+    }
+
+    #rssb-fp2 .fp2-title {
+      font-size: 20px !important;
+      font-weight: 700 !important;
+      color: #2A3F5B !important;
+      margin-bottom: 8px !important;
+      text-transform: none !important;
+      letter-spacing: normal !important;
+      line-height: 1.3 !important;
+    }
+
+    #rssb-fp2 .fp2-desc {
+      font-size: 14px !important;
+      color: #555 !important;
+      line-height: 1.7 !important;
+      margin-bottom: 28px !important;
+    }
+
+    /* ── Controls ───────────────────────────────────────────────────── */
+
+    #rssb-fp2 .fp2-controls {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 14px !important;
+      margin-bottom: 28px !important;
+    }
+
+    #rssb-fp2 .fp2-row {
+      display: flex !important;
+      align-items: center !important;
+      gap: 16px !important;
+    }
+
+    #rssb-fp2 .fp2-row-label {
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      color: #555 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.5px !important;
+      min-width: 100px !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* Benchmark buttons */
+    #rssb-fp2 .fp2-bench-group {
+      display: flex !important;
+      gap: 8px !important;
+      flex-wrap: wrap !important;
+    }
+
+    #rssb-fp2 .fp2-bench-btn {
+      font-family: 'DM Sans', sans-serif !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      padding: 6px 16px !important;
+      border-radius: 6px !important;
+      border: 2px solid #2A3F5B !important;
+      background: #fff !important;
+      color: #2A3F5B !important;
+      cursor: pointer !important;
+      line-height: 1.4 !important;
+      text-transform: none !important;
+      letter-spacing: normal !important;
+      transition: background 0.12s, color 0.12s !important;
+    }
+
+    #rssb-fp2 .fp2-bench-btn:hover {
+      background: #e8ecf4 !important;
+    }
+
+    #rssb-fp2 .fp2-bench-btn.active {
+      background: #2A3F5B !important;
+      color: #fff !important;
+    }
+
+    /* Slider row */
+    #rssb-fp2 .fp2-slider-wrap {
+      flex: 1 !important;
+      background: #f8f9fc !important;
+      border-radius: 10px !important;
+      padding: 14px 20px !important;
+    }
+
+    #rssb-fp2 .fp2-slider-header {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      margin-bottom: 10px !important;
+    }
+
+    #rssb-fp2 .fp2-slider-label {
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      color: #555 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.5px !important;
+    }
+
+    #rssb-fp2 .fp2-slider-badge {
+      background: #2A3F5B !important;
+      color: #fff !important;
+      font-size: 14px !important;
+      font-weight: 700 !important;
+      padding: 3px 12px !important;
+      border-radius: 8px !important;
+    }
+
+    #rssb-fp2 input[type=range] {
+      -webkit-appearance: none !important;
+      appearance: none !important;
+      width: 100% !important;
+      height: 8px !important;
+      border-radius: 4px !important;
+      background: #dde2eb !important;
+      outline: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      cursor: pointer !important;
+    }
+
+    #rssb-fp2 input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none !important;
+      width: 24px !important;
+      height: 24px !important;
+      border-radius: 50% !important;
+      background: #60CCA8 !important;
+      border: 3px solid #fff !important;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2) !important;
+      cursor: pointer !important;
+      transition: transform 0.12s !important;
+    }
+
+    #rssb-fp2 input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15) !important;
+    }
+
+    #rssb-fp2 input[type=range]::-moz-range-thumb {
+      width: 24px !important;
+      height: 24px !important;
+      border-radius: 50% !important;
+      background: #60CCA8 !important;
+      border: 3px solid #fff !important;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2) !important;
+      cursor: pointer !important;
+    }
+
+    #rssb-fp2 input[type=range]::-moz-range-track {
+      height: 8px !important;
+      border-radius: 4px !important;
+      background: #dde2eb !important;
+    }
+
+    #rssb-fp2 .fp2-slider-range {
+      display: flex !important;
+      justify-content: space-between !important;
+      font-size: 11px !important;
+      color: #999 !important;
+      margin-top: 6px !important;
+    }
+
+    /* ── Chart ──────────────────────────────────────────────────────── */
+
+    #rssb-fp2 .fp2-chart-wrap {
+      position: relative !important;
+      height: 300px !important;
+      margin-bottom: 16px !important;
+    }
+
+    /* ── Legend ─────────────────────────────────────────────────────── */
+
+    #rssb-fp2 .fp2-legend {
+      display: flex !important;
+      gap: 6px 20px !important;
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+      margin-bottom: 24px !important;
+    }
+
+    #rssb-fp2 .fp2-leg-item {
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      font-size: 12px !important;
+      font-weight: 500 !important;
+      color: #555 !important;
+    }
+
+    #rssb-fp2 .fp2-swatch {
+      width: 12px !important;
+      height: 12px !important;
+      border-radius: 2px !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* ── Transaction summary ─────────────────────────────────────────── */
+
+    #rssb-fp2 .fp2-tx {
+      background: #f8f9fc !important;
+      border-radius: 10px !important;
+      padding: 20px 24px !important;
+      margin-bottom: 24px !important;
+    }
+
+    #rssb-fp2 .fp2-tx-title {
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      color: #555 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.5px !important;
+      margin-bottom: 14px !important;
+    }
+
+    #rssb-fp2 .fp2-tx-grid {
+      display: flex !important;
+      align-items: flex-start !important;
+      gap: 0 !important;
+    }
+
+    #rssb-fp2 .fp2-tx-col {
+      flex: 1 !important;
+      min-width: 0 !important;
+    }
+
+    #rssb-fp2 .fp2-tx-col-label {
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.6px !important;
+      margin-bottom: 8px !important;
+    }
+
+    #rssb-fp2 .fp2-tx-col-label.sold {
+      color: #C0392B !important;
+    }
+
+    #rssb-fp2 .fp2-tx-col-label.bought {
+      color: #0A8F6A !important;
+    }
+
+    #rssb-fp2 .fp2-tx-item {
+      font-size: 15px !important;
+      font-weight: 700 !important;
+      line-height: 1.6 !important;
+    }
+
+    #rssb-fp2 .fp2-tx-item.sell {
+      color: #C0392B !important;
+    }
+
+    #rssb-fp2 .fp2-tx-item.buy {
+      color: #0A8F6A !important;
+    }
+
+    #rssb-fp2 .fp2-tx-divider {
+      width: 1px !important;
+      background: #dde2eb !important;
+      align-self: stretch !important;
+      margin: 0 24px !important;
+      flex-shrink: 0 !important;
+    }
+
+    #rssb-fp2 .fp2-tx-none {
+      font-size: 13px !important;
+      color: #bbb !important;
+      font-style: italic !important;
+    }
+
+    /* ── Disclosure ──────────────────────────────────────────────────── */
+
+    #rssb-fp2 .fp2-disc {
+      border-top: 1px solid #f0f0f0 !important;
+      padding-top: 16px !important;
+    }
+
+    #rssb-fp2 .fp2-disc-btn {
+      font-family: 'DM Sans', sans-serif !important;
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.5px !important;
+      color: #888 !important;
+      background: none !important;
+      border: none !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+    }
+
+    #rssb-fp2 .fp2-disc-arrow {
+      display: inline-block !important;
+      font-size: 10px !important;
+      transition: transform 0.2s !important;
+    }
+
+    #rssb-fp2 .fp2-disc.open .fp2-disc-arrow {
+      transform: rotate(90deg) !important;
+    }
+
+    #rssb-fp2 .fp2-disc-content {
+      display: none !important;
+      font-size: 11px !important;
+      color: #777 !important;
+      line-height: 1.6 !important;
+      margin-top: 12px !important;
+    }
+
+    #rssb-fp2 .fp2-disc.open .fp2-disc-content {
+      display: block !important;
+    }
+
+    /* ── Hurdle rate section ─────────────────────────────────── */
+
+    #rssb-fp2 .fp2-hurdle {
+      border-top: 1px solid #f0f0f0 !important;
+      padding-top: 20px !important;
+      margin-bottom: 24px !important;
+    }
+
+    #rssb-fp2 .fp2-hurdle-header {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      margin-bottom: 4px !important;
+    }
+
+    #rssb-fp2 .fp2-hurdle-title {
+      font-size: 13px !important;
+      font-weight: 700 !important;
+      color: #2A3F5B !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.5px !important;
+    }
+
+    #rssb-fp2 .fp2-hurdle-cagr {
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      color: #2A3F5B !important;
+      background: #eef2f7 !important;
+      padding: 3px 10px !important;
+      border-radius: 6px !important;
+    }
+
+    #rssb-fp2 .fp2-hurdle-sub {
+      font-size: 12px !important;
+      color: #888 !important;
+      line-height: 1.55 !important;
+      margin-bottom: 14px !important;
+    }
+
+    #rssb-fp2 .fp2-hurdle-chart-wrap {
+      position: relative !important;
+      height: 200px !important;
+    }
+
+    @media (max-width: 600px) {
+      #rssb-fp2 .fp2-card {
+        padding: 28px 20px !important;
+      }
+      #rssb-fp2 .fp2-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+      }
+      #rssb-fp2 .fp2-slider-wrap {
+        width: 100% !important;
+      }
+      #rssb-fp2 .fp2-chart-wrap {
+        height: 260px !important;
+      }
+      #rssb-fp2 .fp2-tx-divider {
+        margin: 0 16px !important;
+      }
+    }
+  </style>
+
+  <!-- ══════════════════════════════════════════════════════════
+       Figure: RSSB Dual Exposure Mechanism — styles
+       ══════════════════════════════════════════════════════════ -->
+  <style>
+    #rssb-fig-mechanism *, #rssb-fig-mechanism *::before, #rssb-fig-mechanism *::after {
+      box-sizing: border-box !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    #rssb-fig-mechanism {
+      font-family: 'DM Sans', sans-serif !important;
+      background: #fff !important;
+      max-width: 680px !important;
+      margin: 32px auto !important;
+      padding: 0 !important;
+      color: #2A3F5B !important;
+    }
+
+    #rssb-fig-mechanism .fig-title {
+      font-size: 14px !important;
+      font-weight: 700 !important;
+      color: #2A3F5B !important;
+      margin-bottom: 4px !important;
+      text-transform: none !important;
+      letter-spacing: normal !important;
+    }
+
+    #rssb-fig-mechanism .fig-subtitle {
+      font-size: 13px !important;
+      color: #555 !important;
+      margin-bottom: 24px !important;
+      font-weight: 400 !important;
+    }
+
+    #rssb-fig-mechanism .chart-wrap {
+      position: relative !important;
+      height: 380px !important;
+    }
+
+    #rssb-fig-mechanism .fig-legend {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 8px 20px !important;
+      justify-content: center !important;
+      margin-top: 20px !important;
+    }
+
+    #rssb-fig-mechanism .legend-item {
+      display: flex !important;
+      align-items: center !important;
+      gap: 7px !important;
+      font-size: 12px !important;
+      font-weight: 500 !important;
+      color: #555 !important;
+    }
+
+    #rssb-fig-mechanism .swatch {
+      width: 14px !important;
+      height: 14px !important;
+      border-radius: 3px !important;
+      flex-shrink: 0 !important;
+    }
+
+    #rssb-fig-mechanism .fig-note {
+      font-size: 11px !important;
+      color: #999 !important;
+      font-style: italic !important;
+      line-height: 1.6 !important;
+      margin-top: 16px !important;
+      border-top: 1px solid #f0f0f0 !important;
+      padding-top: 12px !important;
+    }
+  </style>
+
+  <!-- ══════════════════════════════════════════════════════════
+       Figure 1: Adding vs. Replacing — styles
+       ══════════════════════════════════════════════════════════ -->
+  <style>
+    #rssb-fig1 *, #rssb-fig1 *::before, #rssb-fig1 *::after {
+      box-sizing: border-box !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    #rssb-fig1 {
+      font-family: 'DM Sans', sans-serif !important;
+      background: #fff !important;
+      max-width: 860px !important;
+      margin: 32px auto !important;
+      padding: 0 !important;
+      color: #2A3F5B !important;
+    }
+
+    #rssb-fig1 .fig-title {
+      font-size: 14px !important;
+      font-weight: 700 !important;
+      color: #2A3F5B !important;
+      margin-bottom: 4px !important;
+      padding: 0 !important;
+      text-transform: none !important;
+      letter-spacing: normal !important;
+    }
+
+    #rssb-fig1 .fig-subtitle {
+      font-size: 13px !important;
+      color: #555 !important;
+      margin-bottom: 24px !important;
+      font-weight: 400 !important;
+    }
+
+    #rssb-fig1 .fig-panels {
+      display: flex !important;
+      gap: 40px !important;
+      align-items: flex-start !important;
+    }
+
+    #rssb-fig1 .fig-panel {
+      flex: 1 !important;
+      min-width: 0 !important;
+    }
+
+    #rssb-fig1 .panel-label {
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.5px !important;
+      color: #555 !important;
+      text-align: center !important;
+      margin-bottom: 10px !important;
+    }
+
+    #rssb-fig1 .chart-wrap {
+      position: relative !important;
+      height: 300px !important;
+    }
+
+    #rssb-fig1 .fig-legend {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 6px 20px !important;
+      justify-content: center !important;
+      margin-top: 20px !important;
+    }
+
+    #rssb-fig1 .legend-item {
+      display: flex !important;
+      align-items: center !important;
+      gap: 7px !important;
+      font-size: 12px !important;
+      font-weight: 500 !important;
+      color: #555 !important;
+    }
+
+    #rssb-fig1 .swatch {
+      width: 14px !important;
+      height: 14px !important;
+      border-radius: 3px !important;
+      flex-shrink: 0 !important;
+    }
+
+    #rssb-fig1 .fig-note {
+      font-size: 11px !important;
+      color: #999 !important;
+      font-style: italic !important;
+      line-height: 1.6 !important;
+      margin-top: 16px !important;
+      border-top: 1px solid #f0f0f0 !important;
+      padding-top: 12px !important;
+    }
+
+    @media (max-width: 600px) {
+      #rssb-fig1 .fig-panels {
+        flex-direction: column !important;
+        gap: 28px !important;
+      }
+    }
+  </style>
+
+  <!-- ══════════════════════════════════════════════════════════
+       Widget: Build Your Stack — styles
+       ══════════════════════════════════════════════════════════ -->
+  <style>
+    #rssb-stack-widget *, #rssb-stack-widget *::before, #rssb-stack-widget *::after {
+      box-sizing: border-box !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    #rssb-stack-widget {
+      font-family: 'DM Sans', sans-serif !important;
+      background: #fff !important;
+      border-radius: 12px !important;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08) !important;
+      border-top: 4px solid #2A3F5B !important;
+      padding: 44px 48px !important;
+      max-width: 900px !important;
+      margin: 32px auto !important;
+      color: #2A3F5B !important;
+    }
+
+    /* ── Header ─────────────────────────────────────────────────────── */
+    #rssb-stack-widget .rsw-title {
+      font-size: 20px !important;
+      font-weight: 700 !important;
+      color: #2A3F5B !important;
+      margin-bottom: 8px !important;
+      text-transform: none !important;
+      letter-spacing: normal !important;
+      line-height: 1.3 !important;
+    }
+
+    #rssb-stack-widget .rsw-desc {
+      font-size: 14px !important;
+      color: #555 !important;
+      line-height: 1.7 !important;
+      margin-bottom: 6px !important;
+    }
+
+    #rssb-stack-widget .rsw-compliance {
+      font-size: 11px !important;
+      color: #999 !important;
+      font-style: italic !important;
+      margin-bottom: 28px !important;
+    }
+
+    /* ── Step labels ─────────────────────────────────────────────────── */
+    #rssb-stack-widget .rsw-step {
+      margin-bottom: 20px !important;
+    }
+
+    #rssb-stack-widget .rsw-step-label {
+      font-size: 13px !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.5px !important;
+      color: #555 !important;
+      margin-bottom: 12px !important;
+    }
+
+    /* ── Radio benchmark buttons ─────────────────────────────────────── */
+    #rssb-stack-widget .rsw-radios {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 8px !important;
+    }
+
+    #rssb-stack-widget .rsw-radio-label {
+      cursor: pointer !important;
+      display: inline-flex !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      background: none !important;
+      box-shadow: none !important;
+    }
+
+    #rssb-stack-widget .rsw-radio-label input[type="radio"] {
+      position: absolute !important;
+      opacity: 0 !important;
+      width: 0 !important;
+      height: 0 !important;
+      pointer-events: none !important;
+    }
+
+    #rssb-stack-widget .rsw-radio-btn {
+      display: inline-block !important;
+      padding: 8px 18px !important;
+      border: 2px solid #2A3F5B !important;
+      border-radius: 20px !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      color: #2A3F5B !important;
+      background: #fff !important;
+      cursor: pointer !important;
+      transition: background 0.15s, color 0.15s !important;
+      white-space: nowrap !important;
+      line-height: 1.4 !important;
+      font-family: 'DM Sans', sans-serif !important;
+      letter-spacing: normal !important;
+      text-transform: none !important;
+    }
+
+    #rssb-stack-widget .rsw-radio-btn:hover {
+      background: #e8ecf4 !important;
+    }
+
+    #rssb-stack-widget .rsw-radio-label input[type="radio"]:checked + .rsw-radio-btn {
+      background: #2A3F5B !important;
+      color: #fff !important;
+    }
+
+    /* ── Slider ─────────────────────────────────────────────────────── */
+    #rssb-stack-widget .rsw-slider-group {
+      background: #f8f9fc !important;
+      border-radius: 10px !important;
+      padding: 16px 24px !important;
+    }
+
+    #rssb-stack-widget .rsw-slider-row {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      margin-bottom: 12px !important;
+    }
+
+    #rssb-stack-widget .rsw-slider-lbl {
+      font-size: 14px !important;
+      font-weight: 600 !important;
+      color: #2A3F5B !important;
+    }
+
+    #rssb-stack-widget .rsw-badge {
+      background: #2A3F5B !important;
+      color: #fff !important;
+      border-radius: 8px !important;
+      padding: 4px 12px !important;
+      font-size: 14px !important;
+      font-weight: 700 !important;
+      min-width: 52px !important;
+      text-align: center !important;
+    }
+
+    #rssb-stack-widget input[type="range"] {
+      -webkit-appearance: none !important;
+      appearance: none !important;
+      width: 100% !important;
+      height: 8px !important;
+      border-radius: 4px !important;
+      outline: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      margin: 0 0 8px 0 !important;
+      cursor: pointer !important;
+      background: linear-gradient(to right, #60CCA8 0%, #60CCA8 50%, #dde2eb 50%, #dde2eb 100%) !important;
+    }
+
+    #rssb-stack-widget input[type="range"]:disabled {
+      opacity: 0.35 !important;
+      cursor: not-allowed !important;
+    }
+
+    #rssb-stack-widget input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none !important;
+      appearance: none !important;
+      width: 24px !important;
+      height: 24px !important;
+      border-radius: 50% !important;
+      background: #60CCA8 !important;
+      border: 3px solid #fff !important;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2) !important;
+      cursor: pointer !important;
+      transition: transform 0.15s !important;
+    }
+
+    #rssb-stack-widget input[type="range"]:not(:disabled)::-webkit-slider-thumb:hover {
+      transform: scale(1.15) !important;
+    }
+
+    #rssb-stack-widget input[type="range"]::-moz-range-thumb {
+      width: 24px !important;
+      height: 24px !important;
+      border-radius: 50% !important;
+      background: #60CCA8 !important;
+      border: 3px solid #fff !important;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2) !important;
+      cursor: pointer !important;
+    }
+
+    #rssb-stack-widget input[type="range"]::-moz-range-track {
+      height: 8px !important;
+      border-radius: 4px !important;
+      background: transparent !important;
+    }
+
+    #rssb-stack-widget .rsw-range-labels {
+      display: flex !important;
+      justify-content: space-between !important;
+      font-size: 11px !important;
+      color: #999 !important;
+    }
+
+    /* ── Zero benchmark notice ───────────────────────────────────────── */
+    #rssb-stack-widget .rsw-notice {
+      background: #f8f9fc !important;
+      border-left: 4px solid #dde2eb !important;
+      border-radius: 0 8px 8px 0 !important;
+      padding: 14px 18px !important;
+      font-size: 13px !important;
+      color: #888 !important;
+      font-style: italic !important;
+      margin-top: 16px !important;
+      display: none !important;
+    }
+
+    #rssb-stack-widget .rsw-notice.rsw-show {
+      display: block !important;
+    }
+
+    #rssb-stack-widget .rsw-notice--completion {
+      font-style: normal !important;
+      color: #2A3F5B !important;
+      border-left-color: #3A6A9C !important;
+      line-height: 1.6 !important;
+    }
+
+    #rssb-stack-widget .rsw-notice--completion strong {
+      font-weight: 700 !important;
+    }
+
+    #rssb-stack-widget .rsw-notice--limit {
+      font-style: normal !important;
+      color: #2A3F5B !important;
+      border-left-color: #60CCA8 !important;
+      line-height: 1.6 !important;
+    }
+
+    #rssb-stack-widget .rsw-notice--limit strong {
+      font-weight: 700 !important;
+    }
+
+    /* ── Charts ──────────────────────────────────────────────────────── */
+    #rssb-stack-widget .rsw-charts {
+      display: flex !important;
+      gap: 40px !important;
+      margin-top: 28px !important;
+    }
+
+    #rssb-stack-widget .rsw-chart-panel {
+      flex: 1 !important;
+      min-width: 0 !important;
+    }
+
+    #rssb-stack-widget .rsw-panel-lbl {
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.5px !important;
+      color: #555 !important;
+      text-align: center !important;
+      margin-bottom: 10px !important;
+    }
+
+    #rssb-stack-widget .rsw-chart-wrap {
+      position: relative !important;
+      height: 280px !important;
+    }
+
+    /* ── Legend ──────────────────────────────────────────────────────── */
+    #rssb-stack-widget .rsw-legend {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 6px 20px !important;
+      justify-content: center !important;
+      margin-top: 16px !important;
+      margin-bottom: 28px !important;
+    }
+
+    #rssb-stack-widget .rsw-leg-item {
+      display: flex !important;
+      align-items: center !important;
+      gap: 7px !important;
+      font-size: 12px !important;
+      font-weight: 500 !important;
+      color: #555 !important;
+    }
+
+    #rssb-stack-widget .rsw-swatch {
+      width: 14px !important;
+      height: 14px !important;
+      border-radius: 3px !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* ── Section labels ──────────────────────────────────────────────── */
+    #rssb-stack-widget .rsw-section-lbl {
+      font-size: 13px !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.5px !important;
+      color: #555 !important;
+      margin-bottom: 12px !important;
+    }
+
+    /* ── Implementation table ────────────────────────────────────────── */
+    #rssb-stack-widget .rsw-impl {
+      margin-bottom: 28px !important;
+    }
+
+    #rssb-stack-widget .rsw-table {
+      width: 100% !important;
+      border-collapse: collapse !important;
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    #rssb-stack-widget .rsw-table th {
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.3px !important;
+      color: #555 !important;
+      padding: 10px 14px !important;
+      border-bottom: 2px solid #dde2eb !important;
+      border-top: none !important;
+      border-left: none !important;
+      border-right: none !important;
+      background: none !important;
+      text-align: left !important;
+    }
+
+    #rssb-stack-widget .rsw-table th:last-child,
+    #rssb-stack-widget .rsw-table td:last-child {
+      text-align: right !important;
+    }
+
+    #rssb-stack-widget .rsw-table td {
+      font-size: 14px !important;
+      color: #2A3F5B !important;
+      padding: 11px 14px !important;
+      border-bottom: 1px solid #f0f0f0 !important;
+      border-top: none !important;
+      border-left: none !important;
+      border-right: none !important;
+      background: none !important;
+    }
+
+    #rssb-stack-widget .rsw-table tr:last-child td {
+      border-bottom: none !important;
+    }
+
+    #rssb-stack-widget .rsw-table tbody tr:nth-child(even) td {
+      background: none !important;
+    }
+
+    #rssb-stack-widget .rsw-sell {
+      font-weight: 700 !important;
+      color: #e74c3c !important;
+    }
+
+    #rssb-stack-widget .rsw-buy {
+      font-weight: 700 !important;
+      color: #60CCA8 !important;
+    }
+
+    #rssb-stack-widget .rsw-amt {
+      font-weight: 700 !important;
+    }
+
+    #rssb-stack-widget .rsw-placeholder {
+      font-size: 13px !important;
+      color: #999 !important;
+      font-style: italic !important;
+      padding: 16px 0 !important;
+      text-align: center !important;
+    }
+
+    /* ── Stat boxes ──────────────────────────────────────────────────── */
+    #rssb-stack-widget .rsw-stats {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 12px !important;
+      margin-bottom: 32px !important;
+    }
+
+    #rssb-stack-widget .rsw-stat {
+      background: #f8f9fc !important;
+      border-radius: 10px !important;
+      padding: 16px 20px !important;
+    }
+
+    #rssb-stack-widget .rsw-stat-lbl {
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.3px !important;
+      margin-bottom: 6px !important;
+    }
+
+    #rssb-stack-widget .rsw-stat-val {
+      font-size: 26px !important;
+      font-weight: 700 !important;
+      color: #2A3F5B !important;
+      line-height: 1.15 !important;
+    }
+
+    #rssb-stack-widget .rsw-stat-val.rsw-green {
+      color: #60CCA8 !important;
+    }
+
+    #rssb-stack-widget .rsw-stat-ctx {
+      font-size: 11px !important;
+      color: #999 !important;
+      margin-top: 4px !important;
+    }
+
+    /* ── Disclosures ─────────────────────────────────────────────────── */
+    #rssb-stack-widget .rsw-disclosures {
+      border-top: 1px solid #eee !important;
+      padding-top: 20px !important;
+    }
+
+    #rssb-stack-widget .rsw-disc-text {
+      font-size: 11px !important;
+      color: #777 !important;
+      line-height: 1.6 !important;
+      text-align: justify !important;
+    }
+
+    /* ── Responsive ──────────────────────────────────────────────────── */
+    @media (max-width: 680px) {
+      #rssb-stack-widget {
+        padding: 28px 20px !important;
+      }
+
+      #rssb-stack-widget .rsw-charts {
+        flex-direction: column !important;
+        gap: 32px !important;
+      }
+
+      #rssb-stack-widget .rsw-chart-wrap {
+        height: 240px !important;
+      }
+
+      #rssb-stack-widget .rsw-stats {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+    }
+  </style>
+
+  <!-- ══════════════════════════════════════════════════════════
+       Callout boxes + Investment Case box styles
+       ══════════════════════════════════════════════════════════ -->
+  <style>
+    /* ── Callout pull-quote ─────────────────────────────────── */
+    #rssb-post .rsp-callout {
+      border-left: 4px solid #14CFA6 !important;
+      background: #f4fdfb !important;
+      padding: 20px 24px !important;
+      margin: 28px 0 !important;
+      font-size: 1.05rem !important;
+      font-style: italic !important;
+      color: #2A3F5B !important;
+      line-height: 1.65 !important;
+      border-radius: 0 8px 8px 0 !important;
+    }
+
+    /* ── Investment Case box ────────────────────────────────── */
+    #rssb-invest-case {
+      background: #f5f6fa !important;
+      border-radius: 12px !important;
+      padding: 32px 36px !important;
+      margin: 0 0 40px 0 !important;
+    }
+
+    #rssb-invest-case .ic-header {
+      font-family: 'DM Sans', sans-serif !important;
+      font-size: 1.25rem !important;
+      font-weight: 700 !important;
+      color: #2A3F5B !important;
+      margin-bottom: 20px !important;
+      padding-bottom: 8px !important;
+      border-bottom: 3px solid #14CFA6 !important;
+      display: inline-block !important;
+    }
+
+    #rssb-invest-case .ic-layout {
+      display: flex !important;
+      gap: 28px !important;
+      align-items: stretch !important;
+    }
+
+    #rssb-invest-case .ic-left {
+      flex: 1 1 50% !important;
+    }
+
+    #rssb-invest-case .ic-right {
+      flex: 1 1 45% !important;
+      min-width: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+    }
+
+    #rssb-invest-case .ic-item {
+      margin-bottom: 14px !important;
+      font-family: 'DM Sans', sans-serif !important;
+      font-size: 0.92rem !important;
+      color: #333 !important;
+      line-height: 1.65 !important;
+    }
+
+    #rssb-invest-case .ic-item strong {
+      font-weight: 700 !important;
+      color: #2A3F5B !important;
+    }
+
+    #rssb-invest-case .ic-disc {
+      font-size: 0.78rem !important;
+      font-style: italic !important;
+      color: #777 !important;
+      margin-top: 12px !important;
+    }
+
+    #rssb-invest-case .ic-chart-title {
+      font-family: 'DM Sans', sans-serif !important;
+      font-size: 0.85rem !important;
+      font-weight: 700 !important;
+      color: #2A3F5B !important;
+      text-align: center !important;
+      margin-bottom: 8px !important;
+    }
+
+    #rssb-invest-case .ic-chart-wrap {
+      position: relative !important;
+      flex: 1 !important;
+      min-height: 0 !important;
+      max-height: 400px !important;
+    }
+
+    #rssb-invest-case .ic-chart-note {
+      font-size: 0.72rem !important;
+      font-style: italic !important;
+      color: #777 !important;
+      text-align: center !important;
+      margin-top: 6px !important;
+      line-height: 1.4 !important;
+    }
+
+    @media (max-width: 580px) {
+      #rssb-invest-case .ic-layout {
+        flex-direction: column !important;
+      }
+    }
+
+    /* ── Product overview card ──────────────────────────────── */
+    #rssb-product-card {
+      background: #f5f6fa !important;
+      border-radius: 12px !important;
+      padding: 32px 36px !important;
+      margin: 0 0 24px 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 16px !important;
+    }
+
+    #rssb-product-card .rpc-title {
+      font-family: 'DM Sans', sans-serif !important;
+      font-size: 1.35rem !important;
+      font-weight: 700 !important;
+      color: #2A3F5B !important;
+      white-space: nowrap !important;
+    }
+
+    #rssb-product-card .rpc-body-row {
+      display: flex !important;
+      gap: 32px !important;
+      align-items: center !important;
+    }
+
+    #rssb-product-card .rpc-left {
+      flex: 1 1 55% !important;
+    }
+
+    #rssb-product-card .rpc-body {
+      font-family: 'DM Sans', sans-serif !important;
+      font-size: 0.92rem !important;
+      color: #333 !important;
+      line-height: 1.65 !important;
+      margin-bottom: 12px !important;
+    }
+
+    #rssb-product-card .rpc-strategy-name {
+      font-family: 'DM Sans', sans-serif !important;
+      font-size: 0.92rem !important;
+      font-weight: 700 !important;
+      color: #2A3F5B !important;
+      margin-top: 8px !important;
+      margin-bottom: 2px !important;
+    }
+
+    #rssb-product-card .rpc-right {
+      flex: 0 0 220px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+    }
+
+    #rssb-product-card .rpc-chart-wrap {
+      position: relative !important;
+      width: 100% !important;
+      height: 260px !important;
+    }
+
+    #rssb-product-card .rpc-note {
+      font-family: 'DM Sans', sans-serif !important;
+      font-size: 0.72rem !important;
+      font-style: italic !important;
+      color: #777 !important;
+      text-align: center !important;
+      margin-top: 8px !important;
+    }
+
+    #rssb-product-card .rpc-strategies {
+      display: flex !important;
+      gap: 16px !important;
+      border-top: 1px solid #dde2eb !important;
+      padding-top: 16px !important;
+    }
+
+    #rssb-product-card .rpc-strategy {
+      flex: 1 1 50% !important;
+    }
+
+    #rssb-product-card .rpc-strategy-name {
+      font-family: 'DM Sans', sans-serif !important;
+      font-size: 0.88rem !important;
+      font-weight: 700 !important;
+      color: #2A3F5B !important;
+      margin-bottom: 4px !important;
+    }
+
+    #rssb-product-card .rpc-strategy-desc {
+      font-family: 'DM Sans', sans-serif !important;
+      font-size: 0.88rem !important;
+      color: #333 !important;
+      line-height: 1.6 !important;
+    }
+
+    @media (max-width: 580px) {
+      #rssb-product-card .rpc-body-row {
+        flex-direction: column !important;
+      }
+      #rssb-product-card .rpc-right {
+        flex: none !important;
+        width: 100% !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="rssb-post">
+
+  <!-- ════════════════════════════════════════════════════════════
+       OPENING PROSE: title, tagline, overview, intro paragraphs
+       ════════════════════════════════════════════════════════════ -->
+  <div class="rsp-prose">
+
+    <!-- <h1>And, Not Or: How RSSB Creates Space in Any Portfolio</h1> -->
+    <h1>How RSSB Helps Create Room for Diversification Without Reducing the Core</h1>
+    <!-- <p class="rsp-tagline"><em>Most portfolios are already full. RSSB is designed to change that.</em></p> -->
+    <p class="rsp-tagline"><em>And, Not Or: A Capital-Efficient Way to Add Diversifying Strategies Alongside Stocks and Bonds</em></p>
+    <hr>
+
+    <!-- Key Topics: Capital efficiency, return stacking, portfolio construction, RSSB, investor implementation, alternatives -->
+
+    <p class="rsp-overview">Most portfolios are built to 100%. Every new diversifying strategy requires removing something else. The <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">Return Stacked&reg; Global Stocks &amp; Bonds ETF (RSSB)</a> changes that equation by seeking to provide 100% global equity exposure and 100% U.S. Treasury bond exposure per dollar invested, seeking to give investors a way to add diversifying strategies without reducing the core.</p>
+
+    <hr>
+
+    <!-- Product overview card -->
+    <div id="rssb-product-card">
+      <div class="rpc-title">RSSB &ndash; Global Stocks &amp; Bonds</div>
+      <div class="rpc-body-row">
+        <div class="rpc-left">
+          <p class="rpc-body">The Fund seeks long-term capital appreciation by investing in two complementary investment strategies: a global equity strategy and a U.S. Treasury Futures strategy.</p>
+          <p class="rpc-body">For every $1 invested, the ETF seeks to provide $1 of exposure to its Global Equity strategy and $1 of exposure to its U.S. Treasury Futures strategy.</p>
+        </div>
+        <div class="rpc-right">
+          <div class="rpc-chart-wrap"><canvas id="ic-chart"></canvas></div>
+          <p class="rpc-note">For illustrative purposes only.</p>
+        </div>
+      </div>
+      <div class="rpc-strategies">
+        <div class="rpc-strategy">
+          <div class="rpc-strategy-name">Global Equity Strategy</div>
+          <p class="rpc-strategy-desc">Seeks to capture the total return of global equities on a market capitalization-weighted basis.</p>
+        </div>
+        <div class="rpc-strategy">
+          <div class="rpc-strategy-name">U.S. Treasury Futures Strategy</div>
+          <p class="rpc-strategy-desc">Seeks to provide exposure to the U.S. Treasury bond market.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Investment Case box -->
+    <div id="rssb-invest-case">
+      <div class="ic-header">Investment Use Cases</div>
+      <div class="ic-layout">
+        <div class="ic-left">
+          <div class="ic-item"><strong>Capital Efficiency and Diversification:</strong> Replacing core stock and bond exposure with RSSB frees up capital to invest in diversifying asset classes.</div>
+          <!-- <div class="ic-item"><strong>Reduce Cash Drag:</strong> Utilize the embedded capital efficiency in RSSB to hold cash without necessarily losing core stock and bond exposure.</div>
+          <div class="ic-item"><strong>Avoiding 100% Equities for Growth Investors:</strong> Reduce equity concentration for growth investors by introducing a second, potentially diversifying source of returns.</div> -->
+          <div class="ic-item"><strong>Stack Your Existing Alternatives Bucket:</strong> Many investors already know what they want to own (a pre-approved list, a model portfolio, a specific manager) but have held back because adding it means cutting the core. RSSB seeks to remove that obstacle, giving a diligenced alternatives allocation a place in the portfolio without requiring a trade-off in the existing core.</div>
+          <div class="ic-item"><strong>Restoring a Reduced Core:</strong> Investors who have already funded an alternatives allocation by trimming equities or bonds now hold a smaller core than they originally intended. RSSB seeks to restore those exposures, allowing the alternatives allocation to sit alongside the original core rather than inside it.</div>
+          <div class="ic-item"><strong>Diversifying Strategies Without a Pre-Stacked Option:</strong> Not every diversifying strategy or manager has a pre-stacked version available. RSSB can serve as the base layer for any diversifying strategy, giving investors access to combinations that do not yet exist in a single fund.</div>
+          <div class="ic-item"><strong>Adding Private Exposure:</strong> Investors considering private assets can use RSSB to seek to preserve the liquid core portfolio while creating room alongside it, without dismantling the existing portfolio to fund the allocation.</div>
+          <p class="ic-disc">Diversification does not assure a profit.</p>
+        </div>
+        <!-- <div class="ic-right">
+          <div class="ic-chart-title">RSSB Target Exposures</div>
+          <div class="ic-chart-wrap"><canvas id="ic-chart"></canvas></div>
+          <p class="ic-chart-note">For illustrative purposes only. The dotted red line delineates the 100% exposure of a portfolio.</p>
+        </div> -->
+      </div>
+    </div>
+
+    <p>Most well-constructed portfolios share a structural problem: they are full. Every dollar is deployed, every allocation is intentional, and when something genuinely compelling arrives, there is nowhere to add it without first removing something else.</p>
+
+    <p>The difficulty is not conviction. It is capacity. A fully invested portfolio has no unallocated capital, which means any new position can only be funded by reducing an existing one. Cutting equities reduces the return engine the portfolio was built around. Cutting bonds weakens the diversifying or stabilizing role fixed income was included to play. Either way, the portfolio that emerges from the addition is not the one the investor set out to build.</p>
+
+    <p>This is not a problem that investors can think their way out of. It is a structural constraint built into how portfolios work. We call it the funding problem of diversification: every diversifying strategy worth adding must be funded by selling something already in the portfolio. <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a> is built to change that.</p>
+
+    <blockquote class="rsp-callout">We call it the funding problem of diversification: every diversifying strategy worth adding must be funded by selling something already in the portfolio.</blockquote>
+
+    <h2>The Problem With 100%</h2>
+
+    <p>The funding problem has a specific cost. In a traditional 60/40 portfolio, with 60% in global equities and 40% in bonds, every dollar of available capital is deployed. Adding a 20% position in any new diversifying strategy requires funding it from somewhere, which means reducing equities, bonds, or both. The core gets smaller. An investor who set out to build a 60/40 portfolio ends up defending a 48/32 split instead.</p>
+
+  </div><!-- /.rsp-prose -->
+
+  <!-- ════════════════════════════════════════════════════════════
+       WIDGET: The Funding Problem V2
+       ════════════════════════════════════════════════════════════ -->
+  <div id="rssb-fp2">
+    <div class="fp2-card">
+
+      <h2 class="fp2-title">The Funding Problem</h2>
+      <p class="fp2-desc">
+        In a fully invested portfolio, adding alternatives requires selling from the equity and bond
+        core. Select a benchmark and an alternatives allocation below. Proceeds are raised by selling
+        equities and bonds in proportion to the benchmark weights.
+      </p>
+
+      <div class="fp2-controls">
+
+        <div class="fp2-row">
+          <div class="fp2-row-label">Benchmark</div>
+          <div class="fp2-bench-group">
+            <button class="fp2-bench-btn" data-eq="0" data-bond="100">0/100</button>
+            <button class="fp2-bench-btn" data-eq="20" data-bond="80">20/80</button>
+            <button class="fp2-bench-btn" data-eq="40" data-bond="60">40/60</button>
+            <button class="fp2-bench-btn active" data-eq="60" data-bond="40">60/40</button>
+            <button class="fp2-bench-btn" data-eq="80" data-bond="20">80/20</button>
+            <button class="fp2-bench-btn" data-eq="100" data-bond="0">100/0</button>
+          </div>
+        </div>
+
+        <div class="fp2-row">
+          <div class="fp2-row-label">Alternatives</div>
+          <div class="fp2-slider-wrap">
+            <div class="fp2-slider-header">
+              <span class="fp2-slider-label">Allocation</span>
+              <span class="fp2-slider-badge" id="fp2-alt-badge">20%</span>
+            </div>
+            <input type="range" id="fp2-alt-slider" min="0" max="50" value="20" step="1">
+            <div class="fp2-slider-range"><span>0%</span><span>50%</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="fp2-chart-wrap">
+        <canvas id="fp2-chart"></canvas>
+      </div>
+
+      <div class="fp2-legend">
+        <div class="fp2-leg-item"><div class="fp2-swatch" style="background:#323A46;"></div>Equities</div>
+        <div class="fp2-leg-item"><div class="fp2-swatch" style="background:#3A6A9C;"></div>U.S. Bonds</div>
+        <div class="fp2-leg-item"><div class="fp2-swatch" style="background:#60CCA8;"></div>Alternatives</div>
+      </div>
+
+      <div class="fp2-tx">
+        <div class="fp2-tx-title">Portfolio Changes</div>
+        <div class="fp2-tx-grid">
+          <div class="fp2-tx-col">
+            <div class="fp2-tx-col-label sold">Sold</div>
+            <div id="fp2-sell-items"></div>
+          </div>
+          <div class="fp2-tx-divider"></div>
+          <div class="fp2-tx-col">
+            <div class="fp2-tx-col-label bought">Bought</div>
+            <div id="fp2-buy-items"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Hurdle Rate ──────────────────────────────────────── -->
+      <div class="fp2-hurdle">
+        <div class="fp2-hurdle-header">
+          <div class="fp2-hurdle-title">Historical Hurdle Rate</div>
+          <div class="fp2-hurdle-cagr" id="fp2-cagr-badge"></div>
+        </div>
+        <p class="fp2-hurdle-sub">
+          Growth of $100 invested in the selected benchmark portfolio, rebalanced monthly to the target equity/bond weights. Any alternative allocation must beat this return to add value.
+        </p>
+        <div class="fp2-hurdle-chart-wrap">
+          <canvas id="fp2-hurdle-chart"></canvas>
+        </div>
+      </div>
+
+      <div class="fp2-disc" id="fp2-disc">
+        <button class="fp2-disc-btn" onclick="document.getElementById('fp2-disc').classList.toggle('open')">
+          <span class="fp2-disc-arrow">&#9658;</span> Disclosures
+        </button>
+        <div class="fp2-disc-content">
+          For illustrative purposes only. Allocations are hypothetical and do not represent any actual
+          portfolio or investment strategy. Sells are calculated proportionally to the benchmark&rsquo;s
+          equity/bond weights. Past performance is not indicative of future results. Data source:
+          Bloomberg. Data covers December 31, 1987 through December 31, 2025. The benchmark portfolio
+          is assumed to be rebalanced monthly to the selected equity/bond weights.
+          <br><br>
+          Global Equities are represented by the MSCI ACWI Index, which captures large and mid cap
+          representation across Developed Markets and Emerging Markets countries. The index covers
+          approximately 85% of the global investable equity opportunity set. U.S. Bonds are represented
+          by the Bloomberg U.S. Aggregate Bond Index, a broad-based flagship benchmark that measures
+          the investment grade, U.S. dollar-denominated, fixed-rate taxable bond market. The index
+          includes Treasuries, government-related and corporate securities, MBS (agency fixed-rate
+          pass-throughs), ABS and CMBS (agency and non-agency). Indexes are unmanaged and do not
+          reflect fees, expenses, or transaction costs. It is not possible to invest directly in an index.
+          <br><br>
+          The Return Stacked&reg; Global Stocks &amp; Bonds ETF (RSSB) uses derivatives and leverage,
+          which have the potential to increase the volatility of an investment relative to either of
+          the underlying asset classes viewed individually. Unlike mutual funds, ETFs may trade at a
+          premium or discount to their net asset value. Diversification does not assure a profit or
+          protect against loss in declining markets. There are risks associated with investing,
+          including possible loss of principal. Before investing, carefully consider
+          RSSB&rsquo;s investment objectives, risks, charges, and expenses. To obtain a prospectus,
+          click <a href=https://www.returnstackedetfs.com/rssb/prospectus>here</a>. Read the prospectus carefully before investing.
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /#rssb-fp2 -->
+
+  <!-- ════════════════════════════════════════════════════════════
+       PROSE: after funding problem widget
+       ════════════════════════════════════════════════════════════ -->
+  <div class="rsp-prose">
+
+    <p>The pattern is visible in the interactive above: every percentage point added to a new allocation comes directly at the expense of the equity and bond core. This trade-off quietly shapes portfolio decisions over time. Diversifying strategies that might genuinely improve outcomes get passed over not because the case for them is weak, but because the cost of implementing them feels too high. The portfolio construction problem masquerades as a conviction problem. The investor does not lack the belief that the diversifying strategy belongs in the portfolio. They lack the space to put it there without a trade-off they cannot easily defend.</p>
+
+    <blockquote class="rsp-callout">When an investor sells equities or bonds to fund a new position, the new holding is not simply competing for returns. It is competing against the return of whatever was sold.</blockquote>
+
+    <p>There is a subtler cost embedded in that trade-off. When an investor sells equities or bonds to fund a new position, the new holding is not simply competing for returns. It is competing against the return of whatever was sold. Cut equities to make room for an alternative, and the alternative now carries an implicit hurdle rate equal to the expected return on equities. That bar is often underappreciated, and it is one the investor sets against themselves before the first dollar moves.</p>
+
+    <h2>A Different Way to Think About a Dollar</h2>
+
+    <p>The <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">Return Stacked&reg; Global Stocks &amp; Bonds ETF (RSSB)</a> addresses this constraint directly. By combining a full allocation to global equities with U.S. Treasury bond exposure obtained through futures contracts, <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a> seeks to provide $1.00 of passive global equity exposure and $1.00 of U.S. Treasury bond exposure for each $1.00 invested.</p>
+
+    <blockquote class="rsp-callout">RSSB seeks to provide $1.00 of passive global equity exposure and $1.00 of U.S. Treasury bond exposure for each $1.00 invested, using a futures overlay to hold two distinct and historically uncorrelated return streams at once.</blockquote>
+
+    <p>The mechanism is a futures overlay. <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a> holds a diversified equity portfolio directly while gaining U.S. Treasury bond exposure through futures contracts, which require only a fraction of their notional value as collateral. That frees the remaining capital to stay invested in equities, which is how both exposures fit within a single dollar. This is leverage, and it is worth stating plainly: <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a> uses leverage not to amplify a single concentrated bet, but to hold two distinct and historically uncorrelated return streams at once. Institutional investors have used derivatives-based overlay strategies like this for decades. The concept has a name: return stacking (also known as portable alpha). <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a> makes it available in a single ETF, without the operational complexity that made it the exclusive domain of large institutions.</p>
+
+    <p>That structure also changes the hurdle rate. In a traditional allocation, selling equities or bonds to fund an alternative sets the return of whatever was sold as the alternative's implicit benchmark: the new position must beat what it displaced just to break even. Return stacking resets that equation. Because the overlay obtains its exposures at the funding rate, the hurdle for whatever sits on top is effectively T-bills rather than the return of the asset sold to make room.</p>
+
+  </div><!-- /.rsp-prose -->
+
+  <!-- ════════════════════════════════════════════════════════════
+       FIGURE: Mechanism
+       ════════════════════════════════════════════════════════════ -->
+  <div id="rssb-fig-mechanism">
+    <p class="fig-title">Figure 1: How RSSB Builds Dual Exposure from a Single Dollar</p>
+    <p class="fig-subtitle">A dollar of cash is split into a margin reserve and investable capital, then deployed into equities with a futures overlay added on top. For illustrative purposes only.</p>
+
+    <div class="chart-wrap">
+      <canvas id="rssb-mech-canvas"></canvas>
+    </div>
+
+    <div class="fig-legend">
+      <div class="legend-item">
+        <div class="swatch" style="background:#B8C4D0;"></div>Cash / Margin Reserve
+      </div>
+      <div class="legend-item">
+        <div class="swatch" style="background:#D0DCE6;"></div>Excess Cash
+      </div>
+      <div class="legend-item">
+        <div class="swatch" style="background:#3A6A9C;"></div>U.S. Treasury Bonds
+      </div>
+      <div class="legend-item">
+        <div class="swatch" style="background:#323A46;"></div>Equities
+      </div>
+      <div class="legend-item">
+        <div class="swatch" style="background:repeating-linear-gradient(135deg, #3A6A9C 0px, #3A6A9C 4px, #B8C4D0 4px, #B8C4D0 8px);"></div>Treasury Bond Futures
+      </div>
+      <div class="legend-item">
+        <div class="swatch" style="background:repeating-linear-gradient(45deg, #323A46 0px, #323A46 4px, #B8C4D0 4px, #B8C4D0 8px);"></div>Equity Futures
+      </div>
+    </div>
+
+    <p class="fig-note">
+      For illustrative purposes only. Proportions are conceptual and do not reflect actual fund allocations, margin requirements, or costs. Notional exposure refers to the face value of derivatives positions held, which may exceed the capital deployed. There are risks associated with investing, including possible loss of principal. The use of derivatives involves additional risks, including leverage risk.
+    </p>
+  </div><!-- /#rssb-fig-mechanism -->
+
+  <!-- ════════════════════════════════════════════════════════════
+       PROSE: after mechanism figure
+       ════════════════════════════════════════════════════════════ -->
+  <div class="rsp-prose">
+
+    <p>Most portfolios already hold equities and bonds, which means <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a> slots in as a direct replacement for a portion of those existing positions. Swap out a portion of the existing equity and bond exposure for <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a>, and the overlay seeks to restore both exposures while the freed-up capital becomes available for something new. That is the building block: a single holding designed to restore the core and create the space. This is what we mean by capital efficiency: seeking more exposure from each dollar without the investor giving up the core portfolio they have already built.</p>
+
+    <h2>How It Works in Practice</h2>
+
+    <p>Consider an investor managing a portfolio allocated 60% to global equities and 40% to U.S. Treasury bonds, who wants to add a 20% allocation to an additional diversifying strategy while keeping the original core intact.</p>
+
+  </div><!-- /.rsp-prose -->
+
+  <!-- ════════════════════════════════════════════════════════════
+       FIGURE 1: Adding vs. Replacing
+       ════════════════════════════════════════════════════════════ -->
+  <div id="rssb-fig1">
+    <p class="fig-title">Figure 2: Adding vs. Replacing: How Capital Efficiency Changes the Allocation</p>
+    <p class="fig-subtitle">A 60/40 benchmark with a 20% alternatives allocation, two ways. For illustrative purposes only.</p>
+
+    <div class="fig-panels">
+      <div class="fig-panel">
+        <div class="panel-label">Capital Allocation</div>
+        <div class="chart-wrap"><canvas id="rssb-fig1-cap"></canvas></div>
+      </div>
+      <div class="fig-panel">
+        <div class="panel-label">Effective Exposure</div>
+        <div class="chart-wrap"><canvas id="rssb-fig1-exp"></canvas></div>
+      </div>
+    </div>
+
+    <div class="fig-legend">
+      <div class="legend-item"><div class="swatch" style="background:#323A46;"></div>Global Equities</div>
+      <div class="legend-item"><div class="swatch" style="background:#3A6A9C;"></div>U.S. Bonds</div>
+      <div class="legend-item"><div class="swatch" style="background: repeating-linear-gradient(135deg, #323A46 0px, #323A46 4px, #3A6A9C 4px, #3A6A9C 8px);"></div>RSSB</div>
+      <div class="legend-item"><div class="swatch" style="background:#60CCA8;"></div>Alternatives</div>
+    </div>
+
+    <p class="fig-note">
+      For illustrative purposes only. Allocations are hypothetical and do not represent any actual portfolio. Effective exposure reflects notional exposure, which may exceed 100% where derivatives are used. There are risks associated with investing, including possible loss of principal. Leverage has the potential to increase the volatility of an investment. Past performance is not indicative of future results.
+    </p>
+  </div><!-- /#rssb-fig1 -->
+
+  <!-- ════════════════════════════════════════════════════════════
+       PROSE: after figure 1
+       ════════════════════════════════════════════════════════════ -->
+  <div class="rsp-prose">
+
+    <p>As Figure 2 illustrates, the traditional path creates an immediate problem. Funding a 20% allocation by selling proportionally from equities and bonds leaves the investor with 48% equities and 32% bonds. The core has shrunk, and the total notional exposure remains 100%.</p>
+
+    <p>The <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a>-enabled path works differently. Since <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a>'s overlay delivers equity and bond exposure in a 1:1 ratio, the investor sells equal amounts from each asset class (20% from equities and 20% from bonds) rather than proportional amounts. The investor uses those proceeds to purchase 20% <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a> and 20% of the additional diversifying strategy. <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a> seeks to restore the equity and bond exposures that were sold, with the new diversifying strategy sitting alongside the core rather than inside it.</p>
+
+    <p>The capital allocation has changed. The effective exposure has not. In this example, the 60/40 core is effectively preserved, and the 20% alternative allocation sits alongside it. The total adds up to 120%: not because more capital was invested, but because <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a>'s overlay seeks to deliver the equity and bond exposures without requiring additional dollars.</p>
+
+    <blockquote class="rsp-callout">The capital allocation has changed. The effective exposure has not. The 60/40 core is preserved, and the new diversifying strategy sits alongside it rather than displacing it.</blockquote>
+
+    <p>The tool below lets any investor start from their own benchmark, adjust the stack size, and work through the trade: which positions to reduce, how much <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a> to hold, and what the resulting exposures look like. Different benchmarks have different amounts of room.</p>
+
+    <hr>
+
+  </div><!-- /.rsp-prose -->
+
+  <!-- ════════════════════════════════════════════════════════════
+       WIDGET: Build Your Stack
+       ════════════════════════════════════════════════════════════ -->
+  <div id="rssb-stack-widget">
+
+    <h2 class="rsw-title">Build Your Stack</h2>
+    <p class="rsw-desc">Select your starting benchmark and a stack size to see how RSSB creates capacity for an additional diversifying strategy without reducing your core equity or bond exposure. The "After" column shows the resulting capital allocation and effective exposures.</p>
+    <p class="rsw-compliance">For illustrative purposes only. Not investment advice.</p>
+
+    <!-- Step 1: Benchmark -->
+    <div class="rsw-step">
+      <div class="rsw-step-label">Step 1: Your Benchmark (Equities / Bonds)</div>
+      <div class="rsw-radios">
+        <label class="rsw-radio-label"><input type="radio" name="rsw-bm" value="0,100"><span class="rsw-radio-btn">0 / 100</span></label>
+        <label class="rsw-radio-label"><input type="radio" name="rsw-bm" value="20,80"><span class="rsw-radio-btn">20 / 80</span></label>
+        <label class="rsw-radio-label"><input type="radio" name="rsw-bm" value="40,60"><span class="rsw-radio-btn">40 / 60</span></label>
+        <label class="rsw-radio-label"><input type="radio" name="rsw-bm" value="60,40" checked><span class="rsw-radio-btn">60 / 40</span></label>
+        <label class="rsw-radio-label"><input type="radio" name="rsw-bm" value="80,20"><span class="rsw-radio-btn">80 / 20</span></label>
+        <label class="rsw-radio-label"><input type="radio" name="rsw-bm" value="100,0"><span class="rsw-radio-btn">100 / 0</span></label>
+      </div>
+    </div>
+
+    <!-- Step 2: Stack size -->
+    <div class="rsw-step">
+      <div class="rsw-step-label" id="rsw-step2-lbl">Step 2: Stack Size</div>
+      <div class="rsw-slider-group">
+        <div class="rsw-slider-row">
+          <span class="rsw-slider-lbl">Allocation to Diversifying Strategy</span>
+          <span class="rsw-badge" id="rsw-badge">20%</span>
+        </div>
+        <input type="range" id="rsw-slider" min="0" max="40" value="20" step="1">
+        <div class="rsw-range-labels">
+          <span>0%</span>
+          <span id="rsw-max-lbl">40%</span>
+        </div>
+      </div>
+      <div class="rsw-notice" id="rsw-limit-notice"></div>
+      <div class="rsw-notice" id="rsw-notice"></div>
+    </div>
+
+    <!-- Charts -->
+    <div class="rsw-charts">
+      <div class="rsw-chart-panel">
+        <div class="rsw-panel-lbl">Capital Allocation</div>
+        <div class="rsw-chart-wrap"><canvas id="rsw-cap"></canvas></div>
+      </div>
+      <div class="rsw-chart-panel">
+        <div class="rsw-panel-lbl">Effective Exposure</div>
+        <div class="rsw-chart-wrap"><canvas id="rsw-exp"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="rsw-legend">
+      <div class="rsw-leg-item"><div class="rsw-swatch" style="background:#323A46;"></div>Global Equities</div>
+      <div class="rsw-leg-item"><div class="rsw-swatch" style="background:#3A6A9C;"></div>U.S. Bonds</div>
+      <div class="rsw-leg-item"><div class="rsw-swatch" style="background:repeating-linear-gradient(135deg,#323A46 0px,#323A46 4px,#3A6A9C 4px,#3A6A9C 8px);"></div>RSSB</div>
+      <div class="rsw-leg-item"><div class="rsw-swatch" style="background:#60CCA8;"></div>Alternatives</div>
+    </div>
+
+    <!-- Implementation table -->
+    <div class="rsw-impl">
+      <div class="rsw-section-lbl">To Implement This Allocation</div>
+      <div id="rsw-impl-body"></div>
+    </div>
+
+    <!-- Stat boxes -->
+    <div class="rsw-stats">
+      <div class="rsw-stat">
+        <div class="rsw-stat-lbl" style="color:#323A46;">Equity Exposure</div>
+        <div class="rsw-stat-val" id="rsw-s-eq">60%</div>
+        <div class="rsw-stat-ctx" id="rsw-s-eq-ctx">Preserved from benchmark</div>
+      </div>
+      <div class="rsw-stat">
+        <div class="rsw-stat-lbl" style="color:#3A6A9C;">Bond Exposure</div>
+        <div class="rsw-stat-val" id="rsw-s-bond">40%</div>
+        <div class="rsw-stat-ctx" id="rsw-s-bond-ctx">Preserved from benchmark</div>
+      </div>
+      <div class="rsw-stat">
+        <div class="rsw-stat-lbl" style="color:#60CCA8;">Alt. Exposure</div>
+        <div class="rsw-stat-val rsw-green" id="rsw-s-alts">20%</div>
+        <div class="rsw-stat-ctx" id="rsw-s-alts-ctx">Stacked on top</div>
+      </div>
+      <div class="rsw-stat">
+        <div class="rsw-stat-lbl">Total Exposure</div>
+        <div class="rsw-stat-val rsw-green" id="rsw-s-total">120%</div>
+        <div class="rsw-stat-ctx">vs. 100% capital deployed</div>
+      </div>
+    </div>
+
+    <!-- Disclosures (always visible) -->
+    <div class="rsw-disclosures">
+      <p class="rsw-disc-text">For illustrative purposes only. All allocations and exposures are hypothetical and do not represent any actual portfolio, fund, or investment strategy. The implementation table reflects a hypothetical trade sequence only and does not constitute investment advice or a recommendation to buy or sell any security. There are risks associated with investing, including possible loss of principal. The Return Stacked&reg; Global Stocks &amp; Bonds ETF (RSSB) uses derivatives and leverage, which have the potential to increase the volatility of an investment relative to either of the underlying asset classes viewed individually. Effective exposure may exceed 100% of invested capital where derivatives are used. Past performance is not indicative of future results. Before investing, carefully consider RSSB&rsquo;s investment objectives, risks, charges, and expenses. To obtain a prospectus, click <a href=https://www.returnstackedetfs.com/rssb/prospectus>here</a>. Read the prospectus carefully before investing.</p>
+    </div>
+
+  </div><!-- /#rssb-stack-widget -->
+
+  <!-- ════════════════════════════════════════════════════════════
+       PROSE: Stack Anything + Key Takeaways + Disclosures
+       ════════════════════════════════════════════════════════════ -->
+  <div class="rsp-prose">
+
+    <hr>
+
+    <h2>Stack Anything</h2>
+
+    <p><a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a> functions as the base layer, not the alternative layer. It does not prescribe what gets added on top. The diversifying strategy placed above the core can be whatever the investor determines is appropriate: managed futures, commodities, real assets, income-oriented diversifying assets, or any other approach that fits the client's investment thesis.</p>
+
+    <p>An investor who believes managed futures can provide diversification when equity markets sell off may now have a path to act on that view without shrinking the equity core. One who wants real assets for inflation protection can explore adding them without cutting bonds. The choice of diversifying strategy depends entirely on the client's goals and the investor's thesis; <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a> seeks to create the capacity, and the investor decides how to fill it.</p>
+
+    <p>By separating exposure from capital, <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a> can give investors a way to act on their convictions without a forced trade-off in the core portfolio. The question is no different from any other allocation decision: what does the diversifying strategy contribute that the existing portfolio lacks, and will the investor hold it through the inevitable stretches when it lags? The choice of what to stack, and why, remains entirely with the investor.</p>
+
+    <blockquote class="rsp-callout">By separating exposure from capital, RSSB can give investors a way to act on their convictions without a forced trade-off in the core portfolio. The choice of what to stack, and why, remains entirely with the investor.</blockquote>
+
+    <h2>Key Takeaways</h2>
+
+    <ul>
+      <li><strong>Every portfolio has a funding problem.</strong> A portfolio built to 100% leaves no room to add diversification without reducing core equity or bond exposure. More often than not, this is why diversifying strategies worth owning never make it into the portfolio.</li>
+      <li><strong><a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a> seeks to create capacity by separating capital from exposure.</strong> By seeking to provide $1.00 of global equity exposure and $1.00 of U.S. Treasury bond exposure per dollar invested, <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a> may allow investors to hold the core and create space for additional diversifying strategies at the same time.</li>
+      <li><strong>The implementation is straightforward.</strong> Sell equal amounts from equities and bonds, use the proceeds to buy <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a> and the chosen diversifying strategy. Core exposures remain intact; the new diversifying strategy sits alongside the core rather than displacing it.</li>
+      <li><strong>What gets stacked is the investor's decision.</strong> <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a> is a base layer, not a prescription. The diversifying strategy added on top is chosen entirely by the investor based on the client's goals and circumstances.</li>
+      <li><strong>Leverage is part of the structure, and worth understanding.</strong> <a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/">RSSB</a> uses a futures overlay that seeks to deliver both exposures within a single dollar. That means the fund's value can move more than either asset class individually. Understanding that dynamic is part of using the tool well.</li>
+    </ul>
+
+    <hr>
+  <div>
+    <img src=RSSB-Performance-Screenshot.png alt="RSSB Standardized Performance">
+  </div>
+    <hr>
+    <div class="rsp-disc-section">
+
+      <h2>Important Disclosures</h2>
+
+      <p><strong>Investors should consider the investment objectives, risks, charges, and expenses carefully before investing. For a prospectus or summary prospectus with this and other information about the Fund, please click <a href="https://www.returnstackedetfs.com/rssb/prospectus">here</a>. Read the prospectus or summary prospectus carefully before investing.</strong></p>
+
+      <p>Investments involve risk. Principal loss is possible. Unlike mutual funds, ETFs may trade at a premium or discount to their net asset value. Brokerage commissions may apply and would reduce returns. Diversification does not assure a profit or protect against loss in declining markets.</p>
+
+      <p>This material is for informational purposes only and does not constitute investment advice or a recommendation to purchase or sell any security. Past performance is not indicative of future results. You cannot invest directly in an index.</p>
+
+      <p>The use of derivatives and futures contracts involves additional risks, including leverage risk and the potential for the value of an investment to change quickly and without warning. The Return Stacked&reg; Global Stocks &amp; Bonds ETF's use of derivatives and leverage has the potential to increase the volatility of an investment relative to that of the underlying asset classes viewed individually.</p>
+
+      <p><strong>Derivatives Risk.</strong> Derivatives are instruments, such as futures contracts, whose value is derived from that of other assets, rates, or indices. The use of derivatives for non-hedging purposes may be considered to carry more risk than other types of investments.</p>
+
+      <p><strong>Bond Risk.</strong> The Fund will be subject to bond and fixed income risks through its investments in U.S. Treasury securities, broad-based bond ETFs, and investments in U.S. Treasury and fixed income futures contracts. Changes in interest rates generally will cause the value of fixed-income and bond instruments held by the Fund (or underlying ETFs) to vary inversely to such changes.</p>
+
+      <p><strong>Credit Risk.</strong> Credit risk refers to the possibility that the issuer of a security will not be able to make principal and interest payments when due. Changes in an issuer's credit rating or the market's perception of an issuer's creditworthiness may also affect the value of the Fund's investment in that issuer.</p>
+
+      <p><strong>Currency Risk.</strong> Currency risk is the risk that changes in currency exchange rates will negatively affect securities denominated in, and/or receiving revenues in, foreign currencies. The liquidity and trading value of foreign currencies could be affected by global economic factors, such as inflation, interest rate levels, and trade balances among countries, as well as the actions of sovereign governments and central banks.</p>
+
+      <p><strong>Foreign and Emerging Markets Risk.</strong> Foreign and emerging market investing involves currency, political, and economic risk.</p>
+
+      <p><strong>Non-Diversification Risk.</strong> The Fund is non-diversified, meaning that it is permitted to invest a larger percentage of its assets in fewer issuers than diversified funds.</p>
+
+      <p><strong>Underlying ETFs Risk.</strong> The Fund will incur higher and duplicative expenses because it invests in bond ETFs. The Fund may also suffer losses due to the investment practices of the underlying bond ETFs.</p>
+
+      <!-- COMPLIANCE FLAG: Leverage Risk: compliance to supply RSSB-specific language. Note that the version on the RSSB webpage appears to reference a four-asset-class strategy inconsistent with RSSB's mandate and contains a missing fund name; do not use that copy verbatim. -->
+
+      <!-- COMPLIANCE FLAG: New Fund Risk: compliance to assess whether this risk factor remains applicable given the Fund's current operating history. -->
+
+      <p><strong>Bloomberg Short-Term Treasury Total Return Index</strong> measures the performance of U.S. Treasury bills, notes, and bonds under one year to maturity. STRIPS are excluded from the index.</p>
+
+      <p><strong>Bloomberg U.S. Aggregate Bond Index</strong> is a broad-based fixed-income index used by bond traders and the managers of mutual funds and exchange-traded funds as a benchmark to measure their relative performance.</p>
+
+      <p><strong>FTSE All World Index</strong> is a market-capitalization weighted index representing the performance of the large and mid-cap stocks from the FTSE Global Equity Index Series and covers 90&ndash;95% of the investable market capitalization.</p>
+
+      <p><strong>Investment Adviser:</strong> Tidal Investments LLC ("Tidal" or the "Adviser") serves as investment adviser to the Fund. <strong>Investment Sub-Advisers:</strong> Newfound Research LLC ("Newfound") serves as investment sub-adviser to the Fund. ReSolve Asset Management Inc. ("RAM") serves as a non-discretionary investment sub-adviser to the Fund. Foreside Fund Services, LLC is the distributor for the Fund. Foreside is not related to Tidal, Newfound, or RAM.</p>
+
+    </div><!-- /.rsp-disc-section -->
+
+  </div><!-- /.rsp-prose -->
+
+</div><!-- /#rssb-post -->
+
+<!-- ══════════════════════════════════════════════════════════════
+     SCRIPTS
+     ══════════════════════════════════════════════════════════════ -->
+
+<!-- Widget: The Funding Problem V2 -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── Historical index data (base = 100, Dec 1987) ────────────
+     Source: Growth of $100, monthly, Dec 1987 – Dec 2025.       */
+  const GEQ = [
+    100,102.33,108.07,111.22,112.45,110.04,109.75,111.59,105.28,109.62,116.6,120.31,
+    121.2,125.37,124.41,123.5,126.37,123.16,121.23,134.69,131.3,135.04,130.46,135.36,
+    139.57,132.91,127.09,119,117.24,129.24,128.12,129.16,116.75,104.28,113.62,111.44,
+    113.56,117.5,128.28,124.44,125.21,127.94,119.88,125.34,124.82,127.74,129.7,123.85,
+    132.78,130.53,128.29,122.31,123.67,128.13,123.28,123.39,125.87,124.53,121.22,122.98,
+    123.88,124.07,126.73,133.75,139.54,142.54,141.35,144.01,150.58,147.8,151.92,143.76,
+    151.28,161.05,158.47,151.07,154.9,155.54,154.5,157.66,163,158.89,162.68,155.33,
+    155.6,152.17,153.74,160.95,166.71,168.95,169.04,177.11,173.22,178.08,174.95,180.45,
+    185.81,189.77,190.5,193.59,198.28,198.7,199.86,192.31,194.69,201.95,202.61,213.39,
+    210.23,213.59,216.44,212.23,218.99,232.28,244.26,255.25,237.31,250.01,234.95,238.55,
+    241.61,246.73,263.63,275.09,277.68,272.63,277.71,277.68,238.76,243.54,265.62,281.72,
+    294.69,300.52,292.9,306.37,319.61,308.84,324.43,322.97,322.67,319.24,335.24,345.61,
+    374.38,353.96,355.14,378.72,361.8,352.74,364.71,353.9,365.05,344.99,338.1,317.11,
+    322.29,330.49,302.74,282.38,302.95,299.6,290.49,285.92,272.81,247.88,253.17,268.77,
+    271.33,263.89,261.94,273.8,265.12,265.47,249.28,228.4,229,203.9,218.91,230.87,
+    219.92,213.49,209.83,208.93,227.6,240.84,245.46,250.91,256.87,258.52,274.2,278.36,
+    296.08,301.13,306.66,305.03,298.02,300.52,306.61,296.88,298.81,305.14,312.65,329.81,
+    342.74,335.51,347.25,339.76,332.49,338.93,342.52,355.28,358.15,369.02,359.14,372.41,
+    381.73,400.55,400.09,408.72,422.51,406.19,406.19,409.05,419.86,424.88,440.9,453.55,
+    463.89,468.55,466.26,475.81,497.13,512.4,511.08,503.36,502.18,529.31,550.08,526.27,
+    520.71,478.12,479.64,472.85,499.53,507.9,466.37,454.4,444.79,389.37,312.3,291.98,
+    302.75,276.93,249.97,270.73,302.91,333.42,331.69,360.99,374.05,391.32,385.35,401.36,
+    409.87,392.2,397.32,423.07,423.99,384.13,372.49,402.91,388.96,426.31,441.81,432.14,
+    464,471.34,485.21,484.94,504.97,494.55,486.96,479.19,444.36,402.59,445.79,432.66,
+    432.01,457.19,480.39,483.83,478.5,435.98,457.72,464.12,474.44,489.57,486.43,492.96,
+    504.44,527.77,527.89,537.84,553.45,552.35,536.42,562.33,550.85,579.54,602.99,611.76,
+    622.64,597.85,626.98,630.17,636.46,650.52,663.01,655.19,669.94,648.49,653.23,664.46,
+    651.98,641.95,677.94,667.9,687.58,687.18,671.31,677.37,631.2,608.66,656.61,651.48,
+    640.04,601.6,597.77,642.47,652.28,653.62,649.99,678.33,680.93,685.39,673.94,679.42,
+    694.39,713.53,733.84,743.36,755.27,772.58,776.43,798.42,801.87,817.67,834.83,851.36,
+    865.44,914.43,876.34,858.15,866.8,868.59,864.25,890.6,897.98,902.28,834.89,847.48,
+    788.15,850.63,873.75,885.32,915.65,862.04,918.89,921.91,900.47,919.83,945.23,968.72,
+    1003.21,992.4,912.53,789.85,875,913.58,943.19,993.47,1054.66,1021.08,996.5,1119.69,
+    1172.28,1167.09,1194.46,1227.06,1281.21,1301.78,1319.41,1328.89,1362.55,1306.89,
+    1373.92,1341.25,1395.43,1327.16,1293.22,1322.04,1216.7,1218.93,1116.66,1195.07,
+    1151.53,1041.79,1104.9,1191.09,1144.68,1227.04,1192.28,1229.91,1248.15,1235.62,
+    1307.92,1356.22,1318.85,1264.82,1227.04,1340.85,1405.72,1414.28,1475.48,1522.7,
+    1473.07,1533.77,1568.46,1594.24,1635.25,1673.88,1636.84,1698.58,1658.92,1715.01,
+    1705.15,1638.73,1654.72,1750.89,1830.23,1855.57,1902.22,1971.88,2016.33,2016.66,
+    2038.23
+  ];
+
+  const USB = [
+    100,103.52,104.74,103.76,103.2,102.51,104.98,104.43,104.7,107.07,109.09,107.76,
+    107.89,109.44,108.64,109.11,111.4,114.33,117.81,120.31,118.53,119.13,122.07,123.23,
+    123.56,122.09,122.49,122.58,121.46,125.05,127.06,128.82,127.1,128.15,129.77,132.57,
+    134.63,136.3,137.46,138.41,139.91,140.72,140.65,142.6,145.69,148.64,150.3,151.67,
+    156.18,154.05,155.06,154.18,155.29,158.22,160.4,163.68,165.33,167.3,165.07,165.11,
+    167.74,170.95,173.95,174.67,175.89,176.11,179.3,180.32,183.48,183.98,184.67,183.1,
+    184.09,186.58,183.34,178.82,177.39,177.36,176.97,180.49,180.71,178.05,177.89,177.5,
+    178.72,182.26,186.59,187.74,190.36,197.73,199.18,198.73,201.13,203.09,205.73,208.81,
+    211.74,213.15,209.44,207.99,206.82,206.4,209.17,209.74,209.39,213.04,217.76,221.49,
+    219.43,220.1,220.65,218.2,221.47,223.56,226.21,232.32,230.33,233.73,237.12,238.21,
+    240.61,243.7,243.52,244.35,245.63,247.96,250.06,250.59,254.67,260.64,259.26,260.73,
+    261.51,263.38,258.78,260.22,261.04,258.75,257.93,256.83,256.7,259.68,260.64,260.62,
+    259.36,258.51,261.64,265.09,264.33,264.21,269.7,272.15,276.1,277.83,279.67,284.24,
+    289.52,294.25,296.81,298.3,297.07,298.86,299.99,306.69,310.21,313.82,320.39,315.97,
+    313.96,316.51,319.57,314.26,320.35,323.07,325.87,329.8,335.37,340.8,339.25,339.16,
+    346.16,346.46,351.25,350.98,353.88,360.47,359.76,347.66,349.97,359.24,355.89,356.74,
+    360.37,363.27,367.2,369.95,360.32,358.88,360.91,364.49,371.44,372.45,375.57,372.58,
+    376,378.36,376.13,374.2,379.26,383.37,385.46,381.95,386.85,382.86,379.83,381.51,
+    385.14,385.16,386.44,382.64,381.95,381.54,382.35,387.52,393.45,396.91,399.54,404.17,
+    401.83,401.66,407.85,407.87,410.07,406.96,405.75,409.14,414.15,417.3,421.04,428.62,
+    429.82,437.04,437.65,439.14,438.22,435.01,434.66,434.3,438.42,432.54,422.33,436.07,
+    452.34,448.35,446.66,452.87,455.03,458.33,460.94,468.38,473.23,478.2,480.56,486.78,
+    479.17,486.49,488.31,487.71,492.78,496.93,504.72,510.11,516.67,517.22,519.06,516.08,
+    510.51,511.11,512.39,512.67,519.18,525.95,524.41,532.74,540.52,544.45,545.04,544.56,
+    550.55,555.38,555.25,552.21,558.33,563.39,563.61,571.38,571.75,572.54,573.67,574.57,
+    573.75,569.74,572.6,573.05,578.85,568.52,559.73,560.5,557.63,562.91,567.46,565.34,
+    562.14,570.45,573.48,572.5,577.33,583.91,584.21,582.74,589.18,585.18,590.93,595.12,
+    595.68,608.17,602.45,605.25,603.08,601.62,595.06,599.2,598.34,602.39,602.49,600.9,
+    598.95,607.2,611.5,617.11,619.48,619.64,630.78,634.76,634.04,633.67,628.82,613.95,
+    614.81,616.02,620.16,619.83,624.62,629.42,628.79,631.5,637.16,634.13,634.49,633.68,
+    636.59,629.25,623.29,627.29,622.62,627.06,626.29,626.44,630.47,626.41,621.46,625.17,
+    636.66,643.42,643.05,655.39,655.56,667.2,675.58,677.06,694.61,690.91,692.99,692.64,
+    692.15,705.48,718.17,713.95,726.64,730.02,734.62,745.59,739.57,739.17,735.87,743.09,
+    744.11,738.78,728.11,719.02,724.7,727.06,732.17,740.36,738.95,732.55,732.35,734.52,
+    732.64,716.85,708.86,689.16,663.01,667.28,656.82,672.86,653.85,625.6,617.5,640.21,
+    637.32,656.93,639.94,656.2,660.18,652.99,650.66,650.21,646.05,629.63,619.7,647.76,
+    672.56,670.71,661.23,667.34,650.48,661.51,667.78,683.37,693.19,702.47,685.05,692.29,
+    680.96,684.58,699.64,699.9,702.65,697.62,708.35,706.48,714.93,722.73,727.24,731.76,
+    730.68
+  ];
+
+  /* ── State ───────────────────────────────────────────────── */
+  let benchEq   = 60;
+  let benchBond = 40;
+
+  const slider    = document.getElementById('fp2-alt-slider');
+  const altBadge  = document.getElementById('fp2-alt-badge');
+  const sellDiv   = document.getElementById('fp2-sell-items');
+  const buyDiv    = document.getElementById('fp2-buy-items');
+  const cagrBadge = document.getElementById('fp2-cagr-badge');
+  const benchBtns = document.querySelectorAll('#rssb-fp2 .fp2-bench-btn');
+
+  /* ── Calculation ─────────────────────────────────────────── */
+  function compute(eq, bond, alt) {
+    if (alt === 0) {
+      return { sellEq: 0, sellBond: 0, newEq: eq, newBond: bond, newAlt: 0 };
+    }
+    const total   = eq + bond;
+    const eqWt    = total > 0 ? eq / total : 1;
+    const bondWt  = total > 0 ? bond / total : 0;
+    const sellBond = +Math.min(alt * bondWt, bond).toFixed(1);
+    const sellEq   = +(alt - sellBond).toFixed(1);
+    return {
+      sellEq,
+      sellBond,
+      newEq:   +(eq   - sellEq).toFixed(1),
+      newBond: +(bond - sellBond).toFixed(1),
+      newAlt:  alt
+    };
+  }
+
+  /* ── Hurdle blend ────────────────────────────────────────── */
+  function computeBlend(eqPct, bondPct) {
+    const wEq   = eqPct  / 100;
+    const wBond = bondPct / 100;
+    let cum = 100.0;
+    const result = [100];
+    for (let i = 1; i < GEQ.length; i++) {
+      const rBench = wEq   * (GEQ[i] / GEQ[i - 1] - 1) +
+                     wBond * (USB[i] / USB[i - 1] - 1);
+      cum *= (1 + rBench);
+      result.push(+cum.toFixed(2));
+    }
+    return result;
+  }
+
+  /* ── Bar chart: inline label plugin ─────────────────────── */
+  const labelPlugin = {
+    id: 'fp2-labels',
+    afterDatasetsDraw(chart) {
+      const ctx = chart.ctx;
+      ctx.save();
+      chart.data.datasets.forEach((ds, i) => {
+        const meta = chart.getDatasetMeta(i);
+        if (meta.hidden) return;
+        meta.data.forEach((bar, j) => {
+          const val = ds.data[j];
+          if (!val || val < 6) return;
+          const { x, y, width, height } = bar.getProps(['x','y','width','height'], true);
+          ctx.font = '600 11px "DM Sans", sans-serif';
+          ctx.fillStyle = '#fff';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(val + '%', x, y + height / 2);
+        });
+      });
+      ctx.restore();
+    }
+  };
+
+  /* ── Initial values ──────────────────────────────────────── */
+  const alt0  = parseInt(slider.value);
+  const res0  = compute(benchEq, benchBond, alt0);
+
+  /* ── Bar chart ───────────────────────────────────────────── */
+  const barChart = new Chart(
+    document.getElementById('fp2-chart').getContext('2d'),
+    {
+      type: 'bar',
+      plugins: [labelPlugin],
+      data: {
+        labels: ['60/40', 'New Portfolio'],
+        datasets: [
+          {
+            label: 'Equities',
+            data: [benchEq, res0.newEq],
+            backgroundColor: '#323A46',
+            borderWidth: 0,
+            barPercentage: 0.55,
+            categoryPercentage: 0.75
+          },
+          {
+            label: 'U.S. Bonds',
+            data: [benchBond, res0.newBond],
+            backgroundColor: '#3A6A9C',
+            borderWidth: 0,
+            barPercentage: 0.55,
+            categoryPercentage: 0.75
+          },
+          {
+            label: 'Alternatives',
+            data: [0, res0.newAlt],
+            backgroundColor: '#60CCA8',
+            borderWidth: 0,
+            barPercentage: 0.55,
+            categoryPercentage: 0.75,
+            borderRadius: { topLeft: 4, topRight: 4 }
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 200, easing: 'easeOutCubic' },
+        layout: { padding: { top: 8 } },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            backgroundColor: 'rgba(42,63,91,0.95)',
+            titleFont: { family: 'DM Sans', size: 12, weight: '600' },
+            bodyFont: { family: 'DM Sans', size: 12 },
+            padding: 10,
+            cornerRadius: 8,
+            callbacks: {
+              title: items => items[0].label,
+              label: ctx => ctx.raw > 0
+                ? '  ' + ctx.dataset.label + ': ' + ctx.raw + '%'
+                : null
+            }
+          },
+          annotation: {
+            annotations: {
+              ref100: {
+                type: 'line',
+                yMin: 100,
+                yMax: 100,
+                borderColor: '#2A3F5B',
+                borderWidth: 1.5,
+                borderDash: [6, 4],
+                label: { display: false }
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            stacked: true,
+            ticks: {
+              font: { family: 'DM Sans', size: 13, weight: '600' },
+              color: '#2A3F5B'
+            },
+            grid: { display: false },
+            border: { color: '#dde2eb', width: 1 }
+          },
+          y: {
+            stacked: true,
+            min: 0,
+            max: 115,
+            ticks: {
+              font: { family: 'DM Sans', size: 11 },
+              color: '#666',
+              callback: v => v + '%',
+              stepSize: 20
+            },
+            grid: { color: '#f0f0f0' },
+            border: { color: '#dde2eb', width: 1 }
+          }
+        }
+      }
+    }
+  );
+
+  /* ── Hurdle rate line chart ───────────────────────────────── */
+  const blend0 = computeBlend(benchEq, benchBond);
+
+  const hurdleChart = new Chart(
+    document.getElementById('fp2-hurdle-chart').getContext('2d'),
+    {
+      type: 'line',
+      data: {
+        labels: GEQ.map((_, i) => i),
+        datasets: [
+          {
+            label: 'Benchmark Growth ($100)',
+            data: blend0,
+            borderColor: '#2A3F5B',
+            borderWidth: 2,
+            backgroundColor: 'rgba(42,63,91,0.07)',
+            fill: true,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            pointHoverBackgroundColor: '#2A3F5B',
+            tension: 0.2
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 300, easing: 'easeOutCubic' },
+        layout: { padding: { right: 8 } },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            backgroundColor: 'rgba(42,63,91,0.92)',
+            titleFont: { family: 'DM Sans', size: 11, weight: '600' },
+            bodyFont: { family: 'DM Sans', size: 11 },
+            padding: 8,
+            cornerRadius: 6,
+            callbacks: {
+              title: items => {
+                const idx = items[0].dataIndex;
+                const monthsFrom = idx;
+                const totalMonths = 1987 * 12 + 11 + monthsFrom;
+                const year = Math.floor(totalMonths / 12);
+                const month = totalMonths % 12;
+                const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                return monthNames[month] + ' ' + year;
+              },
+              label: ctx => '  $' + ctx.raw.toFixed(2)
+            }
+          },
+          annotation: { annotations: {} }
+        },
+        scales: {
+          x: {
+            type: 'linear',
+            min: 0,
+            max: GEQ.length - 1,
+            afterBuildTicks: function(axis) {
+              const vals = [];
+              for (let v = 0; v <= GEQ.length - 1; v += 60) vals.push({ value: v });
+              if ((GEQ.length - 1) % 60 !== 0) vals.push({ value: GEQ.length - 1 });
+              axis.ticks = vals;
+            },
+            ticks: {
+              font: { family: 'DM Sans', size: 11 },
+              color: '#888',
+              maxRotation: 0,
+              callback: function(value) {
+                if (value === GEQ.length - 1) return '2025';
+                if (value % 60 === 0) return String(1987 + value / 12);
+                return null;
+              }
+            },
+            grid: { display: false },
+            border: { color: '#dde2eb', width: 1 }
+          },
+          y: {
+            type: 'logarithmic',
+            ticks: {
+              font: { family: 'DM Sans', size: 11 },
+              color: '#888',
+              callback: v => '$' + v,
+              maxTicksLimit: 6
+            },
+            grid: { color: '#f5f5f5' },
+            border: { color: '#dde2eb', width: 1 }
+          }
+        }
+      }
+    }
+  );
+
+  /* ── Hurdle chart + badge update ────────────────────────── */
+  function updateHurdle() {
+    const blend = computeBlend(benchEq, benchBond);
+    hurdleChart.data.datasets[0].data = blend;
+    hurdleChart.update();
+
+    let cum = 1.0;
+    const wEq = benchEq / 100, wBd = benchBond / 100;
+    for (let i = 1; i < GEQ.length; i++) {
+      cum *= 1 + wEq * (GEQ[i] / GEQ[i - 1] - 1) + wBd * (USB[i] / USB[i - 1] - 1);
+    }
+    const cagr = (Math.pow(cum, 1 / 38) - 1) * 100;
+    cagrBadge.textContent = '+' + cagr.toFixed(1) + '% / yr';
+  }
+
+  /* ── Transaction display ─────────────────────────────────── */
+  function updateTx(res, alt) {
+    if (alt === 0) {
+      sellDiv.innerHTML = '<span class="fp2-tx-none">No change</span>';
+      buyDiv.innerHTML  = '<span class="fp2-tx-none">No change</span>';
+      return;
+    }
+    let html = '';
+    if (res.sellEq   > 0) html += `<div class="fp2-tx-item sell">&#8722;${res.sellEq}% Equities</div>`;
+    if (res.sellBond > 0) html += `<div class="fp2-tx-item sell">&#8722;${res.sellBond}% Bonds</div>`;
+    sellDiv.innerHTML = html || '<span class="fp2-tx-none">None</span>';
+    buyDiv.innerHTML  = `<div class="fp2-tx-item buy">+${alt}% Alternatives</div>`;
+  }
+
+  /* ── Main update (slider + hurdle) ──────────────────────── */
+  function update(animate) {
+    const alt = parseInt(slider.value);
+    altBadge.textContent = alt + '%';
+    const res = compute(benchEq, benchBond, alt);
+
+    barChart.data.datasets[0].data = [benchEq,   res.newEq];
+    barChart.data.datasets[1].data = [benchBond,  res.newBond];
+    barChart.data.datasets[2].data = [0,          res.newAlt];
+    barChart.update(animate ? undefined : 'none');
+
+    updateTx(res, alt);
+  }
+
+  /* ── Benchmark update ───────────────────────────────────── */
+  function updateBenchmark(eq, bond, label) {
+    benchEq   = eq;
+    benchBond = bond;
+    barChart.data.labels[0] = label;
+    update(true);
+    updateHurdle();
+  }
+
+  /* ── Event listeners ─────────────────────────────────────── */
+  slider.addEventListener('input', () => update(false));
+
+  benchBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      benchBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      updateBenchmark(
+        parseInt(btn.dataset.eq),
+        parseInt(btn.dataset.bond),
+        btn.textContent.trim()
+      );
+    });
+  });
+
+  /* ── Init ────────────────────────────────────────────────── */
+  update(false);
+  updateHurdle();
+
+})();
+</script>
+
+<!-- Figure: RSSB Dual Exposure Mechanism -->
+<script>
+(function () {
+
+  function hexToRgb(hex) {
+    return [
+      parseInt(hex.slice(1, 3), 16),
+      parseInt(hex.slice(3, 5), 16),
+      parseInt(hex.slice(5, 7), 16)
+    ];
+  }
+
+  function makePattern(hex1, hex2, W, reversed) {
+    const N = W * 2;
+    const c1 = hexToRgb(hex1);
+    const c2 = hexToRgb(hex2);
+    const pat = document.createElement('canvas');
+    pat.width = N; pat.height = N;
+    const pc = pat.getContext('2d');
+    const img = pc.createImageData(N, N);
+    for (let y = 0; y < N; y++) {
+      for (let x = 0; x < N; x++) {
+        const pos = reversed ? (N + x - y) % N : (x + y) % N;
+        const c = Math.floor(pos / W) === 0 ? c1 : c2;
+        const i = (y * N + x) * 4;
+        img.data[i] = c[0]; img.data[i + 1] = c[1]; img.data[i + 2] = c[2]; img.data[i + 3] = 255;
+      }
+    }
+    pc.putImageData(img, 0, 0);
+    return document.createElement('canvas').getContext('2d').createPattern(pat, 'repeat');
+  }
+
+  const treasPattern = makePattern('#3A6A9C', '#B8C4D0', 9);
+  const eqFutPattern = makePattern('#323A46', '#B8C4D0', 9, true);
+
+  /* EQUITIES before BONDS_SOLID so bar 4 stacks equities 0→100 (below line)
+     and bonds 100→200 (above line).                                         */
+  /*            Cash, Alloc, RSSB, EffExp */
+  const CASH_MARGIN = [100,  10,  10,   0];
+  const EXCESS_CASH = [  0, 90,  0,   0];
+  const EQUITIES    = [  0,  0, 90, 100];
+  const BONDS_SOLID = [  0,  0,  0, 100];
+  const TREAS_FUT   = [  0,  0, 100,  0];
+  const EQ_FUT      = [  0,  0,  10,   0];
+
+  const exposureLabelPlugin = {
+    id: 'exposureLabels',
+    afterDatasetsDraw(chart) {
+      const ctx = chart.ctx;
+      ctx.save();
+      const bar4 = 3;
+      const eqMeta  = chart.getDatasetMeta(2);
+      const bndMeta = chart.getDatasetMeta(3);
+      if (!eqMeta.data[bar4] || !bndMeta.data[bar4]) { ctx.restore(); return; }
+      const eqBar  = eqMeta.data[bar4].getProps(['x','y','width','height'], true);
+      const bndBar = bndMeta.data[bar4].getProps(['x','y','width','height'], true);
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      if (eqBar.height > 18) {
+        const cy = eqBar.y + eqBar.height / 2;
+        ctx.font = 'bold 12px "DM Sans", sans-serif';
+        ctx.fillStyle = '#fff';
+        ctx.fillText('100%', eqBar.x, cy - 8);
+        ctx.font = '10px "DM Sans", sans-serif';
+        ctx.fillText('Equities', eqBar.x, cy + 8);
+      }
+      if (bndBar.height > 18) {
+        const cy = bndBar.y + bndBar.height / 2;
+        ctx.font = 'bold 12px "DM Sans", sans-serif';
+        ctx.fillStyle = '#fff';
+        ctx.fillText('100%', bndBar.x, cy - 8);
+        ctx.font = '10px "DM Sans", sans-serif';
+        ctx.fillText('Bonds', bndBar.x, cy + 8);
+      }
+      ctx.restore();
+    }
+  };
+
+  new Chart(
+    document.getElementById('rssb-mech-canvas').getContext('2d'),
+    {
+      type: 'bar',
+      plugins: [exposureLabelPlugin],
+      data: {
+        labels: ['Cash', 'Allocation', 'RSSB', ['Effective', 'Exposure']],
+        datasets: [
+          {
+            label: 'Cash / Margin Reserve',
+            data: CASH_MARGIN,
+            backgroundColor: '#B8C4D0',
+            borderWidth: 1,
+            borderColor: 'rgba(0,0,0,0.35)',
+            barPercentage: 0.5,
+            categoryPercentage: 0.85
+          },
+          {
+            label: 'Excess Cash',
+            data: EXCESS_CASH,
+            backgroundColor: '#D0DCE6',
+            borderWidth: 1,
+            borderColor: 'rgba(0,0,0,0.35)',
+            barPercentage: 0.5,
+            categoryPercentage: 0.85
+          },
+          {
+            label: 'Equities',
+            data: EQUITIES,
+            backgroundColor: '#323A46',
+            borderWidth: 1,
+            borderColor: 'rgba(0,0,0,0.35)',
+            barPercentage: 0.5,
+            categoryPercentage: 0.85
+          },
+          {
+            label: 'U.S. Treasury Bonds',
+            data: BONDS_SOLID,
+            backgroundColor: '#3A6A9C',
+            borderWidth: 1,
+            borderColor: 'rgba(0,0,0,0.35)',
+            barPercentage: 0.5,
+            categoryPercentage: 0.85
+          },
+          {
+            label: 'Treasury Bond Futures',
+            data: TREAS_FUT,
+            backgroundColor: treasPattern,
+            borderWidth: 1,
+            borderColor: 'rgba(0,0,0,0.35)',
+            barPercentage: 0.5,
+            categoryPercentage: 0.85
+          },
+          {
+            label: 'Equity Futures',
+            data: EQ_FUT,
+            backgroundColor: eqFutPattern,
+            borderWidth: 1,
+            borderColor: 'rgba(0,0,0,0.35)',
+            barPercentage: 0.5,
+            categoryPercentage: 0.85
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 0 },
+        layout: { padding: { right: 100 } },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            backgroundColor: 'rgba(42,63,91,0.95)',
+            titleFont: { family: 'DM Sans', size: 12, weight: '600' },
+            bodyFont: { family: 'DM Sans', size: 12 },
+            padding: 10,
+            cornerRadius: 8,
+            callbacks: {
+              label: ctx => ctx.raw > 0 ? '  ' + ctx.dataset.label + ': ' + ctx.raw + '%' : null
+            }
+          },
+          annotation: {
+            annotations: {
+              ref100: {
+                type: 'line',
+                clip: false,
+                yMin: 100,
+                yMax: 100,
+                borderColor: '#2A3F5B',
+                borderWidth: 1.5,
+                borderDash: [6, 4]
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            stacked: true,
+            ticks: {
+              font: { family: 'DM Sans', size: 13, weight: '600' },
+              color: '#2A3F5B'
+            },
+            grid: { display: false },
+            border: { color: '#dde2eb', width: 1 }
+          },
+          y: {
+            stacked: true,
+            min: 0,
+            max: 224,
+            ticks: { display: false },
+            grid: { display: false },
+            border: { color: '#dde2eb', width: 1 },
+            title: {
+              display: true,
+              text: 'Notional Exposure',
+              font: { family: 'DM Sans', size: 12, weight: '600' },
+              color: '#555'
+            }
+          }
+        }
+      }
+    }
+  );
+
+})();
+</script>
+
+<!-- Figure 1: Adding vs. Replacing -->
+<script>
+(function () {
+
+  /* ── data ────────────────────────────────────────────────── */
+  const GROUPS = [
+    'Traditional\n60/40',
+    'Traditional\n60/40 + 20% Alts',
+    'RSSB-Enabled\n60/40 + 20% Alts'
+  ];
+
+  /* capital allocation: equities, bonds, RSSB, alternatives */
+  const CAP = {
+    equities: [60, 48, 40],
+    bonds:    [40, 32, 20],
+    rssb:     [ 0,  0, 20],
+    alts:     [ 0, 20, 20]
+  };
+
+  /* effective exposure: equities, bonds, alternatives */
+  const EXP = {
+    equities: [60, 48, 60],
+    bonds:    [40, 32, 40],
+    alts:     [ 0, 20, 20]
+  };
+
+  /* ── shared helpers ──────────────────────────────────────── */
+
+  /* Seamless 45° diagonal stripe pattern for RSSB.
+     Color is determined per-pixel by (x + y) % period, which is the exact
+     canvas equivalent of repeating-linear-gradient(135deg, ...) — no tile
+     seams because the stripe boundary is defined continuously across all tiles. */
+  const rssbPattern = (function () {
+    const W = 9, N = W * 2;            /* W=9 → ~6.4px visual stripe width at 45° */
+    const c1 = [0x32, 0x3A, 0x46];     /* #323A46 */
+    const c2 = [0x3A, 0x6A, 0x9C];     /* #3A6A9C */
+    const pat = document.createElement('canvas');
+    pat.width = N; pat.height = N;
+    const pc = pat.getContext('2d');
+    const img = pc.createImageData(N, N);
+    for (let y = 0; y < N; y++) {
+      for (let x = 0; x < N; x++) {
+        const c = Math.floor(((x + y) % N) / W) === 0 ? c1 : c2;
+        const i = (y * N + x) * 4;
+        img.data[i] = c[0]; img.data[i + 1] = c[1]; img.data[i + 2] = c[2]; img.data[i + 3] = 255;
+      }
+    }
+    pc.putImageData(img, 0, 0);
+    return document.createElement('canvas').getContext('2d').createPattern(pat, 'repeat');
+  })();
+
+  const COLORS = {
+    equities: '#323A46',
+    bonds:    '#3A6A9C',
+    rssb:     rssbPattern,
+    alts:     '#60CCA8'
+  };
+
+  /* inline data-label plugin */
+  const labelPlugin = {
+    id: 'rssb-inline-labels',
+    afterDatasetsDraw(chart) {
+      const ctx = chart.ctx;
+      ctx.save();
+      chart.data.datasets.forEach((ds, i) => {
+        const meta = chart.getDatasetMeta(i);
+        if (meta.hidden) return;
+        meta.data.forEach((bar, j) => {
+          const val = ds.data[j];
+          if (!val || val < 6) return;
+          const { x, y, width, height } = bar.getProps(['x','y','width','height'], true);
+          ctx.font = '600 11px DM Sans, sans-serif';
+          ctx.fillStyle = '#fff';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(val + '%', x, y + height / 2);
+        });
+      });
+      ctx.restore();
+    }
+  };
+
+  /* ── shared chart options ────────────────────────────────── */
+  function makeOptions(yMax) {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 0 },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          mode: 'index',
+          intersect: false,
+          backgroundColor: 'rgba(42,63,91,0.95)',
+          titleFont:  { family: 'DM Sans', size: 12, weight: '600' },
+          bodyFont:   { family: 'DM Sans', size: 12 },
+          padding: 10,
+          cornerRadius: 8,
+          callbacks: {
+            title: (items) => items[0].label.replace('\n', ' '),
+            label: (ctx) => {
+              if (!ctx.raw) return null;
+              return '  ' + ctx.dataset.label + ': ' + ctx.raw + '%';
+            }
+          }
+        },
+        annotation: {
+          annotations: {
+            ref100: {
+              type: 'line',
+              yMin: 100,
+              yMax: 100,
+              borderColor: '#2A3F5B',
+              borderWidth: 1.5,
+              borderDash: [6, 4],
+              label: { display: false }
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          stacked: true,
+          ticks: {
+            font: { family: 'DM Sans', size: 12, weight: '600' },
+            color: '#555',
+            maxRotation: 0,
+            minRotation: 0,
+            align: 'center',
+            callback: function(val) {
+              return this.getLabelForValue(val).split('\n');
+            }
+          },
+          grid: { display: false },
+          border: { color: '#dde2eb', width: 1 }
+        },
+        y: {
+          stacked: true,
+          min: 0,
+          max: yMax,
+          ticks: {
+            font: { family: 'DM Sans', size: 11 },
+            color: '#666',
+            callback: v => v + '%',
+            stepSize: 20
+          },
+          grid: { color: '#f0f0f0' },
+          border: { color: '#dde2eb', width: 1 }
+        }
+      }
+    };
+  }
+
+  /* ── capital allocation chart ────────────────────────────── */
+  new Chart(
+    document.getElementById('rssb-fig1-cap').getContext('2d'),
+    {
+      type: 'bar',
+      plugins: [labelPlugin],
+      data: {
+        labels: GROUPS,
+        datasets: [
+          { label: 'Global Equities', data: CAP.equities, backgroundColor: COLORS.equities, borderWidth: 0 },
+          { label: 'U.S. Bonds',      data: CAP.bonds,    backgroundColor: COLORS.bonds,    borderWidth: 0 },
+          { label: 'RSSB',             data: CAP.rssb,     backgroundColor: COLORS.rssb,     borderWidth: 0 },
+          { label: 'Alternatives',    data: CAP.alts,     backgroundColor: COLORS.alts,     borderWidth: 0, borderRadius: { topLeft: 4, topRight: 4 } }
+        ]
+      },
+      options: makeOptions(140)
+    }
+  );
+
+  /* ── effective exposure chart ────────────────────────────── */
+  new Chart(
+    document.getElementById('rssb-fig1-exp').getContext('2d'),
+    {
+      type: 'bar',
+      plugins: [labelPlugin],
+      data: {
+        labels: GROUPS,
+        datasets: [
+          { label: 'Global Equities', data: EXP.equities, backgroundColor: COLORS.equities, borderWidth: 0 },
+          { label: 'U.S. Bonds',      data: EXP.bonds,    backgroundColor: COLORS.bonds,    borderWidth: 0 },
+          { label: 'Alternatives',    data: EXP.alts,     backgroundColor: COLORS.alts,     borderWidth: 0, borderRadius: { topLeft: 4, topRight: 4 } }
+        ]
+      },
+      options: makeOptions(140)
+    }
+  );
+
+})();
+</script>
+
+<!-- Widget: Build Your Stack -->
+<script>
+(function () {
+
+  /* ── RSSB stripe pattern ─────────────────────────────────── */
+  const rssbPattern = (function () {
+    const W = 9, N = W * 2;
+    const c1 = [0x32, 0x3A, 0x46], c2 = [0x3A, 0x6A, 0x9C];
+    const pat = document.createElement('canvas');
+    pat.width = N; pat.height = N;
+    const pc = pat.getContext('2d');
+    const img = pc.createImageData(N, N);
+    for (let y = 0; y < N; y++) {
+      for (let x = 0; x < N; x++) {
+        const c = Math.floor(((x + y) % N) / W) === 0 ? c1 : c2;
+        const i = (y * N + x) * 4;
+        img.data[i] = c[0]; img.data[i+1] = c[1]; img.data[i+2] = c[2]; img.data[i+3] = 255;
+      }
+    }
+    pc.putImageData(img, 0, 0);
+    return document.createElement('canvas').getContext('2d').createPattern(pat, 'repeat');
+  })();
+
+  const C = { eq: '#323A46', bond: '#3A6A9C', rssb: rssbPattern, alts: '#60CCA8' };
+
+  /* ── State ───────────────────────────────────────────────── */
+  const state = { eq: 60, bond: 40, stack: 20 };
+
+  /* ── Inline label plugin ─────────────────────────────────── */
+  const labelPlugin = {
+    id: 'rsw-inline-labels',
+    afterDatasetsDraw(chart) {
+      const ctx = chart.ctx;
+      ctx.save();
+      chart.data.datasets.forEach((ds, i) => {
+        const meta = chart.getDatasetMeta(i);
+        if (meta.hidden) return;
+        meta.data.forEach((bar, j) => {
+          const val = ds.data[j];
+          if (!val || val < 7) return;
+          const { x, y, width, height } = bar.getProps(['x','y','width','height'], true);
+          ctx.font = '600 11px DM Sans, sans-serif';
+          ctx.fillStyle = '#fff';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(val + '%', x, y + height / 2);
+        });
+      });
+      ctx.restore();
+    }
+  };
+
+  /* ── Chart options ───────────────────────────────────────── */
+  const chartOpts = {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: { duration: 250, easing: 'easeOutCubic' },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        mode: 'index',
+        intersect: false,
+        backgroundColor: 'rgba(42,63,91,0.95)',
+        titleFont: { family: 'DM Sans', size: 12, weight: '600' },
+        bodyFont: { family: 'DM Sans', size: 12 },
+        padding: 10,
+        cornerRadius: 8,
+        callbacks: {
+          label: ctx => ctx.raw ? '  ' + ctx.dataset.label + ': ' + ctx.raw + '%' : null
+        }
+      },
+      annotation: {
+        annotations: {
+          ref: {
+            type: 'line',
+            yMin: 100, yMax: 100,
+            borderColor: '#2A3F5B',
+            borderWidth: 1.5,
+            borderDash: [6, 4],
+            label: { display: false }
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        stacked: true,
+        ticks: {
+          font: { family: 'DM Sans', size: 12, weight: '600' },
+          color: '#555',
+          maxRotation: 0,
+          minRotation: 0,
+          align: 'center'
+        },
+        grid: { display: false },
+        border: { color: '#dde2eb', width: 1 }
+      },
+      y: {
+        stacked: true,
+        min: 0,
+        max: 140,
+        ticks: {
+          font: { family: 'DM Sans', size: 11 },
+          color: '#666',
+          callback: v => v + '%',
+          stepSize: 20
+        },
+        grid: { color: '#f0f0f0' },
+        border: { color: '#dde2eb', width: 1 }
+      }
+    }
+  };
+
+  /* ── Create charts ───────────────────────────────────────── */
+  const capChart = new Chart(
+    document.getElementById('rsw-cap').getContext('2d'),
+    {
+      type: 'bar',
+      plugins: [labelPlugin],
+      data: {
+        labels: ['Before', 'After'],
+        datasets: [
+          { label: 'Global Equities', data: [0,0], backgroundColor: C.eq,   borderWidth: 0 },
+          { label: 'U.S. Bonds',      data: [0,0], backgroundColor: C.bond, borderWidth: 0 },
+          { label: 'RSSB',            data: [0,0], backgroundColor: C.rssb, borderWidth: 0 },
+          { label: 'Alternatives',    data: [0,0], backgroundColor: C.alts, borderWidth: 0, borderRadius: { topLeft: 4, topRight: 4 } }
+        ]
+      },
+      options: chartOpts
+    }
+  );
+
+  const expChart = new Chart(
+    document.getElementById('rsw-exp').getContext('2d'),
+    {
+      type: 'bar',
+      plugins: [labelPlugin],
+      data: {
+        labels: ['Before', 'After'],
+        datasets: [
+          { label: 'Global Equities', data: [0,0], backgroundColor: C.eq,   borderWidth: 0 },
+          { label: 'U.S. Bonds',      data: [0,0], backgroundColor: C.bond, borderWidth: 0 },
+          { label: 'Alternatives',    data: [0,0], backgroundColor: C.alts, borderWidth: 0, borderRadius: { topLeft: 4, topRight: 4 } }
+        ]
+      },
+      options: chartOpts
+    }
+  );
+
+  /* ── Slider track fill ───────────────────────────────────── */
+  function updateTrack(slider) {
+    const max = parseInt(slider.max) || 1;
+    const val = parseInt(slider.value) || 0;
+    const pct = max > 0 ? (val / max) * 100 : 0;
+    slider.style.setProperty(
+      'background',
+      `linear-gradient(to right, #60CCA8 0%, #60CCA8 ${pct}%, #dde2eb ${pct}%, #dde2eb 100%)`,
+      'important'
+    );
+  }
+
+  /* ── Main update ─────────────────────────────────────────── */
+  function update() {
+    const { eq, bond } = state;
+    const isCompletion = (eq === 0 || bond === 0);
+    const maxS = isCompletion ? 40 : Math.min(eq, bond);
+
+    const slider       = document.getElementById('rsw-slider');
+    const badge        = document.getElementById('rsw-badge');
+    const maxLbl       = document.getElementById('rsw-max-lbl');
+    const notice       = document.getElementById('rsw-notice');
+    const limitNotice  = document.getElementById('rsw-limit-notice');
+    const step2Lbl     = document.getElementById('rsw-step2-lbl');
+
+    slider.max = maxS;
+    if (state.stack > maxS) state.stack = maxS;
+    slider.value = state.stack;
+    slider.disabled = false;
+    badge.textContent = state.stack + '%';
+    maxLbl.textContent = maxS + '%';
+    updateTrack(slider);
+
+    if (isCompletion) {
+      step2Lbl.textContent = 'Step 2: RSSB Allocation';
+      notice.classList.add('rsw-show', 'rsw-notice--completion');
+      notice.innerHTML = eq === 0
+        ? 'A 0/100 portfolio has no equities, so the standard alternatives stack does not apply. Instead, RSSB can be used to <strong>add equity exposure without reducing bonds</strong>: sell a portion of bonds and buy RSSB. Bond exposure is maintained through the portfolio; RSSB\'s equity overlay adds equity exposure on top.'
+        : 'A 100/0 portfolio has no bonds, so the standard alternatives stack does not apply. Instead, RSSB can be used to <strong>add bond exposure without reducing equities</strong>: sell a portion of equities and buy RSSB. Equity exposure is maintained through the portfolio; RSSB\'s bond overlay adds bond exposure on top.';
+      limitNotice.classList.remove('rsw-show', 'rsw-notice--limit');
+      limitNotice.innerHTML = '';
+    } else {
+      step2Lbl.textContent = 'Step 2: Stack Size';
+      notice.classList.remove('rsw-show', 'rsw-notice--completion');
+      notice.innerHTML = '';
+      const limitingAlloc = Math.min(eq, bond);
+      const limitingName  = eq <= bond ? 'equity' : 'bond';
+      const limitingAsset = eq <= bond ? 'equities' : 'bonds';
+      limitNotice.innerHTML = `The maximum stack size for this benchmark is capped at <strong>${limitingAlloc}%</strong>, the full ${limitingName} allocation.`;
+      limitNotice.classList.add('rsw-show', 'rsw-notice--limit');
+    }
+
+    const S = state.stack;
+
+    /* charts */
+    if (isCompletion) {
+      if (eq === 0) {
+        /* 0/100: sell bonds, buy RSSB, gain equity exposure */
+        capChart.data.datasets[0].data = [0,    0       ];
+        capChart.data.datasets[1].data = [bond, bond - S];
+        capChart.data.datasets[2].data = [0,    S       ];
+        capChart.data.datasets[3].data = [0,    0       ];
+        expChart.data.datasets[0].data = [0,    S       ];
+        expChart.data.datasets[1].data = [bond, bond    ];
+        expChart.data.datasets[2].data = [0,    0       ];
+      } else {
+        /* 100/0: sell equities, buy RSSB, gain bond exposure */
+        capChart.data.datasets[0].data = [eq,   eq - S  ];
+        capChart.data.datasets[1].data = [0,    0       ];
+        capChart.data.datasets[2].data = [0,    S       ];
+        capChart.data.datasets[3].data = [0,    0       ];
+        expChart.data.datasets[0].data = [eq,   eq      ];
+        expChart.data.datasets[1].data = [0,    S       ];
+        expChart.data.datasets[2].data = [0,    0       ];
+      }
+    } else {
+      capChart.data.datasets[0].data = [eq,   eq - S  ];
+      capChart.data.datasets[1].data = [bond, bond - S];
+      capChart.data.datasets[2].data = [0,    S       ];
+      capChart.data.datasets[3].data = [0,    S       ];
+      expChart.data.datasets[0].data = [eq,   eq      ];
+      expChart.data.datasets[1].data = [bond, bond    ];
+      expChart.data.datasets[2].data = [0,    S       ];
+    }
+    capChart.update();
+    expChart.update();
+
+    /* implementation table */
+    const body = document.getElementById('rsw-impl-body');
+    if (S === 0) {
+      body.innerHTML = '<p class="rsw-placeholder">Adjust the slider above to see implementation details.</p>';
+    } else if (isCompletion) {
+      body.innerHTML = eq === 0
+        ? `<table class="rsw-table"><thead><tr><th>Action</th><th>Asset</th><th>Amount</th></tr></thead><tbody>
+            <tr><td><span class="rsw-sell">Sell</span></td><td>U.S. Bonds</td><td class="rsw-amt">${S}%</td></tr>
+            <tr><td><span class="rsw-buy">Buy</span></td><td>RSSB</td><td class="rsw-amt">${S}%</td></tr>
+           </tbody></table>`
+        : `<table class="rsw-table"><thead><tr><th>Action</th><th>Asset</th><th>Amount</th></tr></thead><tbody>
+            <tr><td><span class="rsw-sell">Sell</span></td><td>Global Equities</td><td class="rsw-amt">${S}%</td></tr>
+            <tr><td><span class="rsw-buy">Buy</span></td><td>RSSB</td><td class="rsw-amt">${S}%</td></tr>
+           </tbody></table>`;
+    } else {
+      body.innerHTML = `
+        <table class="rsw-table">
+          <thead><tr><th>Action</th><th>Asset</th><th>Amount</th></tr></thead>
+          <tbody>
+            <tr><td><span class="rsw-sell">Sell</span></td><td>Global Equities</td><td class="rsw-amt">${S}%</td></tr>
+            <tr><td><span class="rsw-sell">Sell</span></td><td>U.S. Bonds</td><td class="rsw-amt">${S}%</td></tr>
+            <tr><td><span class="rsw-buy">Buy</span></td><td>RSSB</td><td class="rsw-amt">${S}%</td></tr>
+            <tr><td><span class="rsw-buy">Buy</span></td><td>Alternatives</td><td class="rsw-amt">${S}%</td></tr>
+          </tbody>
+        </table>`;
+    }
+
+    /* stat boxes */
+    const altsVal  = document.getElementById('rsw-s-alts');
+    const totalVal = document.getElementById('rsw-s-total');
+
+    if (isCompletion) {
+      if (eq === 0) {
+        document.getElementById('rsw-s-eq').textContent   = S + '%';
+        document.getElementById('rsw-s-eq-ctx').textContent   = 'Added via RSSB';
+        document.getElementById('rsw-s-bond').textContent = bond + '%';
+        document.getElementById('rsw-s-bond-ctx').textContent = 'Preserved from benchmark';
+      } else {
+        document.getElementById('rsw-s-eq').textContent   = eq + '%';
+        document.getElementById('rsw-s-eq-ctx').textContent   = 'Preserved from benchmark';
+        document.getElementById('rsw-s-bond').textContent = S + '%';
+        document.getElementById('rsw-s-bond-ctx').textContent = 'Added via RSSB';
+      }
+      altsVal.textContent = '0%';
+      altsVal.classList.remove('rsw-green');
+      document.getElementById('rsw-s-alts-ctx').textContent = 'Not included';
+    } else {
+      document.getElementById('rsw-s-eq').textContent   = eq + '%';
+      document.getElementById('rsw-s-eq-ctx').textContent   = 'Preserved from benchmark';
+      document.getElementById('rsw-s-bond').textContent = bond + '%';
+      document.getElementById('rsw-s-bond-ctx').textContent = 'Preserved from benchmark';
+      altsVal.textContent = S + '%';
+      altsVal.classList.add('rsw-green');
+      document.getElementById('rsw-s-alts-ctx').textContent = 'Stacked on top';
+    }
+    totalVal.textContent = (100 + S) + '%';
+    totalVal.classList.toggle('rsw-green', S > 0);
+  }
+
+  /* ── Event listeners ─────────────────────────────────────── */
+  document.querySelectorAll('input[name="rsw-bm"]').forEach(r => {
+    r.addEventListener('change', function () {
+      [state.eq, state.bond] = this.value.split(',').map(Number);
+      update();
+    });
+  });
+
+  document.getElementById('rsw-slider').addEventListener('input', function () {
+    state.stack = parseInt(this.value, 10);
+    update();
+  });
+
+  /* ── Initial render ──────────────────────────────────────── */
+  update();
+
+})();
+</script>
+
+<!-- Investment Case chart -->
+<script>
+(function () {
+  const icLabelPlugin = {
+    id: 'ic-labels',
+    afterDatasetsDraw(chart) {
+      const ctx = chart.ctx;
+      ctx.save();
+      chart.data.datasets.forEach(function (ds, i) {
+        const meta = chart.getDatasetMeta(i);
+        meta.data.forEach(function (bar) {
+          const val = ds.data[0];
+          if (!val) return;
+          const props = bar.getProps(['x', 'y', 'width', 'height'], true);
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          const cy = props.y + props.height / 2;
+          ctx.font = 'bold 16px "DM Sans", sans-serif';
+          ctx.fillStyle = '#fff';
+          ctx.fillText('100%', props.x, cy - 12);
+          ctx.font = '12px "DM Sans", sans-serif';
+          ctx.fillText(ds.label, props.x, cy + 10);
+        });
+      });
+      ctx.restore();
+    }
+  };
+
+  new Chart(document.getElementById('ic-chart').getContext('2d'), {
+    type: 'bar',
+    plugins: [icLabelPlugin],
+    data: {
+      labels: ['RSSB'],
+      datasets: [
+        {
+          label: 'Global Stocks',
+          data: [100],
+          backgroundColor: '#323A46',
+          borderWidth: 0,
+          barPercentage: 0.55
+        },
+        {
+          label: 'U.S. Treasuries',
+          data: [100],
+          backgroundColor: '#3A6A9C',
+          borderWidth: 0,
+          barPercentage: 0.55
+        }
+      ]
+    },
+    options: {
+      animation: false,
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false },
+        annotation: {
+          annotations: {
+            line100: {
+              type: 'line',
+              yMin: 100,
+              yMax: 100,
+              borderColor: '#e74c3c',
+              borderWidth: 2,
+              borderDash: [6, 4],
+              label: {
+                display: true,
+                content: '+',
+                position: 'center',
+                backgroundColor: 'transparent',
+                color: '#fff',
+                font: { size: 18, weight: 'bold', family: 'DM Sans' },
+                padding: { x: 0, y: 0 }
+              }
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          stacked: true,
+          grid: { display: false },
+          ticks: { display: false },
+          border: { display: false }
+        },
+        y: {
+          stacked: true,
+          min: 0,
+          max: 250,
+          grid: { color: '#e8ecf4' },
+          ticks: {
+            stepSize: 50,
+            callback: function (v) { return v + '%'; },
+            font: { size: 11 },
+            color: '#555'
+          }
+        }
+      }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

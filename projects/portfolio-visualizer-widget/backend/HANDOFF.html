@@ -1,0 +1,503 @@
+<title>RSV Portfolio Backend — Developer Handoff</title>
+<style>
+:root {
+  --navy: #1E2730;
+  --navy-mid: #323A46;
+  --teal: #14CFA6;
+  --teal-dim: rgba(20,207,166,0.10);
+  --bg: #F4F6F9;
+  --border: #DDE1E8;
+  --text: #1E2730;
+  --text-mid: #4A5568;
+  --text-muted: #8B95A1;
+  --code-bg: #1A2230;
+  --code-text: #C8D4E8;
+  --warning-bg: #FFFAED;
+  --warning-border: #D48A00;
+  --done-bg: #F0FBF7;
+  --done-border: #14CFA6;
+  --radius: 4px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+.layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+.sidebar { background: var(--navy); padding: 28px 20px 48px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+.sidebar-eyebrow { font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--teal); font-weight: 600; margin-bottom: 6px; }
+.sidebar-title { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.35; margin-bottom: 24px; padding-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.nav-group { margin-bottom: 20px; }
+.nav-group-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); font-weight: 600; margin-bottom: 4px; }
+.nav-item { display: block; font-size: 13px; color: rgba(255,255,255,0.6); text-decoration: none; padding: 3px 0; transition: color 0.12s; }
+.nav-item:hover { color: #fff; }
+.nav-done { color: rgba(20,207,166,0.6) !important; }
+.nav-done::after { content: ' ✓'; font-size: 10px; }
+.main { padding: 44px 52px 80px; max-width: 800px; }
+.section { margin-bottom: 52px; }
+.eyebrow { font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); font-weight: 600; margin-bottom: 6px; }
+h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: var(--navy); text-wrap: balance; margin-bottom: 10px; line-height: 1.25; }
+h2 { font-size: 19px; font-weight: 700; letter-spacing: -0.01em; color: var(--navy); margin-bottom: 14px; text-wrap: balance; }
+h3 { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.09em; margin: 24px 0 10px; }
+p { color: var(--text-mid); margin-bottom: 12px; line-height: 1.65; }
+ul, ol { padding-left: 20px; margin-bottom: 14px; }
+li { color: var(--text-mid); margin-bottom: 5px; line-height: 1.6; }
+li strong { color: var(--text); }
+hr.divider { border: none; border-top: 1px solid var(--border); margin: 44px 0; }
+.file-label { display: block; font-family: 'SF Mono','Consolas','Menlo',monospace; font-size: 11px; color: var(--teal); background: #131C26; padding: 7px 16px; border-radius: var(--radius) var(--radius) 0 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+pre { background: var(--code-bg); color: var(--code-text); border-radius: 0 0 var(--radius) var(--radius); padding: 18px 20px; font-family: 'SF Mono','Consolas','Menlo',monospace; font-size: 12.5px; line-height: 1.7; overflow-x: auto; margin-bottom: 18px; tab-size: 2; }
+.file-label + pre { margin-top: 0; }
+pre.standalone { border-radius: var(--radius); }
+.c { color: #485E78; } .k { color: #9AABD0; } .s { color: #A8D5A0; } .f { color: #7DCCE8; }
+code { font-family: 'SF Mono','Consolas','Menlo',monospace; font-size: 12.5px; background: #EAEDf2; color: #2A3A4A; padding: 1px 5px; border-radius: 3px; white-space: nowrap; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; white-space: pre; }
+.callout { border-left: 3px solid var(--warning-border); background: var(--warning-bg); padding: 12px 16px; border-radius: 0 var(--radius) var(--radius) 0; margin-bottom: 16px; }
+.callout p { margin: 0; color: #5A3D00; font-size: 13.5px; }
+.callout.info { border-left-color: var(--teal); background: var(--teal-dim); }
+.callout.info p { color: #0D3D2E; }
+.callout.done { border-left-color: var(--done-border); background: var(--done-bg); }
+.callout.done p { color: #0D3D2E; }
+.status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.status-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
+.status-card-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+.status-card-label.done { color: var(--teal); }
+.status-card-label.todo { color: #D48A00; }
+.status-card ul { padding-left: 16px; margin: 0; }
+.status-card li { font-size: 13px; margin-bottom: 4px; color: var(--text-mid); }
+.table-wrap { overflow-x: auto; margin-bottom: 20px; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; color: var(--text-muted); padding: 8px 12px; border-bottom: 2px solid var(--border); }
+td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text-mid); vertical-align: top; line-height: 1.5; }
+td:first-child { color: var(--text); font-weight: 500; }
+tr:last-child td { border-bottom: none; }
+.checklist { list-style: none; padding: 0; margin-bottom: 20px; }
+.checklist li { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); margin: 0; }
+.checklist li:last-child { border-bottom: none; }
+.check-box { width: 17px; height: 17px; min-width: 17px; border: 1.5px solid #C0C8D4; border-radius: 3px; margin-top: 2px; background: #fff; }
+.steps { list-style: none; padding: 0; }
+.steps li { display: flex; gap: 16px; margin-bottom: 22px; }
+.step-num { width: 26px; height: 26px; min-width: 26px; background: var(--teal); color: var(--navy); font-size: 12px; font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+.step-body { flex: 1; }
+.step-body strong { display: block; color: var(--text); font-size: 14px; margin-bottom: 4px; }
+.method { display: inline-block; font-family: 'SF Mono','Consolas',monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; padding: 2px 6px; border-radius: 3px; margin-right: 4px; }
+.get { background: #E0EEFF; color: #1A5CA8; } .post { background: #E0F5EC; color: #1A7040; } .put { background: #FFF3E0; color: #8A4500; } .delete { background: #FDECEA; color: #9B1C1C; }
+.tag { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 10px; margin-left: 6px; vertical-align: middle; }
+.tag-done { background: var(--teal-dim); color: #0A6B52; border: 1px solid rgba(20,207,166,0.3); }
+.tag-todo { background: #FFF3E0; color: #8A4500; border: 1px solid #F0C060; }
+@media (max-width: 760px) { .layout { grid-template-columns: 1fr; } .sidebar { display: none; } .main { padding: 24px 20px 60px; } .status-grid { grid-template-columns: 1fr; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-eyebrow">Developer Handoff</div>
+    <div class="sidebar-title">RSV Portfolio<br>Backend</div>
+    <nav>
+      <div class="nav-group">
+        <div class="nav-group-label">Overview</div>
+        <a href="#overview" class="nav-item">Context &amp; status</a>
+        <a href="#questions" class="nav-item">Pre-start questions</a>
+        <a href="#files" class="nav-item">Files delivered</a>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label">Implementation</div>
+        <a href="#plugin" class="nav-item nav-done">1. WordPress plugin</a>
+        <a href="#widget-portfolios" class="nav-item">2. Widget — portfolios</a>
+        <a href="#widget-comparisons" class="nav-item">3. Widget — comparisons</a>
+        <a href="#widget-share" class="nav-item">4. Widget — share prompt</a>
+        <a href="#widget-cleanup" class="nav-item">5. Widget — UI cleanup</a>
+        <a href="#shortcode" class="nav-item nav-done">6. Shortcode embed</a>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label">Reference</div>
+        <a href="#api-reference" class="nav-item">API endpoints</a>
+        <a href="#testing" class="nav-item">Testing checklist</a>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <!-- OVERVIEW -->
+    <section class="section" id="overview">
+      <div class="eyebrow">Return Stacked Visualizer</div>
+      <h1>Portfolio Backend — Developer Handoff</h1>
+      <p>The Return Stacked Advanced Visualizer (<code>RS_advanced_visualizer_widget_web.html</code>) is a single-file interactive web app that lets advisors build and compare custom portfolios. This handoff covers everything needed to wire it into WordPress with server-side portfolio storage tied to user accounts.</p>
+      <p>The widget is always behind a WordPress login — there is no public access. All portfolios and comparisons save to the database and are available across devices and sessions.</p>
+
+      <h3>Current status</h3>
+      <div class="status-grid">
+        <div class="status-card">
+          <div class="status-card-label done">Already done — no action needed</div>
+          <ul>
+            <li>WordPress plugin written (<code>backend/rsv-portfolios.php</code>)</li>
+            <li>DB table creation on plugin activation</li>
+            <li>All 5 portfolio REST API routes</li>
+            <li><code>[rsv_widget]</code> shortcode with user identity injection</li>
+            <li>Intake gate bypass (reads WP user data, skips onboarding form)</li>
+            <li>HubSpot email sourced from WP account</li>
+          </ul>
+        </div>
+        <div class="status-card">
+          <div class="status-card-label todo">Your tasks — widget JS changes</div>
+          <ul>
+            <li>API fetch wrapper + in-memory cache</li>
+            <li>Portfolio save → POST to API</li>
+            <li>Portfolio load → GET from API on demand</li>
+            <li>Portfolio delete → DELETE to API</li>
+            <li>Portfolio import → POST each file to API</li>
+            <li>Saved Comparisons → new table + endpoints</li>
+            <li>Share link → "Save to account?" prompt</li>
+            <li>Remove Import Comparison button</li>
+            <li>Relabel Import Portfolio → "Import from file"</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- PRE-START QUESTIONS -->
+    <section class="section" id="questions">
+      <div class="eyebrow">Before you start</div>
+      <h2>Questions to answer about the WP setup</h2>
+      <ul class="checklist">
+        <li><span class="check-box"></span><div><strong>Is the WordPress REST API enabled?</strong> Test: visit <code>yoursite.com/wp-json/wp/v2/users/me</code> while logged in — you should get JSON back. Some security plugins (Wordfence, iThemes) restrict it.</div></li>
+        <li><span class="check-box"></span><div><strong>What membership or login plugin is in use?</strong> MemberPress, Restrict Content Pro, WooCommerce Memberships? The portfolio plugin checks <code>is_user_logged_in()</code> and is agnostic to which membership plugin gates the page.</div></li>
+        <li><span class="check-box"></span><div><strong>Does your membership plugin preserve URL query params after login redirect?</strong> The existing share-link feature uses <code>?rs_p=</code> in the URL. If someone is sent a share link while logged out, they'll be redirected to login. Most plugins preserve the full URL — confirm this works so the share param survives the redirect.</div></li>
+        <li><span class="check-box"></span><div><strong>Is there a staging environment?</strong> The plugin creates a DB table on activation — test there first.</div></li>
+        <li><span class="check-box"></span><div><strong>PHP 7.4+ and WordPress 5.5+?</strong> Required.</div></li>
+      </ul>
+    </section>
+
+    <hr class="divider">
+
+    <!-- FILES -->
+    <section class="section" id="files">
+      <div class="eyebrow">Deliverables</div>
+      <h2>Files in this handoff</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>File</th><th>What it is</th><th>Where it goes</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>backend/rsv-portfolios.php</code></td>
+              <td>The complete WP plugin. Table creation, 5 portfolio REST routes, <code>[rsv_widget]</code> shortcode. <strong>Ready to deploy — no edits needed.</strong></td>
+              <td><code>wp-content/plugins/rsv-portfolios/rsv-portfolios.php</code></td>
+            </tr>
+            <tr>
+              <td><code>RS_advanced_visualizer_widget_web.html</code></td>
+              <td>The widget HTML. Intake gate bypass already applied. Rebuild with <code>py -3.11 build_widget.py</code> on the <code>web-authenticated</code> branch after making JS changes.</td>
+              <td>Same plugin folder: <code>wp-content/plugins/rsv-portfolios/</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <p><strong>Build tooling:</strong> The widget HTML is generated from <code>build_widget.py</code> (Python 3.11). All JS edits go in that script — not the HTML file directly. All JS curly braces in the script must be doubled (<code>{{</code> / <code>}}</code>) due to Python f-string formatting. The snippets in this doc show them doubled as they must appear in the build script.</p>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- STEP 1: PLUGIN -->
+    <section class="section" id="plugin">
+      <div class="eyebrow">Step 1 <span class="tag tag-done">Done</span></div>
+      <h2>WordPress Plugin</h2>
+      <p>The plugin is fully written. Deploy it, then the shortcode handles everything else automatically.</p>
+
+      <ol class="steps">
+        <li><span class="step-num">1</span><div class="step-body"><strong>Create plugin folder</strong> In <code>wp-content/plugins/</code>, create a folder named <code>rsv-portfolios</code>.</div></li>
+        <li><span class="step-num">2</span><div class="step-body"><strong>Copy the plugin file</strong> Copy <code>backend/rsv-portfolios.php</code> into <code>wp-content/plugins/rsv-portfolios/rsv-portfolios.php</code>.</div></li>
+        <li><span class="step-num">3</span><div class="step-body"><strong>Copy the widget HTML</strong> Copy <code>RS_advanced_visualizer_widget_web.html</code> into the same plugin folder. The shortcode reads it from there.</div></li>
+        <li><span class="step-num">4</span><div class="step-body"><strong>Activate in WP Admin</strong> Plugins → Activate "RSV Portfolio Storage". Verify the table <code>{prefix}_rsv_portfolios</code> was created in the database.</div></li>
+        <li><span class="step-num">5</span><div class="step-body"><strong>Add shortcode to page</strong> In Divi, add a Code module to the protected page containing only: <code>[rsv_widget]</code></div></li>
+      </ol>
+
+      <p>The shortcode automatically injects the following config block into the widget HTML at render time — no manual edits needed:</p>
+
+      <span class="file-label">Injected by [rsv_widget] shortcode — for reference only</span>
+<pre><code>window.RSV_CONFIG = {{
+  apiBase:   <span class="s">'https://yoursite.com/wp-json/rsv/v1'</span>,  <span class="c">// REST API base URL</span>
+  nonce:     <span class="s">'abc123...'</span>,                              <span class="c">// WP nonce, regenerated each page load</span>
+  userEmail: <span class="s">'jane@example.com'</span>,                       <span class="c">// from wp_get_current_user()</span>
+  firstName: <span class="s">'Jane'</span>,                                   <span class="c">// from WP user meta</span>
+  lastName:  <span class="s">'Smith'</span>                                    <span class="c">// from WP user meta</span>
+}};</code></pre>
+
+      <p>The widget JS reads this config to know the API endpoint, authenticate requests, and identify the user. The intake gate (name/email onboarding form) is bypassed automatically when <code>userEmail</code> is present — users go straight into the widget.</p>
+    </section>
+
+    <hr class="divider">
+
+    <!-- STEP 2: WIDGET PORTFOLIOS -->
+    <section class="section" id="widget-portfolios">
+      <div class="eyebrow">Step 2 <span class="tag tag-todo">Your task</span></div>
+      <h2>Widget JS — Portfolio save &amp; load</h2>
+      <p>All changes go in <code>build_widget.py</code>. Rebuild with <code>py -3.11 build_widget.py</code> after each set of changes.</p>
+
+      <h3>Change 1 — Add RSV_API fetch wrapper</h3>
+      <p>Find the <code>// ── Saved Portfolios (localStorage) ──</code> comment (~line 2175). Insert this block immediately before it:</p>
+      <span class="file-label">build_widget.py — insert before line ~2175</span>
+<pre><code><span class="c">// ── API client ──</span>
+<span class="k">const</span> RSV_API = {{
+  _h() {{ <span class="k">return</span> {{ <span class="s">'Content-Type'</span>: <span class="s">'application/json'</span>, <span class="s">'X-WP-Nonce'</span>: RSV_CONFIG.nonce }}; }},
+  <span class="k">async</span> <span class="f">list</span>() {{
+    <span class="k">const</span> r = <span class="k">await</span> fetch(RSV_CONFIG.apiBase + <span class="s">'/portfolios'</span>, {{ headers: <span class="k">this</span>._h() }});
+    <span class="k">return</span> r.ok ? r.json() : [];
+  }},
+  <span class="k">async</span> <span class="f">load</span>(id) {{
+    <span class="k">const</span> r = <span class="k">await</span> fetch(RSV_CONFIG.apiBase + <span class="s">'/portfolios/'</span> + id, {{ headers: <span class="k">this</span>._h() }});
+    <span class="k">return</span> r.ok ? r.json() : <span class="k">null</span>;
+  }},
+  <span class="k">async</span> <span class="f">save</span>(name, data) {{
+    <span class="k">const</span> r = <span class="k">await</span> fetch(RSV_CONFIG.apiBase + <span class="s">'/portfolios'</span>, {{
+      method: <span class="s">'POST'</span>, headers: <span class="k">this</span>._h(), body: JSON.stringify({{ name, data }})
+    }});
+    <span class="k">return</span> r.ok ? r.json() : <span class="k">null</span>;
+  }},
+  <span class="k">async</span> <span class="f">remove</span>(id) {{
+    <span class="k">const</span> r = <span class="k">await</span> fetch(RSV_CONFIG.apiBase + <span class="s">'/portfolios/'</span> + id, {{
+      method: <span class="s">'DELETE'</span>, headers: <span class="k">this</span>._h()
+    }});
+    <span class="k">return</span> r.ok;
+  }}
+}};
+<span class="k">let</span> _portfoliosCache = []; <span class="c">// [{{ id, name }}] — populated on init, full data fetched on demand</span></code></pre>
+
+      <h3>Change 2 — Replace getSavedPortfolios / setSavedPortfolios</h3>
+      <p>Replace the two existing functions (~lines 2177–2183):</p>
+      <span class="file-label">build_widget.py — replace both functions</span>
+<pre><code><span class="k">function</span> <span class="f">getSavedPortfolios</span>() {{ <span class="k">return</span> _portfoliosCache; }}
+<span class="k">function</span> <span class="f">setSavedPortfolios</span>(arr) {{ _portfoliosCache = arr; }}</code></pre>
+
+      <h3>Change 3 — Populate cache on init</h3>
+      <p>Find the <code>DOMContentLoaded</code> handler or <code>RSV.init()</code> call near the bottom of the script. Add this immediately before it:</p>
+      <span class="file-label">build_widget.py — in init block</span>
+<pre><code>RSV_API.<span class="f">list</span>().then(entries => {{
+  _portfoliosCache = entries; <span class="c">// [{{ id, name, updated_at }}]</span>
+  RSV.<span class="f">renderTabs</span>();
+}});</code></pre>
+
+      <h3>Change 4 — savePortfolio (async)</h3>
+      <p>Find <code>savePortfolio(portfolioIdx)</code> (~line 6309). Make it <code>async</code>, replace the <code>setSavedPortfolios</code> call and remove the JSON file download block (~lines 6337–6345):</p>
+      <span class="file-label">build_widget.py — savePortfolio</span>
+<pre><code><span class="k">async</span> <span class="f">savePortfolio</span>(portfolioIdx) {{
+  <span class="c">// ... existing validation + name prompt unchanged ...</span>
+  <span class="k">const</span> result = <span class="k">await</span> RSV_API.<span class="f">save</span>(name, portfolioData);
+  <span class="k">if</span> (result) {{
+    _portfoliosCache.push({{ id: result.id, name: result.name }});
+    <span class="k">this</span>.<span class="f">renderPanel</span>(state.activeTab);
+  }}
+  <span class="c">// Remove the old setSavedPortfolios() call and the JSON download block</span>
+}}</code></pre>
+
+      <h3>Change 5 — loadSavedPortfolio (async)</h3>
+      <p>Find <code>loadSavedPortfolio(portfolioIdx, value)</code> (~line 6412). Make it <code>async</code> and fetch full data on demand:</p>
+      <span class="file-label">build_widget.py — loadSavedPortfolio</span>
+<pre><code><span class="k">async</span> <span class="f">loadSavedPortfolio</span>(portfolioIdx, value) {{
+  <span class="k">if</span> (!value) <span class="k">return</span>;
+  <span class="k">let</span> config;
+  <span class="k">if</span> (value.<span class="f">startsWith</span>(<span class="s">"default_"</span>)) {{
+    config = PRESET_PORTFOLIOS[<span class="f">parseInt</span>(value.<span class="f">split</span>(<span class="s">"_"</span>)[1])];
+  }} <span class="k">else if</span> (value.<span class="f">startsWith</span>(<span class="s">"saved_"</span>)) {{
+    <span class="k">const</span> entry = _portfoliosCache[<span class="f">parseInt</span>(value.<span class="f">split</span>(<span class="s">"_"</span>)[1])];
+    <span class="k">const</span> full  = <span class="k">await</span> RSV_API.<span class="f">load</span>(entry.id);
+    config = full?.data ?? <span class="k">null</span>;
+  }}
+  <span class="k">if</span> (!config) <span class="k">return</span>;
+  <span class="c">// ... rest of existing hydration code unchanged ...</span>
+}}</code></pre>
+
+      <h3>Change 6 — deleteSavedPortfolioPrompt (async)</h3>
+      <span class="file-label">build_widget.py — deleteSavedPortfolioPrompt</span>
+<pre><code><span class="k">async</span> <span class="f">deleteSavedPortfolioPrompt</span>(portfolioIdx) {{
+  <span class="k">const</span> saved = <span class="f">getSavedPortfolios</span>();
+  <span class="k">if</span> (saved.length === 0) <span class="k">return</span>;
+  <span class="k">const</span> names  = saved.<span class="f">map</span>((s, i) => (i + 1) + <span class="s">". "</span> + s.name).<span class="f">join</span>(<span class="s">"\\n"</span>);
+  <span class="k">const</span> choice = <span class="f">prompt</span>(<span class="s">"Enter the number of the portfolio to delete:\\n\\n"</span> + names);
+  <span class="k">if</span> (!choice) <span class="k">return</span>;
+  <span class="k">const</span> idx = <span class="f">parseInt</span>(choice) - 1;
+  <span class="k">if</span> (idx >= 0 && idx < saved.length) {{
+    <span class="k">await</span> RSV_API.<span class="f">remove</span>(saved[idx].id);
+    saved.<span class="f">splice</span>(idx, 1);
+    <span class="f">setSavedPortfolios</span>(saved);
+    <span class="k">this</span>.<span class="f">renderPanel</span>(state.activeTab);
+  }}
+}}</code></pre>
+
+      <div class="callout info">
+        <p><strong>Change 7 — Import:</strong> In <code>_handleImportFile</code>, make <code>processFile</code> async. In the success branch, replace <code>saved.push(...)</code> with: <code>const r = await RSV_API.save(data.name, data); if (r) _portfoliosCache.push({{ id: r.id, name: r.name }});</code> Call <code>RSV.renderPanel(state.activeTab)</code> in <code>finalize()</code>.</p>
+      </div>
+
+      <div class="callout done">
+        <p><strong>Change 8 — Intake gate bypass (already done):</strong> The pre-hydrate block already reads <code>RSV_CONFIG.userEmail</code> and sets <code>storedEmail</code>, bypassing the onboarding form. This is also what ensures the correct email is used in all HubSpot form submissions (share link, PDF export). No action needed.</p>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- STEP 3: COMPARISONS -->
+    <section class="section" id="widget-comparisons">
+      <div class="eyebrow">Step 3 <span class="tag tag-todo">Your task</span></div>
+      <h2>Widget JS — Saved Comparisons</h2>
+      <p>Comparisons use the same DB pattern as portfolios. A comparison stores a name and a list of portfolio name references (not the portfolio data itself). It's a lightweight record.</p>
+
+      <h3>New DB table</h3>
+      <p>Add to <code>rsv_create_table()</code> in the plugin, or create a separate activation hook:</p>
+      <span class="file-label">backend/rsv-portfolios.php — add second table</span>
+<pre><code>$sql2 = <span class="s">"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}rsv_comparisons (
+    id         BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id    BIGINT UNSIGNED NOT NULL,
+    name       VARCHAR(255)    NOT NULL,
+    data       LONGTEXT        NOT NULL,
+    created_at DATETIME        DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME        DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_user_id (user_id)
+) {$charset};"</span>;
+dbDelta( $sql2 );</code></pre>
+
+      <h3>New REST routes</h3>
+      <p>Register alongside the portfolio routes in <code>rsv_register_routes()</code>. Mirror the same CRUD pattern: <code>GET /rsv/v1/comparisons</code>, <code>POST</code>, <code>GET /{id}</code>, <code>PUT /{id}</code>, <code>DELETE /{id}</code>. Handler logic is identical to the portfolio handlers — copy, rename, point to the new table.</p>
+
+      <h3>Widget JS changes</h3>
+      <p>Add <code>RSV_API.listComparisons()</code>, <code>RSV_API.saveComparison()</code>, <code>RSV_API.removeComparison()</code> methods to the existing <code>RSV_API</code> object (same pattern as portfolios).</p>
+      <p>Replace <code>getSavedComparisons()</code> / <code>setSavedComparisons()</code> with a <code>_comparisonsCache</code> variable, same as portfolios. Populate on init alongside the portfolio cache call.</p>
+
+      <div class="callout">
+        <p><strong>Important:</strong> <code>loadSavedComparison()</code> currently looks up each portfolio by name synchronously. With the API cache, names are available but full portfolio data must be fetched async. Make <code>loadSavedComparison</code> async and use <code>await RSV_API.load(entry.id)</code> for each referenced portfolio slot, same as <code>loadSavedPortfolio</code>.</p>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- STEP 4: SHARE PROMPT -->
+    <section class="section" id="widget-share">
+      <div class="eyebrow">Step 4 <span class="tag tag-todo">Your task</span></div>
+      <h2>Widget JS — Share link "Save to account" prompt</h2>
+      <p>The widget already has a share-link mechanism: clicking "Share Portfolio" encodes the portfolio weights as base64 JSON into a <code>?rs_p=</code> URL parameter and copies it to the clipboard. When someone opens that URL, the widget decodes the param and loads the portfolio into slot 1 automatically. This mechanism is unchanged.</p>
+      <p>The addition: when the widget detects it just loaded from a share param, show a prompt so the recipient can save it to their own account.</p>
+
+      <p>Find the URL Share Param Restore block in the init section (~line 2645). After the block that hydrates the portfolio from <code>_rsp</code>, add:</p>
+      <span class="file-label">build_widget.py — after the _rsp restore block (~line 2664)</span>
+<pre><code><span class="c">// If loaded from a share link, offer to save to account</span>
+<span class="k">if</span> (_rsp && state.portfolios[0].core.some(r => r.asset && r.weight > 0)) {{
+  <span class="k">const</span> banner = document.<span class="f">createElement</span>(<span class="s">'div'</span>);
+  banner.style.cssText = <span class="s">'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#323A46;color:#fff;padding:12px 20px;border-radius:6px;display:flex;gap:12px;align-items:center;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.25);'</span>;
+  banner.innerHTML = <span class="s">'&lt;span&gt;A portfolio was shared with you.&lt;/span&gt;&lt;button id="rsv-share-save" style="background:#14CFA6;color:#1E2730;border:none;padding:6px 14px;border-radius:4px;font-weight:700;cursor:pointer;"&gt;Save to my account&lt;/button&gt;&lt;button id="rsv-share-dismiss" style="background:none;border:none;color:rgba(255,255,255,0.5);cursor:pointer;font-size:18px;"&gt;&amp;times;&lt;/button&gt;'</span>;
+  document.body.<span class="f">appendChild</span>(banner);
+  document.<span class="f">getElementById</span>(<span class="s">'rsv-share-save'</span>).<span class="f">addEventListener</span>(<span class="s">'click'</span>, <span class="k">async</span> () => {{
+    <span class="k">const</span> p = state.portfolios[0];
+    <span class="k">const</span> data = {{ name: p.name, core: p.core, stack: p.stack, fee: p.fee }};
+    <span class="k">const</span> result = <span class="k">await</span> RSV_API.<span class="f">save</span>(p.name, data);
+    <span class="k">if</span> (result) {{ _portfoliosCache.push({{ id: result.id, name: result.name }}); RSV.<span class="f">renderTabs</span>(); }}
+    banner.<span class="f">remove</span>();
+  }});
+  document.<span class="f">getElementById</span>(<span class="s">'rsv-share-dismiss'</span>).<span class="f">addEventListener</span>(<span class="s">'click'</span>, () => banner.<span class="f">remove</span>());
+}}</code></pre>
+    </section>
+
+    <hr class="divider">
+
+    <!-- STEP 5: UI CLEANUP -->
+    <section class="section" id="widget-cleanup">
+      <div class="eyebrow">Step 5 <span class="tag tag-todo">Your task</span></div>
+      <h2>Widget JS — UI cleanup</h2>
+      <p>With server-side saves and URL-based sharing, some existing UI elements are redundant.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Element</th><th>Action</th><th>Reason</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Import Portfolio button</td>
+              <td>Keep — relabel to <strong>"Import from file"</strong> with tooltip: "Restore a portfolio from a .json backup file."</td>
+              <td>Migration path for users bringing in old locally-saved portfolios.</td>
+            </tr>
+            <tr>
+              <td>Import Comparison button</td>
+              <td><strong>Remove</strong></td>
+              <td>Comparisons are references to portfolios, not standalone artifacts. There's no scenario where someone has a comparison JSON file to upload.</td>
+            </tr>
+            <tr>
+              <td>JSON file download on save</td>
+              <td><strong>Remove</strong> (handled in Change 4 above)</td>
+              <td>Server is the source of truth. Auto-download is redundant and confusing.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- STEP 6: SHORTCODE -->
+    <section class="section" id="shortcode">
+      <div class="eyebrow">Step 6 <span class="tag tag-done">Done</span></div>
+      <h2>Shortcode embed</h2>
+      <p>The plugin registers <code>[rsv_widget]</code>. In Divi, add a Code module to the protected page:</p>
+      <pre class="standalone"><code>[rsv_widget]</code></pre>
+      <p>The shortcode reads the widget HTML from the plugin folder, injects <code>window.RSV_CONFIG</code> (see Step 1), and outputs everything. No other configuration needed.</p>
+      <div class="callout">
+        <p><strong>Nonces expire after 24 hours.</strong> Regenerated on every page load — not an issue for normal sessions.</p>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- API REFERENCE -->
+    <section class="section" id="api-reference">
+      <div class="eyebrow">Reference</div>
+      <h2>API endpoints</h2>
+      <p>All routes require a logged-in session. Pass <code>X-WP-Nonce: &lt;value&gt;</code> with every request. Accessing another user's record returns <code>404</code>.</p>
+
+      <h3>Portfolios</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Endpoint</th><th>Body</th><th>Returns</th></tr></thead>
+          <tbody>
+            <tr><td><span class="method get">GET</span> <code>/rsv/v1/portfolios</code></td><td>—</td><td>Array of <code>{{id, name, updated_at}}</code>. No data blobs.</td></tr>
+            <tr><td><span class="method get">GET</span> <code>/rsv/v1/portfolios/{id}</code></td><td>—</td><td>Full row with <code>data</code> as parsed JSON.</td></tr>
+            <tr><td><span class="method post">POST</span> <code>/rsv/v1/portfolios</code></td><td><code>{{name, data}}</code></td><td><code>{{id, name}}</code></td></tr>
+            <tr><td><span class="method put">PUT</span> <code>/rsv/v1/portfolios/{id}</code></td><td><code>{{name?, data?}}</code></td><td><code>{{id}}</code></td></tr>
+            <tr><td><span class="method delete">DELETE</span> <code>/rsv/v1/portfolios/{id}</code></td><td>—</td><td><code>{{deleted: true}}</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Comparisons (new — implement in Step 3)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Endpoint</th><th>Body</th><th>Returns</th></tr></thead>
+          <tbody>
+            <tr><td><span class="method get">GET</span> <code>/rsv/v1/comparisons</code></td><td>—</td><td>Array of <code>{{id, name, updated_at}}</code>.</td></tr>
+            <tr><td><span class="method get">GET</span> <code>/rsv/v1/comparisons/{id}</code></td><td>—</td><td>Full row with <code>data</code> (slots array).</td></tr>
+            <tr><td><span class="method post">POST</span> <code>/rsv/v1/comparisons</code></td><td><code>{{name, data}}</code></td><td><code>{{id, name}}</code></td></tr>
+            <tr><td><span class="method put">PUT</span> <code>/rsv/v1/comparisons/{id}</code></td><td><code>{{name?, data?}}</code></td><td><code>{{id}}</code></td></tr>
+            <tr><td><span class="method delete">DELETE</span> <code>/rsv/v1/comparisons/{id}</code></td><td>—</td><td><code>{{deleted: true}}</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- TESTING -->
+    <section class="section" id="testing">
+      <div class="eyebrow">Validation</div>
+      <h2>Testing checklist</h2>
+      <ul class="checklist">
+        <li><span class="check-box"></span><div><strong>Tables created:</strong> After plugin activation, confirm both <code>{prefix}_rsv_portfolios</code> and <code>{prefix}_rsv_comparisons</code> exist in the database.</div></li>
+        <li><span class="check-box"></span><div><strong>Routes accessible:</strong> While logged in, visit <code>/wp-json/rsv/v1/portfolios</code> — should return <code>[]</code>, not an error.</div></li>
+        <li><span class="check-box"></span><div><strong>Intake gate gone:</strong> Log in and open the widget — the name/email onboarding form should never appear. The widget should open directly.</div></li>
+        <li><span class="check-box"></span><div><strong>Save round-trip:</strong> Save a portfolio, reload the page — it reappears in the "My Saved Portfolios" dropdown.</div></li>
+        <li><span class="check-box"></span><div><strong>Cross-device:</strong> Save on one device, log in on another — portfolio is there.</div></li>
+        <li><span class="check-box"></span><div><strong>Ownership isolation:</strong> Log in as a second test user — they see none of the first user's portfolios or comparisons.</div></li>
+        <li><span class="check-box"></span><div><strong>Delete:</strong> Delete a portfolio — confirm it's removed from the DB, not just the UI.</div></li>
+        <li><span class="check-box"></span><div><strong>Comparisons:</strong> Save a comparison, reload — it reappears and loads all referenced portfolios correctly.</div></li>
+        <li><span class="check-box"></span><div><strong>Share link:</strong> Copy a share link, open it in a new tab — portfolio loads into slot 1 and the "Save to account?" banner appears.</div></li>
+        <li><span class="check-box"></span><div><strong>Share link after login:</strong> Open a share link while logged out — confirm the membership plugin redirects to login and back to the same URL with the <code>?rs_p=</code> param intact.</div></li>
+        <li><span class="check-box"></span><div><strong>Import from file:</strong> Import an old <code>.json</code> portfolio backup — it saves to the DB and appears in the dropdown.</div></li>
+        <li><span class="check-box"></span><div><strong>HubSpot attribution:</strong> Click "Share Portfolio" — verify the HubSpot form submission uses the logged-in user's email, not a cached/empty value.</div></li>
+        <li><span class="check-box"></span><div><strong>Compute integrity:</strong> Load a saved portfolio and spot-check that stats match what was computed when it was saved.</div></li>
+      </ul>
+    </section>
+
+  </main>
+</div>

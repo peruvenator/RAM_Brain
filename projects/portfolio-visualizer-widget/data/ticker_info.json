@@ -1,0 +1,344 @@
+{
+  "U.S. Large Cap Equities": {
+    "fullName": "MSCI USA (USD) Total Return Index",
+    "ticker": "NDDUUS",
+    "provider": "MSCI",
+    "specialNote": ""
+  },
+  "U.S. Value": {
+    "fullName": "MSCI USA Value (USD) Total Return Index",
+    "ticker": "M1USVA",
+    "provider": "MSCI",
+    "specialNote": ""
+  },
+  "U.S. Growth": {
+    "fullName": "MSCI USA Growth (USD) Total Return Index",
+    "ticker": "M1USGR",
+    "provider": "MSCI",
+    "specialNote": ""
+  },
+  "U.S. Momentum": {
+    "fullName": "MSCI USA Momentum (USD) Total Return Index",
+    "ticker": "M1USMO",
+    "provider": "MSCI",
+    "specialNote": ""
+  },
+  "U.S. Quality": {
+    "fullName": "MSCI USA Quality (USD) Total Return Index",
+    "ticker": "M1USQU",
+    "provider": "MSCI",
+    "specialNote": ""
+  },
+  "U.S. Low Volatility": {
+    "fullName": "MSCI USA Minimum Volatility (USD) Total Return Index",
+    "ticker": "M1USMVOL",
+    "provider": "MSCI",
+    "specialNote": ""
+  },
+  "U.S. Small Cap Equities": {
+    "fullName": "Russell 2000 Total Return Index",
+    "ticker": "RU20INTR",
+    "provider": "FTSE Russell",
+    "specialNote": ""
+  },
+  "U.S. Small Cap Value": {
+    "fullName": "Russell 2000 Value Total Return Index",
+    "ticker": "RU20VATR",
+    "provider": "FTSE Russell",
+    "specialNote": ""
+  },
+  "International Equities": {
+    "fullName": "MSCI EAFE Net Return Index USD",
+    "ticker": "NDDUEAFE",
+    "provider": "MSCI",
+    "specialNote": ""
+  },
+  "International Value": {
+    "fullName": "MSCI EAFE Value Net Return Index USD",
+    "ticker": "NDDUEAFV",
+    "provider": "MSCI",
+    "specialNote": ""
+  },
+  "Global Equities": {
+    "fullName": "MSCI ACWI Net Return Index USD",
+    "ticker": "NDUEACWF",
+    "provider": "MSCI",
+    "specialNote": ""
+  },
+  "Emerging Market Equities": {
+    "fullName": "MSCI Emerging Markets Net Return Index USD",
+    "ticker": "NDUEEGF",
+    "provider": "MSCI",
+    "specialNote": ""
+  },
+  "Emerging Markets Value": {
+    "fullName": "MSCI Emerging Markets Value Net Return Index USD",
+    "ticker": "NDUEVEMF",
+    "provider": "MSCI",
+    "specialNote": ""
+  },
+  "U.S. Treasury Ladder": {
+    "fullName": "ReSolve U.S. Treasury Ladder Index",
+    "ticker": "N/A",
+    "provider": "ReSolve Asset Management",
+    "specialNote": ""
+  },
+  "U.S. Core Fixed Income": {
+    "fullName": "Bloomberg US Agg Total Return Value Unhedged USD",
+    "ticker": "LBUSTRUU",
+    "provider": "Bloomberg",
+    "specialNote": ""
+  },
+  "U.S. Treasuries": {
+    "fullName": "Bloomberg US Treasury Total Return Index",
+    "ticker": "LUATTRUU",
+    "provider": "Bloomberg",
+    "specialNote": ""
+  },
+  "Short-Term U.S. Treasuries": {
+    "fullName": "Bloomberg US Treasury 1-5 Year Total Return Index",
+    "ticker": "LTR1TRUU",
+    "provider": "Bloomberg",
+    "specialNote": ""
+  },
+  "Intermediate-Term U.S. Treasuries": {
+    "fullName": "Bloomberg US Intermediate Treasury TR Index Value Unhedged USD",
+    "ticker": "LT08TRUU",
+    "provider": "Bloomberg",
+    "specialNote": ""
+  },
+  "Long-Term U.S. Treasuries": {
+    "fullName": "Bloomberg US Long Treasury Total Return Index Value Unhedged USD",
+    "ticker": "LUTLTRUU",
+    "provider": "Bloomberg",
+    "specialNote": ""
+  },
+  "U.S. Corporate Fixed Income": {
+    "fullName": "Bloomberg US Corporate Total Return Value Unhedged USD",
+    "ticker": "LUACTRUU",
+    "provider": "Bloomberg",
+    "specialNote": ""
+  },
+  "Short-Term Investment Grade Fixed Income": {
+    "fullName": "Bloomberg US Credit 1-5 Years Total Return Index Value Unhedged USD",
+    "ticker": "LDC5TRUU",
+    "provider": "Bloomberg",
+    "specialNote": ""
+  },
+  "Intermediate-Term Investment Grade Fixed Income": {
+    "fullName": "Bloomberg US Credit Corp 5-10Y Total Return Index Value Unhedged USD",
+    "ticker": "BCR5TRUU",
+    "provider": "Bloomberg",
+    "specialNote": ""
+  },
+  "Long-Term Investment Grade Fixed Income": {
+    "fullName": "Bloomberg U.S. 10+ Year Corporate Bond Total Return Index Unhedged USD",
+    "ticker": "I13284US",
+    "provider": "Bloomberg",
+    "specialNote": ""
+  },
+  "High Yield Fixed Income": {
+    "fullName": "Bloomberg US Corporate High Yield Total Return Index Value Unhedged USD",
+    "ticker": "LF98TRUU",
+    "provider": "Bloomberg",
+    "specialNote": ""
+  },
+  "Mortgage Backed Securities": {
+    "fullName": "Bloomberg US MBS Index Total Return Value Unhedged USD",
+    "ticker": "LUMSTRUU",
+    "provider": "Bloomberg",
+    "specialNote": ""
+  },
+  "International Treasuries": {
+    "fullName": "Bloomberg Global Treasury ex-US Capped Total Return Index Value Unhedged USD",
+    "ticker": "LGT1TRUU",
+    "provider": "Bloomberg",
+    "specialNote": ""
+  },
+  "Global Core Fixed Income": {
+    "fullName": "Bloomberg Global-Aggregate Total Return Index Value Unhedged USD",
+    "ticker": "LEGATRUU",
+    "provider": "Bloomberg",
+    "specialNote": ""
+  },
+  "Emerging Market Bonds (Local)": {
+    "fullName": "JPMorgan GBI-EM Global Diversified (Local Currency)",
+    "ticker": "JGENVUUG",
+    "provider": "J.P. Morgan",
+    "specialNote": ""
+  },
+  "Emerging Market Bonds (USD)": {
+    "fullName": "JPMorgan EMBI Global Diversified (USD)",
+    "ticker": "JPGCCOMP",
+    "provider": "J.P. Morgan",
+    "specialNote": ""
+  },
+  "Real Estate": {
+    "fullName": "Dow Jones U.S. Select REIT Total Return Index",
+    "ticker": "DWRTFT",
+    "provider": "S&P Dow Jones Indices",
+    "specialNote": ""
+  },
+  "Commodities": {
+    "fullName": "S&P GSCI Index (Spot)",
+    "ticker": "SPGSCI",
+    "provider": "S&P Dow Jones Indices",
+    "specialNote": ""
+  },
+  "Gold": {
+    "fullName": "XAU Currency (Gold Spot USD)",
+    "ticker": "XAU Curncy",
+    "provider": "Bloomberg",
+    "specialNote": ""
+  },
+  "Digital Assets": {
+    "fullName": "S&P Bitcoin Index",
+    "ticker": "SPBTC",
+    "provider": "S&P Dow Jones Indices",
+    "specialNote": ""
+  },
+  "Short-Term TIPS": {
+    "fullName": "Bloomberg US Treasury TIPS 0-5 Years Total Return Index Unhedged USD",
+    "ticker": "LTP5TRUU",
+    "provider": "Bloomberg",
+    "specialNote": ""
+  },
+  "Intermediate-Term TIPS": {
+    "fullName": "Bloomberg US Treasury Inflation Notes TR Index Value Unhedged USD",
+    "ticker": "LBUTTRUU",
+    "provider": "Bloomberg",
+    "specialNote": ""
+  },
+  "Long Volatility": {
+    "fullName": "CBOE Eurekahedge Long Volatility Hedge Fund Index",
+    "ticker": "EHFI451",
+    "provider": "EurekaHedge",
+    "specialNote": ""
+  },
+  "Tail Risk Hedges": {
+    "fullName": "CBOE Eurekahedge Tail Risk Hedge Fund Index",
+    "ticker": "EHFI453",
+    "provider": "EurekaHedge",
+    "specialNote": ""
+  },
+  "Equity Long/Short": {
+    "fullName": "PivotalPath Equity Diversified: Global Long/Short Index",
+    "ticker": "EQDGLS",
+    "provider": "PivotalPath",
+    "specialNote": ""
+  },
+  "Hedge Funds": {
+    "fullName": "PivotalPath Composite EW Index",
+    "ticker": "HFCEW",
+    "provider": "PivotalPath",
+    "specialNote": ""
+  },
+  "Equity Market Neutral": {
+    "fullName": "EurekaHedge Equity Market Neutral Hedge Fund Index",
+    "ticker": "EHFI751",
+    "provider": "EurekaHedge",
+    "specialNote": ""
+  },
+  "Event Driven": {
+    "fullName": "PivotalPath Event Driven Index",
+    "ticker": "EVD",
+    "provider": "PivotalPath",
+    "specialNote": ""
+  },
+  "Merger Arbitrage": {
+    "fullName": "PivotalPath Event Driven: Merger Arbitrage Index",
+    "ticker": "EVDMER",
+    "provider": "PivotalPath",
+    "specialNote": ""
+  },
+  "Relative Value": {
+    "fullName": "PivotalPath Credit: Relative Value Index",
+    "ticker": "CRDREL",
+    "provider": "PivotalPath",
+    "specialNote": ""
+  },
+  "Managed Futures CTA": {
+    "fullName": "PivotalPath Managed Futures Index",
+    "ticker": "MFT",
+    "provider": "PivotalPath",
+    "specialNote": ""
+  },
+  "Managed Futures Trend": {
+    "fullName": "SG Trend Index",
+    "ticker": "NEIXCTAT",
+    "provider": "Societe Generale",
+    "specialNote": ""
+  },
+  "Risk Parity (10%)": {
+    "fullName": "S&P Risk Parity Index - 10% Target Volatility",
+    "ticker": "SPRP10UT",
+    "provider": "S&P Dow Jones Indices",
+    "specialNote": ""
+  },
+  "Risk Parity (12%)": {
+    "fullName": "S&P Risk Parity Index - 12% Target Volatility",
+    "ticker": "SPRP12UT",
+    "provider": "S&P Dow Jones Indices",
+    "specialNote": ""
+  },
+  "Risk Parity (15%)": {
+    "fullName": "S&P Risk Parity Index - 15% Target Volatility",
+    "ticker": "SPRP15UT",
+    "provider": "S&P Dow Jones Indices",
+    "specialNote": ""
+  },
+  "Global Macro": {
+    "fullName": "PivotalPath Global Macro Index",
+    "ticker": "GBM",
+    "provider": "PivotalPath",
+    "specialNote": ""
+  },
+  "Global Macro (Commodities)": {
+    "fullName": "PivotalPath Global Macro: Commodities Index",
+    "ticker": "GBMCOM",
+    "provider": "PivotalPath",
+    "specialNote": ""
+  },
+  "Systematic Global Macro": {
+    "fullName": "PivotalPath Global Macro: Quantitative Index",
+    "ticker": "GBMQNT",
+    "provider": "PivotalPath",
+    "specialNote": ""
+  },
+  "Global Macro (Risk Premia)": {
+    "fullName": "PivotalPath Global Macro: Risk Premia Index",
+    "ticker": "GBMRPM",
+    "provider": "PivotalPath",
+    "specialNote": ""
+  },
+  "Global Stock / Bond Momentum": {
+    "fullName": "Newfound/ReSolve Robust Equity Momentum TR Index",
+    "ticker": "NRROMOT",
+    "provider": "Newfound Research; ReSolve Asset Management",
+    "specialNote": ""
+  },
+  "Risk-Weighted Gold/Bitcoin": {
+    "fullName": "Kaiko ByteTree BOLD1 Inverse Volatility Index",
+    "ticker": "BOLD1",
+    "provider": "ByteTree/Kaiko",
+    "specialNote": ""
+  },
+  "Cash": {
+    "fullName": "Bloomberg US Treasury Bill Total Return Index Unhedged USD",
+    "ticker": "LD12TRUU",
+    "provider": "Bloomberg",
+    "specialNote": ""
+  },
+  "Futures Yield (Carry)": {
+    "fullName": "ReSolve Futures Yield Liquid Universe Index",
+    "ticker": "N/A",
+    "provider": "ReSolve Asset Management",
+    "specialNote": "inception date: 5/30/2024; all data prior to that date is backtested"
+  },
+  "Merger Arbitrage (AB)": {
+    "fullName": "AlphaBeta Merger Arbitrage Index",
+    "ticker": "N/A",
+    "provider": "AlphaBeta (I.S.I) Investment Indices Ltd",
+    "specialNote": "inception date: 12/17/2024; all data prior to that date is backtested"
+  }
+}

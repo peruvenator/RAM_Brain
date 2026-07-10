@@ -91,7 +91,7 @@ function Invoke-Phase1 {
         Write-Log "Deleted stale $($Config.FileName)"
     }
 
-    # Open Dropbox URL in default browser
+    # Open Dropbox URL in default browser (requires interactive session with Dropbox cookies)
     Start-Process $Config.DropboxUrl
     Write-Log "Opened Dropbox URL in default browser"
 
@@ -134,13 +134,17 @@ function Invoke-Phase2 {
         $xl = New-Object -ComObject Excel.Application
         $xl.Visible = $false
         $xl.DisplayAlerts = $false
-        Write-Log "Excel COM created, opening file: $($Config.ExcelPath)"
+        # Copy file to temp location outside Dropbox to avoid sync locks
+        $tempPath = Join-Path $env:TEMP $Config.FileName
+        Copy-Item -Path $Config.ExcelPath -Destination $tempPath -Force
+        Start-Sleep -Seconds 2
+        Write-Log "Excel COM created, opening temp copy: $tempPath"
 
         # Verify file exists and is readable
-        $fileInfo = Get-Item $Config.ExcelPath
+        $fileInfo = Get-Item $tempPath
         Write-Log "File size: $($fileInfo.Length) bytes, last write: $($fileInfo.LastWriteTime)"
 
-        $wb = $xl.Workbooks.Open($Config.ExcelPath)
+        $wb = $xl.Workbooks.Open($tempPath)
         if ($null -eq $wb) { throw "Workbooks.Open returned null" }
         Write-Log "Workbook opened, sheets count: $($wb.Sheets.Count)"
 
@@ -157,34 +161,36 @@ function Invoke-Phase2 {
         }
         Write-Log "Excel calculations complete (waited ${calcWait}s extra)"
 
-        # AUM from AD6 (divide by 1M)
-        $aumRaw = $ws.Range("AD6").Value2
+        # AUM from AF6 (divide by 1M)
+        # Layout updated 2026-05-05: two columns inserted at I and AD shifted AUM AD6 -> AF6
+        $aumRaw = $ws.Range("AF6").Value2
         $ExcelData['AUM'] = [math]::Round($aumRaw / 1000000, 2)
         Write-Log "AUM raw=$aumRaw  millions=$($ExcelData['AUM'])"
 
-        # Revenue (Fwd 12 mth) from AE19
-        $ExcelData['Revenue'] = $ws.Range("AE19").Value2
+        # Revenue (Fwd 12 mth) from AG19 (was AE19 pre-2026-05-05)
+        $ExcelData['Revenue'] = $ws.Range("AG19").Value2
         Write-Log "Revenue=$($ExcelData['Revenue'])"
 
-        # Units Outstanding -- last non-empty value in column Q
-        $lastRow = $ws.Cells($ws.Rows.Count, "Q").End(-4162).Row   # xlUp = -4162
-        $ExcelData['Units'] = $ws.Range("Q$lastRow").Value2
+        # Units Outstanding -- last non-empty value in column S (was Q pre-2026-05-05)
+        $lastRow = $ws.Cells($ws.Rows.Count, "S").End(-4162).Row   # xlUp = -4162
+        $ExcelData['Units'] = $ws.Range("S$lastRow").Value2
         Write-Log "Units=$($ExcelData['Units']) (row $lastRow)"
 
-        # RW Units Outstanding -- last non-empty value in column R
-        $lastRowR = $ws.Cells($ws.Rows.Count, "R").End(-4162).Row   # xlUp = -4162
-        $ExcelData['RWUnits'] = [math]::Round($ws.Range("R$lastRowR").Value2, 0)
-        Write-Log "RW Units=$($ExcelData['RWUnits']) (row $lastRowR)"
+        # RW Units Outstanding -- last non-empty value in column T (was R pre-2026-05-05)
+        $lastRowT = $ws.Cells($ws.Rows.Count, "T").End(-4162).Row   # xlUp = -4162
+        $ExcelData['RWUnits'] = [math]::Round($ws.Range("T$lastRowT").Value2, 0)
+        Write-Log "RW Units=$($ExcelData['RWUnits']) (row $lastRowT)"
 
-        # Individual ETF revenue -- U14:AA14
+        # Individual ETF revenue -- W14:AD14 (was U14:AA14 pre-2026-05-05; RSIT added at AD)
         $etfColMap = [ordered]@{
-            "U"  = "RSBT_Revenue"
-            "V"  = "RSST_Revenue"
-            "W"  = "RSSB_Revenue"
-            "X"  = "RSSY_Revenue"
-            "Y"  = "RSBY_Revenue"
-            "Z"  = "RSBA_Revenue"
-            "AA" = "RSSX_Revenue"
+            "W"  = "RSBT_Revenue"
+            "X"  = "RSST_Revenue"
+            "Y"  = "RSSB_Revenue"
+            "Z"  = "RSSY_Revenue"
+            "AA" = "RSBY_Revenue"
+            "AB" = "RSBA_Revenue"
+            "AC" = "RSSX_Revenue"
+            "AD" = "RSIT_Revenue"
         }
         $revenueValues = @()
         foreach ($col in $etfColMap.Keys) {
@@ -213,6 +219,8 @@ function Invoke-Phase2 {
             [GC]::WaitForPendingFinalizers()
             Write-Log "Excel COM released"
         }
+        # Clean up temp copy
+        if (Test-Path $tempPath) { Remove-Item $tempPath -Force -ErrorAction SilentlyContinue }
     }
 }
 
@@ -295,9 +303,12 @@ function Invoke-Phase3 {
         -StartMs $range.StartMs -EndMs $range.EndMs
     Write-Log "Emails=$($HubSpotData['Emails'])"
 
-    # 3. Meetings
+    # 3. Meetings (completed only -- matches HubSpot dashboard filter)
     $HubSpotData['Meetings'] = Invoke-HubSpotSearch -ObjectType "meetings" -DateProperty "hs_timestamp" `
-        -StartMs $range.StartMs -EndMs $range.EndMs
+        -StartMs $range.StartMs -EndMs $range.EndMs `
+        -ExtraFilters @(
+            @{ propertyName = "hs_meeting_outcome"; operator = "EQ"; value = "COMPLETED" }
+        )
     Write-Log "Meetings=$($HubSpotData['Meetings'])"
 
     # 4. New Deals
@@ -496,6 +507,7 @@ function Invoke-Phase4 {
         if ($null -ne $ExcelData['RSBY_Revenue']) { $properties['RSBY Revenue'] = @{ number = $ExcelData['RSBY_Revenue'] } }
         if ($null -ne $ExcelData['RSBA_Revenue']) { $properties['RSBA Revenue'] = @{ number = $ExcelData['RSBA_Revenue'] } }
         if ($null -ne $ExcelData['RSSX_Revenue']) { $properties['RSSX Revenue'] = @{ number = $ExcelData['RSSX_Revenue'] } }
+        if ($null -ne $ExcelData['RSIT_Revenue']) { $properties['RSIT Revenue'] = @{ number = $ExcelData['RSIT_Revenue'] } }
     }
 
     # HubSpot fields
@@ -698,6 +710,7 @@ if ($ExcelData.Count -gt 0) {
     Write-Log "    RSBY: $($ExcelData['RSBY_Revenue'])"
     Write-Log "    RSBA: $($ExcelData['RSBA_Revenue'])"
     Write-Log "    RSSX: $($ExcelData['RSSX_Revenue'])"
+    Write-Log "    RSIT: $($ExcelData['RSIT_Revenue'])"
 }
 
 if ($HubSpotData.Count -gt 0) {

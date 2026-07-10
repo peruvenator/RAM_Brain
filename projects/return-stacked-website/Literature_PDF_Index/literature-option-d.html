@@ -1,0 +1,994 @@
+﻿<!DOCTYPE html>
+<!--
+  ═══════════════════════════════════════════════════════════════
+  RETURN STACKED® ETFs — Literature Page
+  ═══════════════════════════════════════════════════════════════
+
+  EMBEDDING INSTRUCTIONS FOR DIVI:
+
+  1. PAGE BANNER
+     - Create natively in Divi (the site's standard page title
+       pattern). Suggested content:
+       - Eyebrow: "Return Stacked® ETFs"
+       - Title: "Literature"
+       - Tagline: "Our ETFs are designed to stack diversifying
+         strategies on top of core stock and bond exposure,
+         not in place of it."
+
+  2. CONTENT (this file)
+     - Create a regular Divi section
+     - Add a Code module (fullwidth row recommended)
+     - Paste everything inside <div id="rs-literature"> into
+       the Code module
+     - Include the <style> block and <script> block
+
+  3. CSS is scoped under #rs-literature to avoid Divi conflicts
+  4. JS functions are namespaced: rsLitFilter(), rsLitClearSearch(),
+     rsLitToggleTag(), rsLitClearTags()
+  5. Font: DM Sans is already loaded by the theme — no extra
+     import needed when embedded
+  6. Page structure (compliance-driven):
+     - Featured "Start Here" cards
+     - Section: Product Literature (presentations, briefs,
+       quarterly commentaries, foundational guides)
+     - Section: Manager Research (one pagers, white papers,
+       advisor guides)
+  7. Search bar + tag chips filter the entire page in real time.
+     Chips group by Strategy / ETF. Single-select — only one chip
+     can be active at a time. Sections auto-hide when all their
+     tiles are filtered out.
+
+  COLOR REFERENCE (matches site palette):
+     Teal:     #14cfa6
+     Navy:     #283742
+     Blue:     #3f73ab
+     Light BG: #f7f6f6
+     Border:   #d9d9d9
+  ═══════════════════════════════════════════════════════════════
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Literature — Return Stacked® ETFs</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    /* ── SCOPED RESET ── */
+    #rs-literature *,
+    #rs-literature *::before,
+    #rs-literature *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ── VARIABLES & CONTAINER ── */
+    #rs-literature {
+      --teal:           #14cfa6;
+      --teal-dark:      #0c7c64;
+      --teal-light:     rgba(20, 207, 166, 0.1);
+      --navy:           #283742;
+      --blue:           #3f73ab;
+      --blue-light:     #7da5ce;
+      --text-primary:   #283742;
+      --text-secondary: #5a6a7e;
+      --text-dim:       #8a9ab0;
+      --bg:             #f7f6f6;
+      --white:          #ffffff;
+      --border:         #d9d9d9;
+
+      font-family: 'DM Sans', Helvetica, Arial, Lucida, sans-serif;
+      color: var(--text-primary);
+      isolation: isolate;
+    }
+
+    /* ── SEARCH ── */
+    #rs-literature .search-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 48px 16px;
+    }
+    #rs-literature .search-bar {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    #rs-literature .search-icon {
+      position: absolute;
+      left: 16px;
+      width: 16px;
+      height: 16px;
+      color: var(--text-dim);
+      pointer-events: none;
+    }
+    #rs-literature .search-input {
+      width: 100%;
+      padding: 12px 44px 12px 44px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-primary);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    #rs-literature .search-input::placeholder { color: var(--text-dim); }
+    #rs-literature .search-input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(20, 207, 166, 0.12);
+    }
+    #rs-literature .search-clear {
+      position: absolute;
+      right: 10px;
+      display: none;
+      width: 22px;
+      height: 22px;
+      align-items: center;
+      justify-content: center;
+      background: var(--border);
+      color: var(--white);
+      border: none;
+      border-radius: 50%;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.15s;
+    }
+    #rs-literature .search-clear:hover { background: var(--text-dim); }
+    #rs-literature .search-clear.visible { display: flex; }
+
+    /* ── TAG FILTER ── */
+    #rs-literature .filter-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 48px 8px;
+    }
+    #rs-literature .filter-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 6px 0;
+    }
+    #rs-literature .filter-group + .filter-group { border-top: 1px dashed rgba(217,217,217,0.6); }
+    #rs-literature .filter-group-label {
+      flex-shrink: 0;
+      width: 72px;
+      padding-top: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    #rs-literature .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    #rs-literature .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--text-secondary);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    #rs-literature .chip:hover {
+      background: rgba(20, 207, 166, 0.06);
+      border-color: rgba(20, 207, 166, 0.4);
+      color: var(--text-primary);
+    }
+    #rs-literature .chip.active {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: var(--white);
+    }
+    #rs-literature .chip.active:hover {
+      background: var(--teal-dark);
+      border-color: var(--teal-dark);
+    }
+    #rs-literature .filter-clear {
+      align-self: flex-end;
+      margin-left: auto;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-dim);
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: none;
+    }
+    #rs-literature .filter-clear:hover { color: var(--text-primary); }
+    #rs-literature .filter-clear.visible { display: inline-block; }
+
+    /* ── SECTION BLOCKS (Product Lit / Manager Research) ── */
+    #rs-literature .section-block { margin-bottom: 64px; }
+    #rs-literature .section-block:last-child { margin-bottom: 0; }
+    #rs-literature .section-divider {
+      padding: 8px 0 18px;
+      margin-bottom: 28px;
+      border-bottom: 2px solid var(--navy);
+    }
+    #rs-literature .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+    #rs-literature .section-subtitle {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      max-width: 720px;
+    }
+
+    /* ── HIDDEN / NO-RESULTS ── */
+    #rs-literature .hidden { display: none !important; }
+    #rs-literature .no-results {
+      display: none;
+      padding: 80px 20px;
+      text-align: center;
+    }
+    #rs-literature .no-results.visible { display: block; }
+    #rs-literature .no-results-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    #rs-literature .no-results-hint {
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    /* ── TABS ── */
+    #rs-literature .tabs-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      border-bottom: 1px solid var(--border);
+    }
+    #rs-literature .tab {
+      padding: 14px 28px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dim);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      user-select: none;
+      margin-bottom: -1px;
+    }
+    #rs-literature .tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+    #rs-literature .tab:hover:not(.active) { color: var(--text-primary); }
+
+    /* ── CONTENT ── */
+    #rs-literature .content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 48px 80px;
+    }
+
+    /* ── VIEWS (tab panels) ── */
+    #rs-literature .view { display: none; }
+    #rs-literature .view.active { display: block; }
+
+    /* ── FEATURED "START HERE" ── */
+    #rs-literature .featured-section { margin-bottom: 56px; }
+    #rs-literature .featured-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #rs-literature .featured-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    #rs-literature .featured-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 16px;
+    }
+    #rs-literature .featured-card {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--white);
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    #rs-literature .featured-card:hover {
+      box-shadow: 0 8px 32px rgba(20, 207, 166, 0.12);
+      transform: translateY(-3px);
+    }
+    #rs-literature .featured-card-stripe {
+      height: 4px;
+      background: linear-gradient(90deg, var(--teal), var(--blue));
+    }
+    #rs-literature .featured-card-body {
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    #rs-literature .featured-card-type {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+    #rs-literature .featured-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+    #rs-literature .featured-card.large .featured-card-title { font-size: 18px; }
+    #rs-literature .featured-card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    #rs-literature .featured-card-cta {
+      margin-top: auto;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--teal);
+    }
+
+    /* ── SECTION LABEL ── */
+    #rs-literature .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #rs-literature .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── CAT GRID ── */
+    #rs-literature .cat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+
+    /* ── CATEGORY TILE ── */
+    #rs-literature .cat-tile {
+      background: var(--white);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+      transition: box-shadow 0.2s;
+    }
+    #rs-literature .cat-tile:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+    #rs-literature .cat-tile-header {
+      background: var(--navy);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    #rs-literature .cat-tile-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+    #rs-literature .cat-tile-desc {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 2px;
+    }
+    #rs-literature .cat-tile-count {
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(20, 207, 166, 0.8);
+      background: rgba(20, 207, 166, 0.12);
+      border: 1px solid rgba(20, 207, 166, 0.2);
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    /* ── DOC LIST ── */
+    #rs-literature .doc-list { list-style: none; padding: 8px 0; }
+    #rs-literature .doc-list li { display: flex; }
+    #rs-literature .doc-list a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 8px 20px;
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 1.4;
+      transition: background 0.15s, color 0.15s;
+      border-left: 3px solid transparent;
+    }
+    #rs-literature .doc-list a:hover {
+      background: var(--teal-light);
+      color: var(--text-primary);
+      border-left-color: var(--teal);
+    }
+    #rs-literature .doc-bullet {
+      flex-shrink: 0;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--border);
+      margin-top: 1px;
+      transition: background 0.15s;
+    }
+    #rs-literature .doc-list a:hover .doc-bullet { background: var(--teal); }
+    #rs-literature .doc-label { flex: 1; }
+
+    /* ── INLINE SECTION DIVIDER (By Stack view) ── */
+    #rs-literature .doc-divider {
+      display: flex;
+      align-items: center;
+      padding: 6px 20px 2px;
+      gap: 10px;
+    }
+    #rs-literature .doc-divider-line { flex: 1; height: 1px; background: var(--border); }
+    #rs-literature .doc-divider-chip {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      white-space: nowrap;
+    }
+
+    /* ── DOC TYPE BADGES (By Stack view) ── */
+    #rs-literature .doc-badge {
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 4px;
+      white-space: nowrap;
+      background: rgba(0,0,0,0.04);
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    #rs-literature .doc-list a:hover .doc-badge.badge-whitepaper  { background: rgba(44,54,65,0.08);    color: var(--text-secondary); border-color: #c8d0da; }
+    #rs-literature .doc-list a:hover .doc-badge.badge-onepager    { background: rgba(44,54,65,0.08);    color: var(--text-secondary); border-color: #c8d0da; }
+    #rs-literature .doc-list a:hover .doc-badge.badge-article     { background: rgba(44,54,65,0.08);    color: var(--text-secondary); border-color: #c8d0da; }
+    #rs-literature .doc-list a:hover .doc-badge.badge-guide       { background: rgba(58,106,156,0.1);   color: var(--blue);           border-color: rgba(58,106,156,0.25); }
+    #rs-literature .doc-list a:hover .doc-badge.badge-deck        { background: rgba(58,106,156,0.1);   color: var(--blue);           border-color: rgba(58,106,156,0.25); }
+    #rs-literature .doc-list a:hover .doc-badge.badge-brief       { background: rgba(20,207,166,0.1);   color: var(--teal);           border-color: rgba(20,207,166,0.3); }
+    #rs-literature .doc-list a:hover .doc-badge.badge-commentary  { background: rgba(235,233,106,0.18); color: #7a7a10;               border-color: rgba(235,233,106,0.5); }
+
+    /* ── STRATEGY TAGS (By Content Type view) ── */
+    #rs-literature .strat-tag {
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 2px 7px;
+      border-radius: 4px;
+      white-space: nowrap;
+      border: 1px solid transparent;
+      transition: opacity 0.15s;
+    }
+    #rs-literature .strat-tag.s-core     { background: rgba(20,207,166,0.1);   color: #0d9479;         border-color: rgba(20,207,166,0.25); }
+    #rs-literature .strat-tag.s-trend    { background: rgba(58,106,156,0.1);   color: var(--blue);     border-color: rgba(58,106,156,0.2); }
+    #rs-literature .strat-tag.s-carry    { background: rgba(125,165,206,0.15); color: #3d6f9a;         border-color: rgba(125,165,206,0.3); }
+    #rs-literature .strat-tag.s-gold     { background: rgba(235,233,106,0.18); color: #7a7a10;         border-color: rgba(235,233,106,0.4); }
+    #rs-literature .strat-tag.s-mergarb  { background: rgba(59,184,35,0.1);    color: #2d8218;         border-color: rgba(59,184,35,0.2); }
+    #rs-literature .strat-tag.s-bonds    { background: rgba(58,106,156,0.07);  color: #5580a4;         border-color: rgba(58,106,156,0.15); }
+    #rs-literature .strat-tag.s-all      { background: rgba(44,54,65,0.06);    color: var(--text-dim); border-color: #dde2ea; }
+
+    /* ── PRODUCT ROWS (ticker-first layout) ── */
+    #rs-literature .product-list { list-style: none; padding: 6px 0; }
+    #rs-literature .product-list li { display: flex; }
+    #rs-literature .product-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 9px 20px;
+      text-decoration: none;
+      transition: background 0.15s;
+      border-left: 3px solid transparent;
+    }
+    #rs-literature .product-row:hover {
+      background: var(--teal-light);
+      border-left-color: var(--teal);
+    }
+    #rs-literature .product-ticker {
+      flex-shrink: 0;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-primary);
+      letter-spacing: 0.03em;
+      width: 42px;
+    }
+    #rs-literature .product-row:hover .product-ticker { color: var(--navy); }
+    #rs-literature .product-name {
+      flex: 1;
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.3;
+    }
+    #rs-literature .product-row:hover .product-name { color: var(--text-primary); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      #rs-literature .cat-grid { grid-template-columns: 1fr 1fr; }
+      #rs-literature .featured-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      #rs-literature .cat-grid { grid-template-columns: 1fr; }
+      #rs-literature .tabs-bar { padding: 0 20px; }
+      #rs-literature .content { padding-left: 20px; padding-right: 20px; }
+      #rs-literature .search-wrap { padding-left: 20px; padding-right: 20px; }
+      #rs-literature .filter-wrap { padding-left: 20px; padding-right: 20px; }
+      #rs-literature .filter-group { flex-direction: column; gap: 6px; }
+      #rs-literature .filter-group-label { width: auto; padding-top: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="rs-literature">
+
+  <!-- ═══ TABS + CONTENT ═══
+       In Divi: Regular section with Code module (fullwidth row).
+       Page banner/title is handled natively by the Divi theme.
+  -->
+  <div class="search-wrap">
+    <div class="search-bar">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="rs-lit-search" class="search-input" placeholder="Search literature by title, topic, ETF, or type..." oninput="rsLitFilter()" autocomplete="off" aria-label="Search literature">
+      <button type="button" class="search-clear" onclick="rsLitClearSearch()" aria-label="Clear search">&times;</button>
+    </div>
+  </div>
+
+  <div class="filter-wrap" id="rs-lit-filters">
+    <div class="filter-group">
+      <span class="filter-group-label">Strategy</span>
+      <div class="filter-chips">
+        <span class="chip" data-tag="trend" onclick="rsLitToggleTag(this)">Trend</span>
+        <span class="chip" data-tag="carry" onclick="rsLitToggleTag(this)">Futures Yield (Carry)</span>
+        <span class="chip" data-tag="mergarb" onclick="rsLitToggleTag(this)">Merger Arbitrage</span>
+        <span class="chip" data-tag="bonds" onclick="rsLitToggleTag(this)">Bonds</span>
+        <span class="chip" data-tag="us-equity" onclick="rsLitToggleTag(this)">U.S. Equity</span>
+        <span class="chip" data-tag="intl-equity" onclick="rsLitToggleTag(this)">International Equity</span>
+        <span class="chip" data-tag="gold" onclick="rsLitToggleTag(this)">Gold</span>
+        <span class="chip" data-tag="bitcoin" onclick="rsLitToggleTag(this)">Bitcoin</span>
+      </div>
+    </div>
+    <div class="filter-group">
+      <span class="filter-group-label">ETFs</span>
+      <div class="filter-chips">
+        <span class="chip" data-tag="rsst" onclick="rsLitToggleTag(this)">RSST</span>
+        <span class="chip" data-tag="rsit" onclick="rsLitToggleTag(this)">RSIT</span>
+        <span class="chip" data-tag="rssy" onclick="rsLitToggleTag(this)">RSSY</span>
+        <span class="chip" data-tag="rssx" onclick="rsLitToggleTag(this)">RSSX</span>
+        <span class="chip" data-tag="rsbt" onclick="rsLitToggleTag(this)">RSBT</span>
+        <span class="chip" data-tag="rsby" onclick="rsLitToggleTag(this)">RSBY</span>
+        <span class="chip" data-tag="rsba" onclick="rsLitToggleTag(this)">RSBA</span>
+        <span class="chip" data-tag="rssb" onclick="rsLitToggleTag(this)">RSSB</span>
+        <button type="button" class="filter-clear" onclick="rsLitClearTags()">Clear filters</button>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <div class="content">
+
+      <!-- ══════════════════════════════════
+           FEATURED — START HERE
+      ══════════════════════════════════ -->
+      <div class="featured-section">
+        <div class="featured-label">Start Here</div>
+        <div class="featured-grid">
+          <a class="featured-card large" href="https://www.returnstacked.com/lp/return-stacking-how-to-guide/" target="_blank" rel="noopener" data-tags="presentation" data-keywords="primer foundation introduction overview portable alpha capital efficient how to guide">
+            <div class="featured-card-stripe"></div>
+            <div class="featured-card-body">
+              <div class="featured-card-type">Foundation</div>
+              <div class="featured-card-title">Return Stacked Primer Presentation</div>
+              <div class="featured-card-desc">The essential starting point. Understand the core concept of return stacking &mdash; how portable alpha lets you add diversifying strategies on top of, not instead of, your existing equity and bond exposure.</div>
+              <div class="featured-card-cta">View resource &rarr;</div>
+            </div>
+          </a>
+          <a class="featured-card" href="https://www.returnstacked.com/wp-content/uploads/2026/06/The-Case-For-Not-Making-Room.pdf" target="_blank" rel="noopener" data-tags="advisor-guide" data-keywords="alternatives allocation portfolio construction 60 40 funding source replace diversifier room making primer shareable">
+            <div class="featured-card-stripe" style="background: linear-gradient(90deg, #283742, #3f73ab)"></div>
+            <div class="featured-card-body">
+              <div class="featured-card-type">Primer</div>
+              <div class="featured-card-title">The Case for NOT Making Room for Alternatives</div>
+              <div class="featured-card-desc">A shareable primer on return stacking, portable alpha, and the core use cases, written in plain English.</div>
+              <div class="featured-card-cta">View resource &rarr;</div>
+            </div>
+          </a>
+          <a class="featured-card" href="https://investresolve.com/inc/uploads/pdf/The-Return-Stacking-How-To-Guide.pdf" target="_blank" rel="noopener" data-tags="advisor-guide" data-keywords="case studies portfolios examples real world advisor scenarios">
+            <div class="featured-card-stripe" style="background: linear-gradient(90deg, #3f73ab, #7da5ce)"></div>
+            <div class="featured-card-body">
+              <div class="featured-card-type">Case Studies</div>
+              <div class="featured-card-title">Guide: Top Return Stacking Case Studies</div>
+              <div class="featured-card-desc">Real-world examples of return stacking applied across advisor portfolios.</div>
+              <div class="featured-card-cta">View resource &rarr;</div>
+            </div>
+          </a>
+          <a class="featured-card" href="https://app-na1.hubspotdocuments.com/documents/46343589/view/1606656861?accessId=d986e7" target="_blank" rel="noopener" data-tags="advisor-guide" data-keywords="leverage academic empirical long run portable alpha diversification capital efficient">
+            <div class="featured-card-stripe" style="background: linear-gradient(90deg, #0c7c64, #14cfa6)"></div>
+            <div class="featured-card-body">
+              <div class="featured-card-type">Client Guide</div>
+              <div class="featured-card-title">Leverage For the Long Run</div>
+              <div class="featured-card-desc">The academic and empirical case for long-term leveraged diversification.</div>
+              <div class="featured-card-cta">View resource &rarr;</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+           PRODUCT LITERATURE
+           ETF-specific materials reviewed under product compliance:
+           presentations, briefs, quarterly commentaries, and
+           foundational guides.
+      ══════════════════════════════════ -->
+      <div class="section-block" id="rs-section-product">
+        <div class="section-divider">
+          <h2 class="section-title">Product Literature</h2>
+          <p class="section-subtitle">ETF-specific materials: product briefs, presentations, quarterly commentaries, and foundational guides.</p>
+        </div>
+
+        <div class="cat-grid">
+
+          <!-- Presentations -->
+          <div class="cat-tile">
+            <div class="cat-tile-header">
+              <div class="cat-tile-header-left">
+                <div class="cat-tile-name">Presentations</div>
+                <div class="cat-tile-desc">Full slide decks</div>
+              </div>
+              <span class="cat-tile-count">8 docs</span>
+            </div>
+            <ul class="doc-list">
+              <li data-tags="presentation" data-keywords="primer overview foundation portable alpha capital efficient how to"><a href="https://www.returnstacked.com/lp/return-stacking-how-to-guide/" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Return Stacked Primer Presentation</span><span class="strat-tag s-core">Core</span></a></li>
+              <li data-tags="presentation trend rsst us-equity" data-keywords="stocks managed futures deck slides presentation"><a href="https://www.returnstackedetfs.com/rsst-return-stacked-us-stocks-managed-futures/" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">RSST Presentation</span><span class="strat-tag s-trend">Trend</span></a></li>
+              <li data-tags="presentation trend rsbt bonds" data-keywords="bonds managed futures deck slides presentation"><a href="https://www.returnstackedetfs.com/rsbt-return-stacked-bonds-managed-futures/" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">RSBT Presentation</span><span class="strat-tag s-trend">Trend</span></a></li>
+              <li data-tags="presentation carry rssy us-equity" data-keywords="stocks futures yield carry deck slides presentation"><a href="https://www.returnstackedetfs.com/rssy-return-stacked-us-stocks-futures-yield/" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">RSSY Presentation</span><span class="strat-tag s-carry">Carry</span></a></li>
+              <li data-tags="presentation carry rsby bonds" data-keywords="bonds futures yield carry deck slides presentation"><a href="https://www.returnstackedetfs.com/rsby-return-stacked-bonds-futures-yield/" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">RSBY Presentation</span><span class="strat-tag s-carry">Carry</span></a></li>
+              <li data-tags="presentation gold bitcoin rssx us-equity" data-keywords="stocks gold bitcoin deck slides presentation"><a href="https://www.returnstackedetfs.com/rssx-return-stacked-us-stocks-gold-bitcoin/" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">RSSX Presentation</span><span class="strat-tag s-gold">Gold&middot;BTC</span></a></li>
+              <li data-tags="presentation mergarb rsba bonds" data-keywords="bonds merger arbitrage deck slides presentation"><a href="https://www.returnstackedetfs.com/rsba-return-stacked-bonds-merger-arbitrage/" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">RSBA Presentation</span><span class="strat-tag s-mergarb">Merger Arb</span></a></li>
+              <li data-tags="presentation bonds us-equity intl-equity rssb" data-keywords="global stocks bonds deck slides presentation international"><a href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">RSSB Presentation</span><span class="strat-tag s-bonds">Bonds</span></a></li>
+            </ul>
+          </div>
+
+          <!-- Product Briefs -->
+          <div class="cat-tile">
+            <div class="cat-tile-header">
+              <div class="cat-tile-header-left">
+                <div class="cat-tile-name">Product Briefs</div>
+                <div class="cat-tile-desc">One-page ETF fact sheets</div>
+              </div>
+              <span class="cat-tile-count">7 docs</span>
+            </div>
+            <ul class="product-list">
+              <li data-tags="trend rsst us-equity" data-keywords="stocks managed futures product brief fact sheet"><a class="product-row" href="https://www.returnstackedetfs.com/rsst-return-stacked-us-stocks-managed-futures/" target="_blank" rel="noopener"><span class="product-ticker">RSST</span><span class="product-name">Stocks &amp; Managed Futures</span><span class="strat-tag s-trend">Trend</span></a></li>
+              <li data-tags="trend rsbt bonds" data-keywords="bonds managed futures product brief fact sheet"><a class="product-row" href="https://www.returnstackedetfs.com/rsbt-return-stacked-bonds-managed-futures/" target="_blank" rel="noopener"><span class="product-ticker">RSBT</span><span class="product-name">Bonds &amp; Managed Futures</span><span class="strat-tag s-trend">Trend</span></a></li>
+              <li data-tags="carry rssy us-equity" data-keywords="stocks futures yield carry product brief fact sheet"><a class="product-row" href="https://www.returnstackedetfs.com/rssy-return-stacked-us-stocks-futures-yield/" target="_blank" rel="noopener"><span class="product-ticker">RSSY</span><span class="product-name">Stocks &amp; Futures Yield</span><span class="strat-tag s-carry">Carry</span></a></li>
+              <li data-tags="carry rsby bonds" data-keywords="bonds futures yield carry product brief fact sheet"><a class="product-row" href="https://www.returnstackedetfs.com/rsby-return-stacked-bonds-futures-yield/" target="_blank" rel="noopener"><span class="product-ticker">RSBY</span><span class="product-name">Bonds &amp; Futures Yield</span><span class="strat-tag s-carry">Carry</span></a></li>
+              <li data-tags="gold bitcoin rssx us-equity" data-keywords="stocks gold bitcoin product brief fact sheet"><a class="product-row" href="https://www.returnstackedetfs.com/rssx-return-stacked-us-stocks-gold-bitcoin/" target="_blank" rel="noopener"><span class="product-ticker">RSSX</span><span class="product-name">Stocks &amp; Gold/Bitcoin</span><span class="strat-tag s-gold">Gold&middot;BTC</span></a></li>
+              <li data-tags="mergarb rsba bonds" data-keywords="bonds merger arbitrage product brief fact sheet"><a class="product-row" href="https://www.returnstackedetfs.com/rsba-return-stacked-bonds-merger-arbitrage/" target="_blank" rel="noopener"><span class="product-ticker">RSBA</span><span class="product-name">Bonds &amp; Merger Arbitrage</span><span class="strat-tag s-mergarb">Merger Arb</span></a></li>
+              <li data-tags="bonds us-equity intl-equity rssb" data-keywords="global stocks bonds product brief fact sheet international"><a class="product-row" href="https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/" target="_blank" rel="noopener"><span class="product-ticker">RSSB</span><span class="product-name">Stocks &amp; Bonds</span><span class="strat-tag s-bonds">Bonds</span></a></li>
+            </ul>
+          </div>
+
+          <!-- Quarterly Commentaries -->
+          <div class="cat-tile">
+            <div class="cat-tile-header">
+              <div class="cat-tile-header-left">
+                <div class="cat-tile-name">Quarterly Commentaries</div>
+                <div class="cat-tile-desc">ETF performance updates</div>
+              </div>
+              <span class="cat-tile-count">4 docs</span>
+            </div>
+            <ul class="doc-list">
+              <li data-tags="commentary rsst rsit rssy rssx rsbt rsby rsba rssb" data-keywords="quarterly performance review update Q4 2025 all etfs"><a href="https://www.returnstackedetfs.com/quarterly-commentary/" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">ETF Commentary &mdash; Q4 2025</span><span class="strat-tag s-all">All ETFs</span></a></li>
+              <li data-tags="commentary rsst rsit rssy rssx rsbt rsby rsba rssb" data-keywords="quarterly performance review update Q3 2025 all etfs"><a href="https://www.returnstackedetfs.com/quarterly-commentary/" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">ETF Commentary &mdash; Q3 2025</span><span class="strat-tag s-all">All ETFs</span></a></li>
+              <li data-tags="commentary rsst rsit rssy rssx rsbt rsby rsba rssb" data-keywords="quarterly performance review update Q2 2025 all etfs"><a href="https://www.returnstackedetfs.com/quarterly-commentary/" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">ETF Commentary &mdash; Q2 2025</span><span class="strat-tag s-all">All ETFs</span></a></li>
+              <li data-tags="commentary rsst rsit rssy rssx rsbt rsby rsba rssb" data-keywords="quarterly performance review update Q1 2025 all etfs"><a href="https://www.returnstackedetfs.com/quarterly-commentary/" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">ETF Commentary &mdash; Q1 2025</span><span class="strat-tag s-all">All ETFs</span></a></li>
+            </ul>
+          </div>
+
+          <!-- Foundational Guides -->
+          <div class="cat-tile">
+            <div class="cat-tile-header">
+              <div class="cat-tile-header-left">
+                <div class="cat-tile-name">Foundational Guides</div>
+                <div class="cat-tile-desc">Core reference materials</div>
+              </div>
+              <span class="cat-tile-count">2 docs</span>
+            </div>
+            <ul class="doc-list">
+              <li data-tags="advisor-guide" data-keywords="leverage academic long run portable alpha diversification capital efficient"><a href="https://app-na1.hubspotdocuments.com/documents/46343589/view/1606656861?accessId=d986e7" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Guide: Leverage For the Long Run</span><span class="strat-tag s-core">Core</span></a></li>
+              <li data-tags="onepager" data-keywords="complement diversifier overlay add on what works missing"><a href="#"><span class="doc-bullet"></span><span class="doc-label">Keeping What Works, Adding What's Missing</span><span class="strat-tag s-core">Core</span></a></li>
+            </ul>
+          </div>
+
+        </div><!-- /cat-grid -->
+      </div><!-- /section-block product -->
+
+
+      <!-- ══════════════════════════════════
+           MANAGER RESEARCH
+           Educational and research content from the Return Stacked
+           investment team: rationale, mechanics, and analysis.
+      ══════════════════════════════════ -->
+      <div class="section-block" id="rs-section-research">
+        <div class="section-divider">
+          <h2 class="section-title">Manager Research</h2>
+          <p class="section-subtitle">Educational and research content from the Return Stacked investment team: strategy rationale, mechanics, and deeper analysis.</p>
+        </div>
+
+        <div class="cat-grid">
+
+          <!-- One Pagers -->
+          <div class="cat-tile">
+            <div class="cat-tile-header">
+              <div class="cat-tile-header-left">
+                <div class="cat-tile-name">One Pagers</div>
+                <div class="cat-tile-desc">The "Why We Stack" series &amp; intros</div>
+              </div>
+              <span class="cat-tile-count">6 docs</span>
+            </div>
+            <ul class="doc-list">
+              <li data-tags="onepager trend" data-keywords="managed futures trend crisis alpha why stack diversifier systematic"><a href="https://app-na1.hubspotdocuments.com/documents/46343589/view/1593463457?accessId=721647" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Why We Stack: Managed Futures</span><span class="strat-tag s-trend">Trend</span></a></li>
+              <li data-tags="onepager carry" data-keywords="carry roll yield futures stack rationale why diversifier"><a href="https://app-na1.hubspotdocuments.com/documents/46343589/view/1593463659?accessId=79b385" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Why We Stack: Futures Yield (Carry)</span><span class="strat-tag s-carry">Carry</span></a></li>
+              <li data-tags="onepager gold bitcoin" data-keywords="gold bitcoin diversifier inflation hedge alternative crypto"><a href="https://app-na1.hubspotdocuments.com/documents/46343589/view/1593463578?accessId=ea7af5" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Why We Stack: Gold &amp; Bitcoin</span><span class="strat-tag s-gold">Gold&middot;BTC</span></a></li>
+              <li data-tags="onepager mergarb" data-keywords="merger arbitrage spread deal alternative income why stack"><a href="https://app-na1.hubspotdocuments.com/documents/46343589/view/1593463378?accessId=f659d9" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Why We Stack: Merger Arbitrage</span><span class="strat-tag s-mergarb">Merger Arb</span></a></li>
+              <li data-tags="onepager bonds" data-keywords="bonds diversifier rationale fixed income why stack core"><a href="https://app-na1.hubspotdocuments.com/documents/46343589/view/1593463703?accessId=e54d27" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Why We Stack: Bonds</span><span class="strat-tag s-bonds">Bonds</span></a></li>
+              <li data-tags="onepager" data-keywords="intro fundamentals leverage analogy mortgage 101 basics"><a href="https://www.returnstacked.com/wp-content/uploads/2024/12/Return-Stacking-101.pdf" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Stacking 101: Your Mortgage is Return Stacking!</span><span class="strat-tag s-core">Core</span></a></li>
+            </ul>
+          </div>
+
+          <!-- Whitepapers -->
+          <div class="cat-tile">
+            <div class="cat-tile-header">
+              <div class="cat-tile-header-left">
+                <div class="cat-tile-name">White Papers</div>
+                <div class="cat-tile-desc">In-depth research &amp; analysis</div>
+              </div>
+              <span class="cat-tile-count">5 docs</span>
+            </div>
+            <ul class="doc-list">
+              <li data-tags="whitepaper" data-keywords="low return environment diversification 60 40 alternatives capital efficient"><a href="https://lp.returnstacked.com/return-stacking-strategies-for-overcoming-a-low-return-environment" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Strategies for Overcoming a Low Return Environment</span><span class="strat-tag s-core">Core</span></a></li>
+              <li data-tags="whitepaper trend" data-keywords="replication systematic trend following research peering around corners"><a href="https://investresolve.com/peering-around-corners-how-to-replicate-trend-following-managed-futures-lp/" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Peering Around Corners: Replicating Trend Following</span><span class="strat-tag s-trend">Trend</span></a></li>
+              <li data-tags="whitepaper gold" data-keywords="gold futures stack equity portfolio commodity inflation"><a href="https://www.returnstacked.com/golden-opportunities-enhancing-traditional-portfolios-with-a-gold-futures-stack/" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Golden Opportunities: Enhancing Portfolios with Gold Futures</span><span class="strat-tag s-gold">Gold&middot;BTC</span></a></li>
+              <li data-tags="whitepaper mergarb bonds" data-keywords="merger arbitrage fixed income alpha bonds boosting"><a href="https://www.returnstacked.com/boosting-bonds-stacking-merger-arbitrage-to-enhance-fixed-income-portfolios/" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Boosting Bonds: Stacking Merger Arbitrage on Fixed Income</span><span class="strat-tag s-mergarb">Merger Arb</span></a></li>
+              <li data-tags="whitepaper trend" data-keywords="drawdown crisis defensive bull bear market managed futures equity stack article"><a href="https://app-na1.hubspotdocuments.com/documents/46343589/view/1593570845?accessId=477c9c" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Bulls Vs Bears: Return Stacking Managed Futures</span><span class="strat-tag s-trend">Trend</span></a></li>
+            </ul>
+          </div>
+
+          <!-- Advisor Guides -->
+          <div class="cat-tile">
+            <div class="cat-tile-header">
+              <div class="cat-tile-header-left">
+                <div class="cat-tile-name">Advisor Guides</div>
+                <div class="cat-tile-desc">Client conversations &amp; deeper guides</div>
+              </div>
+              <span class="cat-tile-count">8 docs</span>
+            </div>
+            <ul class="doc-list">
+              <li data-tags="advisor-guide" data-keywords="alternatives allocation portfolio construction 60 40 funding source replace diversifier room making"><a href="https://www.returnstacked.com/wp-content/uploads/2026/06/The-Case-For-Not-Making-Room.pdf" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">The Case for NOT Making Room for Alternatives</span><span class="strat-tag s-core">Core</span></a></li>
+              <li data-tags="advisor-guide trend" data-keywords="client conversations talking points trend objections managed futures advisor"><a href="https://app-na1.hubspotdocuments.com/documents/46343589/view/1552954523?accessId=04542a" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Guide to Client Conversations: Managed Futures Trend</span><span class="strat-tag s-trend">Trend</span></a></li>
+              <li data-tags="advisor-guide carry" data-keywords="client conversations carry talking points objections advisor"><a href="https://app-na1.hubspotdocuments.com/documents/46343589/view/1584292452?accessId=c1ae85" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Guide to Client Conversations: Futures Yield (Carry)</span><span class="strat-tag s-carry">Carry</span></a></li>
+              <li data-tags="advisor-guide gold bitcoin" data-keywords="client conversations gold bitcoin talking points objections advisor"><a href="https://app-na1.hubspotdocuments.com/documents/46343589/view/1606656861?accessId=d986e7" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Guide to Client Conversations: Gold &amp; Bitcoin</span><span class="strat-tag s-gold">Gold&middot;BTC</span></a></li>
+              <li data-tags="advisor-guide mergarb" data-keywords="client conversations merger arbitrage talking points objections advisor"><a href="https://app-na1.hubspotdocuments.com/documents/46343589/view/1552971119?accessId=964822" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Guide to Client Conversations: Merger Arbitrage</span><span class="strat-tag s-mergarb">Merger Arb</span></a></li>
+              <li data-tags="advisor-guide carry" data-keywords="carry practitioner roll yield contango backwardation systematic deep dive"><a href="https://investresolve.com/lp/managed-futures-carry-a-practitioners-guide/" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Managed Futures Carry: A Practitioner's Guide</span><span class="strat-tag s-carry">Carry</span></a></li>
+              <li data-tags="advisor-guide" data-keywords="case studies advisor portfolio examples real world scenarios"><a href="https://investresolve.com/inc/uploads/pdf/The-Return-Stacking-How-To-Guide.pdf" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Guide: Top Return Stacking Case Studies</span><span class="strat-tag s-core">Core</span></a></li>
+              <li data-tags="advisor-guide" data-keywords="all terrain all weather diversification regime portfolio construction"><a href="https://www.returnstacked.com/wp-content/uploads/2025/03/All-Terrain-Investing-A-Primer.pdf" target="_blank" rel="noopener"><span class="doc-bullet"></span><span class="doc-label">Return Stacked All-Terrain Portfolio Primer</span><span class="strat-tag s-core">Core</span></a></li>
+            </ul>
+          </div>
+
+        </div><!-- /cat-grid -->
+      </div><!-- /section-block research -->
+
+      <div class="no-results">
+        <div class="no-results-title">No matching resources</div>
+        <div class="no-results-hint">Try a different search term or clear your filters to see all literature.</div>
+      </div>
+
+    </div><!-- /content -->
+  </main>
+
+</div><!-- /rs-literature -->
+
+
+<script>
+  function rsLitGetActiveTags() {
+    var chips = document.querySelectorAll('#rs-lit-filters .chip.active');
+    var tags = [];
+    chips.forEach(function(c) { tags.push(c.getAttribute('data-tag')); });
+    return tags;
+  }
+
+  function rsLitStem(word) {
+    if (word.length < 4) return word;
+    if (word.slice(-3) === 'ies') return word.slice(0, -3) + 'y';
+    if (word.slice(-1) === 's' && word.slice(-2) !== 'ss' && word.slice(-2) !== 'us') {
+      return word.slice(0, -1);
+    }
+    return word;
+  }
+
+  function rsLitTokens(text) {
+    var raw = (text || '').toLowerCase().split(/[^a-z0-9]+/);
+    var out = [];
+    for (var i = 0; i < raw.length; i++) {
+      if (raw[i]) out.push(rsLitStem(raw[i]));
+    }
+    return out;
+  }
+
+  function rsLitSearchText(el) {
+    var parts = [
+      el.textContent || '',
+      el.getAttribute('data-keywords') || '',
+      el.getAttribute('data-tags') || ''
+    ];
+    var tile = el.closest ? el.closest('.cat-tile') : null;
+    if (tile) {
+      var name = tile.querySelector('.cat-tile-name');
+      var desc = tile.querySelector('.cat-tile-desc');
+      if (name) parts.push(name.textContent);
+      if (desc) parts.push(desc.textContent);
+    }
+    return parts.join(' ');
+  }
+
+  function rsLitElementMatches(el, queryStems, activeTags) {
+    if (queryStems.length > 0) {
+      var textStems = rsLitTokens(rsLitSearchText(el));
+      for (var i = 0; i < queryStems.length; i++) {
+        var qs = queryStems[i];
+        var found = false;
+        for (var t = 0; t < textStems.length; t++) {
+          if (textStems[t].indexOf(qs) === 0) { found = true; break; }
+        }
+        if (!found) return false;
+      }
+    }
+    if (activeTags.length > 0) {
+      var rowTags = (el.getAttribute('data-tags') || '').toLowerCase().split(/\s+/);
+      for (var j = 0; j < activeTags.length; j++) {
+        if (rowTags.indexOf(activeTags[j]) === -1) return false;
+      }
+    }
+    return true;
+  }
+
+  function rsLitFilter() {
+    var container = document.getElementById('rs-literature');
+    var input = document.getElementById('rs-lit-search');
+    var rawQuery = ((input && input.value) || '').trim().toLowerCase();
+    var queryStems = rsLitTokens(rawQuery);
+    var activeTags = rsLitGetActiveTags();
+    var filtering = queryStems.length > 0 || activeTags.length > 0;
+
+    var clearBtn = container.querySelector('.search-clear');
+    if (clearBtn) clearBtn.classList.toggle('visible', rawQuery.length > 0);
+    var filterClear = container.querySelector('.filter-clear');
+    if (filterClear) filterClear.classList.toggle('visible', activeTags.length > 0);
+
+    var content = container.querySelector('.content');
+    if (!content) return;
+
+    // Doc + product rows
+    var rows = content.querySelectorAll('.doc-list li, .product-list li');
+    rows.forEach(function(row) {
+      row.classList.toggle('hidden', !rsLitElementMatches(row, queryStems, activeTags));
+    });
+
+    // Featured "Start Here" cards
+    var featuredCards = content.querySelectorAll('.featured-card');
+    var anyFeatured = false;
+    featuredCards.forEach(function(card) {
+      var match = rsLitElementMatches(card, queryStems, activeTags);
+      card.classList.toggle('hidden', !match);
+      if (match) anyFeatured = true;
+    });
+    var featuredSection = content.querySelector('.featured-section');
+    if (featuredSection) {
+      featuredSection.classList.toggle('hidden', featuredCards.length > 0 && !anyFeatured);
+    }
+
+    // Tile visibility
+    var anyTileAnywhere = false;
+    content.querySelectorAll('.cat-tile').forEach(function(tile) {
+      var visibleRows = tile.querySelectorAll('.doc-list li:not(.hidden), .product-list li:not(.hidden)').length;
+      var hideTile = visibleRows === 0;
+      tile.classList.toggle('hidden', hideTile);
+      if (!hideTile) anyTileAnywhere = true;
+    });
+
+    // Section-block visibility (hide whole Product Lit / Manager Research block if all its tiles are hidden)
+    content.querySelectorAll('.section-block').forEach(function(block) {
+      var visibleTiles = block.querySelectorAll('.cat-tile:not(.hidden)').length;
+      block.classList.toggle('hidden', visibleTiles === 0);
+    });
+
+    // No-results state
+    var noResults = content.querySelector('.no-results');
+    if (noResults) {
+      noResults.classList.toggle('visible', filtering && !anyTileAnywhere && !anyFeatured);
+    }
+  }
+
+  function rsLitClearSearch() {
+    var input = document.getElementById('rs-lit-search');
+    if (!input) return;
+    input.value = '';
+    rsLitFilter();
+    input.focus();
+  }
+
+  function rsLitToggleTag(chip) {
+    var wasActive = chip.classList.contains('active');
+    document.querySelectorAll('#rs-lit-filters .chip.active').forEach(function(c) {
+      c.classList.remove('active');
+    });
+    if (!wasActive) chip.classList.add('active');
+    rsLitFilter();
+  }
+
+  function rsLitClearTags() {
+    document.querySelectorAll('#rs-lit-filters .chip.active').forEach(function(c) {
+      c.classList.remove('active');
+    });
+    rsLitFilter();
+  }
+</script>
+
+</body>
+</html>

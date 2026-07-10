@@ -26,7 +26,7 @@ This is a self-contained, embeddable landing page component that promotes the **
 
 ## Brand Assets
 
-Shared brand assets are at `../Brand_elements/` (see root `CLAUDE.md` for full reference).
+Shared brand assets are at `../../../references/brand-assets/return-stacked/` (see root `CLAUDE.md` for full reference).
 
 **Colors** — uses the standard Return Stacked palette via CSS custom properties:
 
@@ -40,9 +40,9 @@ Shared brand assets are at `../Brand_elements/` (see root `CLAUDE.md` for full r
 --rs-border: #bfbfbf
 ```
 
-**Font**: DM Sans loaded from Google Fonts CDN (weights 300–800). Not loaded from local `../Brand_elements/Font_Family/` files.
+**Font**: DM Sans loaded from Google Fonts CDN (weights 300–800). Not loaded from local `../../../references/brand-assets/return-stacked/Font_Family/` files.
 
-**Background**: Inline SVG wave pattern (blue, 25% opacity). Could be replaced with `../Brand_elements/Background_images/RS-Background-Blue.svg`.
+**Background**: Inline SVG wave pattern (blue, 25% opacity). Could be replaced with `../../../references/brand-assets/return-stacked/Background_images/RS-Background-Blue.svg`.
 
 **Logos**: Not used in this landing page.
 

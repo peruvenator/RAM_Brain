@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSV Widget — Divi CSS Simulation Harness</title>
+
+  <!--
+    DM Sans — the PHP plugin enqueues this via wp_enqueue_style. Without it
+    the harness falls back to a system sans-serif, so load it here to match
+    production and truthfully show the widget's real font.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!--
+    Chart libraries — these mirror exactly what backend/rsv-portfolios.php
+    enqueues via wp_enqueue_script in <head>. Without them the charts can
+    never render in the harness (it is NOT a widget bug). Loaded here so the
+    harness faithfully reproduces the production environment.
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2/dist/jspdf.umd.min.js"></script>
+
+  <style>
+    /*
+     * SIMULATED DIVI GLOBAL CSS
+     * These mirror the known Divi theme rules that bleed into the widget and
+     * caused the staging site breakage. If the widget renders correctly below,
+     * the DIVI_OVERRIDES !important rules are winning.
+     */
+
+    /* Divi base */
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 14px;
+      color: #666666;
+      line-height: 1.7em;
+      background-color: #ffffff;
+    }
+
+    /* THE main culprit — Divi forces all inputs/selects to full width */
+    input,
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="date"],
+    input[type="search"],
+    select,
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      min-height: 38px;
+      background-color: #f5f5f5;
+      border: 1px solid #d9d9d9;
+      border-radius: 0;
+      color: #666666;
+      font-size: 14px;
+      font-family: Georgia, serif;
+      letter-spacing: 0;
+      line-height: 1.7em;
+      padding: 8px 12px;
+    }
+
+    /* Divi paragraph padding */
+    p {
+      padding-bottom: 1em;
+      line-height: 1.7em;
+    }
+
+    /* Divi heading overrides */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: Georgia, serif;
+      font-weight: 500;
+      line-height: 1em;
+      padding-bottom: 10px;
+      color: #333333;
+    }
+
+    /* Divi button overrides */
+    button {
+      background-color: #2ea3f2;
+      color: #ffffff;
+      border: none;
+      border-radius: 3px;
+      padding: 0.3em 1em;
+      font-size: 14px;
+      font-family: Georgia, serif;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      min-height: 38px;
+      width: auto;
+    }
+
+    /* Divi link overrides */
+    a {
+      color: #2ea3f2;
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+
+    /* Divi list overrides */
+    ul, ol {
+      padding-left: 1.5em;
+      padding-bottom: 1em;
+      list-style: disc outside;
+    }
+    li { line-height: 1.7em; }
+
+    /* DiviArea high z-index — clips dropdowns that don't override it */
+    .DiviArea { z-index: 1000000; position: relative; }
+
+    /* Harness banner */
+    #harness-banner {
+      background: #172c3a;
+      color: #e0e0e0;
+      padding: 10px 20px;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    #harness-banner strong { color: #14cfa6; font-size: 13px; }
+    #harness-banner code {
+      background: rgba(255,255,255,0.12);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    /* Error state */
+    #harness-error {
+      display: none;
+      margin: 30px;
+      padding: 24px;
+      background: #fff5f5;
+      border: 1px solid #ffcccc;
+      border-radius: 6px;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    #harness-error strong { color: #cc0000; }
+    #harness-error code {
+      background: #f0f0f0;
+      padding: 2px 5px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="harness-banner">
+    <strong>Divi CSS Simulation Harness</strong>
+    <span id="harness-status">Loading rsv_widget_embed.html...</span>
+  </div>
+
+  <!-- Fake DiviArea to simulate the z-index stacking context -->
+  <div class="DiviArea" style="position:relative;">
+    <div id="widget-container"></div>
+  </div>
+
+  <div id="harness-error">
+    <strong>Could not load widget</strong><br><br>
+    <span id="harness-error-msg"></span><br><br>
+    Fix steps:<br>
+    1. Run <code>py -3.11 build_widget.py</code> in the project folder<br>
+    2. Start the server from the project root: <code>python -m http.server 8080</code><br>
+    3. Open <a href="http://localhost:8080/test_divi_harness.html">http://localhost:8080/test_divi_harness.html</a>
+  </div>
+
+  <script>
+    fetch('rsv_widget_embed.html')
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status + ' loading rsv_widget_embed.html. Run build_widget.py first.');
+        return r.text();
+      })
+      .then(function(html) {
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(html, 'text/html');
+
+        // Move the widget's <style> block to this page's <head> so it applies reliably
+        var styleEl = doc.querySelector('style');
+        if (styleEl) {
+          styleEl.parentNode.removeChild(styleEl);
+          document.head.appendChild(styleEl);
+        }
+
+        // Remove <script> tags — scripts from innerHTML don't execute;
+        // we re-add them manually below so execution order is correct
+        Array.from(doc.querySelectorAll('script')).forEach(function(s) {
+          s.parentNode.removeChild(s);
+        });
+
+        // Inject the widget HTML into the container
+        var widgetRoot = doc.getElementById('rsv-widget-root');
+        if (widgetRoot) {
+          document.getElementById('widget-container').appendChild(widgetRoot);
+        } else {
+          document.getElementById('widget-container').innerHTML = doc.body.innerHTML;
+        }
+
+        // Inject RSV_CONFIG — simulates what the PHP shortcode injects before rsv_widget.js loads
+        var configScript = document.createElement('script');
+        configScript.textContent = [
+          'window.RSV_CONFIG = {',
+          '  apiBase:   "http://localhost:8080/fake-api/rsv/v1",',
+          '  nonce:     "test-nonce-12345",',
+          '  userEmail: "rgordillo@rocketmail.com",',
+          '  firstName: "Rodrigo",',
+          '  lastName:  "Gordillo"',
+          '};'
+        ].join('\n');
+        document.head.appendChild(configScript);
+
+        // Load rsv_widget.js (path fixed for local server)
+        // DOMContentLoaded has already fired by the time this runs, so we manually
+        // call RSV.init() in onload instead of relying on the DOMContentLoaded listener.
+        document.getElementById('harness-status').textContent = 'rsv_widget_embed.html loaded. Loading rsv_widget.js...';
+        var widgetScript = document.createElement('script');
+        widgetScript.src = 'rsv_widget.js';
+        widgetScript.onload = function() {
+          try {
+            if (typeof RSV !== 'undefined' && typeof RSV.init === 'function') {
+              document.getElementById('harness-status').textContent = 'rsv_widget.js loaded. Calling RSV.init()...';
+              RSV.init();
+              document.getElementById('harness-status').textContent = 'Divi global styles active. If layout looks correct, the !important overrides are winning.';
+            } else {
+              document.getElementById('harness-status').innerHTML = '<span style="color:#ff6b6b;">rsv_widget.js loaded but RSV not defined — check Console</span>';
+            }
+          } catch(e) {
+            document.getElementById('harness-status').innerHTML = '<span style="color:#ff6b6b;">RSV.init() threw: ' + e.message + ' — check Console for details</span>';
+          }
+        };
+        widgetScript.onerror = function() {
+          document.getElementById('harness-status').innerHTML = '<span style="color:#ff6b6b;">Failed to load rsv_widget.js (404?) — is the file in the project folder?</span>';
+        };
+        document.head.appendChild(widgetScript);
+      })
+      .catch(function(err) {
+        document.getElementById('harness-error-msg').textContent = err.message;
+        document.getElementById('harness-error').style.display = 'block';
+      });
+  </script>
+
+</body>
+</html>

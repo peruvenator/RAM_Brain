@@ -1,0 +1,18 @@
+# Scratch / debug files
+_test_*.html
+_minimal_test.html
+_temp_check.js
+RS_test_debug.html
+
+# Older/simpler versions
+Simple widget.html
+Simple_Visualizer.url
+
+# Screenshots from development
+*.png
+
+# Example PDF output
+return-stacking-report.pdf
+
+# Claude Code local settings
+.claude/

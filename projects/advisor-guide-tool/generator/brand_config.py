@@ -11,7 +11,25 @@ import os
 # ── Base Paths ────────────────────────────────────────────────────────────────
 
 TOOL_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BRAND_DIR = os.path.join(os.path.dirname(TOOL_ROOT), "Brand_elements")
+
+
+def _find_brand_dir():
+    """Auto-detect brand assets directory.
+
+    Works in two layouts:
+      - brand-assets repo:  return-stacked/advisor-guide-tool/  -> brand dir is ../
+      - RAM_Brain repo:     projects/advisor-guide-tool/        -> brand dir is ../../references/brand-assets/return-stacked/
+    """
+    # Check if parent directory has Font_Family/ (brand-assets repo layout)
+    parent = os.path.dirname(TOOL_ROOT)
+    if os.path.isdir(os.path.join(parent, "Font_Family")):
+        return parent
+    # Fall back to RAM_Brain layout
+    repo_root = os.path.dirname(os.path.dirname(TOOL_ROOT))
+    return os.path.join(repo_root, "references", "brand-assets", "return-stacked")
+
+
+BRAND_DIR = _find_brand_dir()
 FONT_DIR = os.path.join(BRAND_DIR, "Font_Family")
 LOGOS_DIR = os.path.join(BRAND_DIR, "Logos")
 BACKDROP_DIR = os.path.join(BRAND_DIR, "Background_images")

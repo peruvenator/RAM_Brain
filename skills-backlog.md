@@ -9,6 +9,13 @@ Workflows to turn into Claude Code skills as they mature. Build these organicall
 - **LinkedIn/X reply engagement** -- thoughtful replies to others' posts on the same topics
 - **Marketing document generator** -- standardized HTML templates for each type of marketing piece (fact sheets, monthly updates, etc.) that produce on-brand PDFs
 
+## Done
+- **Widget handoff** -- generates a developer handoff package after building/modifying an HTML widget. Runs the build, pulls deploy targets from CLAUDE.md, summarizes git changes, produces HANDOFF.md, and zips everything for the developer. Lives at `.claude/skills/widget-handoff/`.
+- **website-widget-divi-prep** -- audits any HTML widget for Divi/WordPress compatibility before deployment. Checks CSS scoping, `:where()` resets, `isolation: isolate`, JS separation, jQuery safety, and HTML structure. Produces a pass/fail report. Auto-triggers when user mentions building a widget for the website. Lives at `.claude/skills/website-widget-divi-prep/`.
+
+## In Progress
+- **RS ETF knowledge base** -- canonical reference for all Return Stacked tickers, concepts, and compliance-approved pitch language. Iteration workspace at `projects/rs-knowledge-base/`. Deploy to `.claude/skills/rs-etfs-knowledge-base/` once design questions resolved.
+
 ## Medium Priority
 - **Notion database updates** -- bulk or recurring updates to Notion content pipeline
 - **Fact sheet generator** -- monthly fact sheet creation with current data

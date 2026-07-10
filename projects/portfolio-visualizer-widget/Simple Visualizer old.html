@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Return Stacking Widget</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f5f6fa;
+    color: #1a1a2e;
+    display: flex;
+    justify-content: center;
+    padding: 24px 16px;
+  }
+  .widget {
+    max-width: 900px;
+    width: 100%;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    padding: 32px;
+  }
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #2A3F5B;
+  }
+  .section-label {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #555;
+    margin-bottom: 8px;
+  }
+  .controls {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+
+  /* Fixed Mix Buttons */
+  .mix-buttons {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .mix-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border: 2px solid #2A3F5B;
+    border-radius: 6px;
+    background: #fff;
+    color: #2A3F5B;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .mix-btn:hover { background: #e8ecf4; }
+  .mix-btn.active {
+    background: #2A3F5B;
+    color: #fff;
+  }
+
+  /* Alt Blend */
+  .alt-blend {
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+  .alt-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .alt-input-group label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #555;
+  }
+  .alt-input-group input {
+    font-family: 'DM Sans', sans-serif;
+    width: 80px;
+    padding: 7px 10px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    text-align: center;
+  }
+  .alt-input-group input:focus {
+    outline: none;
+    border-color: #2A3F5B;
+  }
+  .alt-input-group input.error {
+    border-color: #e74c3c;
+  }
+  .alt-sum {
+    font-size: 13px;
+    color: #555;
+    align-self: center;
+    padding-bottom: 4px;
+  }
+  .alt-sum.error { color: #e74c3c; font-weight: 700; }
+  .alt-warning {
+    font-size: 12px;
+    color: #e74c3c;
+    font-weight: 500;
+    margin-top: 4px;
+  }
+
+  /* Stack Slider */
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .slider-row input[type="range"] {
+    flex: 1;
+    max-width: 400px;
+    accent-color: #2A3F5B;
+  }
+  .slider-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2A3F5B;
+    min-width: 48px;
+    text-align: right;
+  }
+
+  /* Log toggle */
+  .chart-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+  }
+  .log-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #555;
+    cursor: pointer;
+    user-select: none;
+  }
+  .log-toggle input {
+    accent-color: #2A3F5B;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+
+  /* Chart */
+  .chart-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    margin-bottom: 28px;
+  }
+  .chart-disabled-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 500;
+    color: #e74c3c;
+    border-radius: 8px;
+    z-index: 10;
+  }
+
+  /* Stats Table */
+  .stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .stats-table th, .stats-table td {
+    padding: 10px 16px;
+    text-align: right;
+  }
+  .stats-table th:first-child, .stats-table td:first-child {
+    text-align: left;
+  }
+  .stats-table thead th {
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    color: #555;
+    border-bottom: 2px solid #eee;
+  }
+  .stats-table tbody td {
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .stats-table .col-fixed { color: #456998; font-weight: 600; }
+  .stats-table .col-stacked { color: #60CCA8; font-weight: 600; }
+
+  @media (max-width: 600px) {
+    .widget { padding: 20px 16px; }
+    .alt-blend { flex-direction: column; gap: 12px; }
+    .chart-container { height: 280px; }
+  }
+</style>
+</head>
+<body>
+<div class="widget">
+  <h2>Return Stacking Explorer</h2>
+
+  <div class="controls">
+    <!-- Fixed Mix -->
+    <div>
+      <div class="section-label">Stock / Bond Mix</div>
+      <div class="mix-buttons" id="mixButtons">
+        <button class="mix-btn" data-stocks="100" data-bonds="0">100/0</button>
+        <button class="mix-btn" data-stocks="80" data-bonds="20">80/20</button>
+        <button class="mix-btn active" data-stocks="60" data-bonds="40">60/40</button>
+        <button class="mix-btn" data-stocks="40" data-bonds="60">40/60</button>
+        <button class="mix-btn" data-stocks="20" data-bonds="80">20/80</button>
+        <button class="mix-btn" data-stocks="0" data-bonds="100">0/100</button>
+      </div>
+    </div>
+
+    <!-- Alt Blend -->
+    <div>
+      <div class="section-label">Alternative Exposure Blend</div>
+      <div class="alt-blend">
+        <div class="alt-input-group">
+          <label>Trend (%)</label>
+          <input type="number" id="trendPct" value="34" min="0" max="100" step="1">
+        </div>
+        <div class="alt-input-group">
+          <label>Gold (%)</label>
+          <input type="number" id="goldPct" value="33" min="0" max="100" step="1">
+        </div>
+        <div class="alt-input-group">
+          <label>Merger Arb (%)</label>
+          <input type="number" id="marbPct" value="33" min="0" max="100" step="1">
+        </div>
+        <div class="alt-sum" id="altSum">Sum: 100%</div>
+      </div>
+      <div class="alt-warning" id="altWarning" style="display:none;">Blend must sum to 100%.</div>
+    </div>
+
+    <!-- Stack Size -->
+    <div>
+      <div class="section-label">Stack Size</div>
+      <div class="slider-row">
+        <input type="range" id="stackSlider" min="0" max="100" value="100" step="5">
+        <span class="slider-value" id="stackValue">100%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div class="chart-header">
+    <label class="log-toggle">
+      <input type="checkbox" id="logToggle"> Log Scale
+    </label>
+  </div>
+  <div class="chart-container">
+    <canvas id="chart"></canvas>
+    <div class="chart-disabled-overlay" id="chartOverlay" style="display:none;">
+      Fix alternative blend to update chart.
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <table class="stats-table" id="statsTable">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th>Fixed Mix</th>
+        <th>Stacked</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script>
+// ── Data (inline from data.js) ──
+const DATA = [
+  { date: "12/31/99", stocks: 100, bonds: 100, gold: 100, trend: 100, mergerArb: 100, tbills: 144.66 },
+  { date: "1/31/00", stocks: 94.97575937, bonds: 99.67256372, gold: 98.4375, trend: 101.9714, mergerArb: 101.7534782, tbills: 145.28 },
+  { date: "2/29/00", stocks: 93.17799545, bonds: 100.877961, gold: 101.4583333, trend: 99.521, mergerArb: 104.66636, tbills: 145.91 },
+  { date: "3/31/00", stocks: 102.29346, bonds: 102.2068966, gold: 96.90277778, trend: 96.5083, mergerArb: 106.6038097, tbills: 146.61 },
+  { date: "4/28/00", stocks: 99.21588998, bonds: 101.9142429, gold: 94.98263889, trend: 93.2277, mergerArb: 106.475413, tbills: 147.35 },
+  { date: "5/31/00", stocks: 97.18017216, bonds: 101.8674663, gold: 94.47916667, trend: 92.1582, mergerArb: 106.4313365, tbills: 148.12 },
+  { date: "6/30/00", stocks: 99.57603641, bonds: 103.9868066, gold: 100.53125, trend: 89.4136, mergerArb: 107.460427, tbills: 148.76 },
+  { date: "7/31/00", stocks: 98.01919462, bonds: 104.9307346, gold: 96.26736111, trend: 87.2893, mergerArb: 107.6865586, tbills: 149.45 },
+  { date: "8/31/00", stocks: 104.1075492, bonds: 106.4515742, gold: 96.47569444, trend: 90.0622, mergerArb: 107.4795907, tbills: 150.22 },
+  { date: "9/29/00", stocks: 98.61135846, bonds: 107.1208396, gold: 95.22569444, trend: 83.9593, mergerArb: 108.1196581, tbills: 151.02 },
+  { date: "10/31/00", stocks: 98.19481547, bonds: 107.8296852, gold: 92.06597222, trend: 86.6688, mergerArb: 108.4607719, tbills: 151.8 },
+  { date: "11/30/00", stocks: 90.45315128, bonds: 109.5928036, gold: 93.90625, trend: 97.6044, mergerArb: 110.5917749, tbills: 152.6 },
+  { date: "12/29/00", stocks: 90.89591372, bonds: 111.6257871, gold: 94.53125, trend: 111.666, mergerArb: 111.0823656, tbills: 153.46 },
+  { date: "1/31/01", stocks: 94.1204116, bonds: 113.4512744, gold: 92.30902778, trend: 112.7783, mergerArb: 113.0734736, tbills: 154.32 },
+  { date: "2/28/01", stocks: 85.53873553, bonds: 114.4395802, gold: 92.76041667, trend: 114.0109, mergerArb: 114.3804377, tbills: 154.9 },
+  { date: "3/30/01", stocks: 80.11971901, bonds: 115.014093, gold: 89.56597222, trend: 123.5097, mergerArb: 113.6503009, tbills: 155.6 },
+  { date: "4/30/01", stocks: 86.34560206, bonds: 114.5367316, gold: 91.68402778, trend: 113.1764, mergerArb: 114.5586601, tbills: 156.23 },
+  { date: "5/31/01", stocks: 86.92440883, bonds: 115.2275862, gold: 92.30902778, trend: 114.3409, mergerArb: 115.4766011, tbills: 156.77 },
+  { date: "6/29/01", stocks: 84.80854853, bonds: 115.6629685, gold: 94.04513889, trend: 111.6528, mergerArb: 114.4053505, tbills: 157.24 },
+  { date: "7/31/01", stocks: 83.97397843, bonds: 118.2488756, gold: 92.58680556, trend: 108.411, mergerArb: 114.2539573, tbills: 157.72 },
+  { date: "8/31/01", stocks: 78.71673098, bonds: 119.6029985, gold: 95.27777778, trend: 111.5043, mergerArb: 116.2201525, tbills: 158.21 },
+  { date: "9/28/01", stocks: 72.36024537, bonds: 120.9967016, gold: 101.8229167, trend: 116.006, mergerArb: 114.0144111, tbills: 158.79 },
+  { date: "10/31/01", stocks: 73.73998219, bonds: 123.5286357, gold: 97.10069444, trend: 124.3705, mergerArb: 115.2408877, tbills: 159.14 },
+  { date: "11/30/01", stocks: 79.3964579, bonds: 121.8254873, gold: 95.27777778, trend: 107.4596, mergerArb: 114.485838, tbills: 159.45 },
+  { date: "12/31/01", stocks: 80.09201543, bonds: 121.0518741, gold: 96.85763889, trend: 111.6015, mergerArb: 114.9285194, tbills: 159.7 },
+  { date: "1/31/02", stocks: 78.92302365, bonds: 122.0317841, gold: 98.10763889, trend: 110.8057, mergerArb: 117.6919244, tbills: 159.94 },
+  { date: "2/28/02", stocks: 77.40130603, bonds: 123.2143928, gold: 102.96875, trend: 106.4593, mergerArb: 116.5171898, tbills: 160.14 },
+  { date: "3/29/02", stocks: 80.31215989, bonds: 121.1646177, gold: 105.0868056, trend: 106.7965, mergerArb: 118.0196236, tbills: 160.38 },
+  { date: "4/30/02", stocks: 75.44276244, bonds: 123.5142429, gold: 107.1006944, trend: 104.1379, mergerArb: 119.8593385, tbills: 160.62 },
+  { date: "5/31/02", stocks: 74.88720689, bonds: 124.5637181, gold: 113.3854167, trend: 109.3825, mergerArb: 119.748189, tbills: 160.86 },
+  { date: "6/28/02", stocks: 69.5527852, bonds: 125.6407796, gold: 109.1840278, trend: 123.7166, mergerArb: 119.9819861, tbills: 161.09 },
+  { date: "7/31/02", stocks: 64.13080044, bonds: 127.1568216, gold: 105.3993056, trend: 132.7989, mergerArb: 119.271013, tbills: 161.32 },
+  { date: "8/30/02", stocks: 64.55229049, bonds: 129.3037481, gold: 108.59375, trend: 137.9293, mergerArb: 119.8765858, tbills: 161.55 },
+  { date: "9/30/02", stocks: 57.53636094, bonds: 131.397901, gold: 112.34375, trend: 145.9846, mergerArb: 121.5744893, tbills: 161.79 },
+  { date: "10/31/02", stocks: 62.6006728, bonds: 130.7994003, gold: 110.3298611, trend: 136.0844, mergerArb: 122.7415584, tbills: 162.02 },
+  { date: "11/29/02", stocks: 66.28524785, bonds: 130.7646177, gold: 110.46875, trend: 128.7211, mergerArb: 122.5020122, tbills: 162.25 },
+  { date: "12/31/02", stocks: 62.39141189, bonds: 133.4656672, gold: 120.8506944, trend: 140.7518, mergerArb: 123.6422521, tbills: 162.42 },
+  { date: "1/31/03", stocks: 60.75690116, bonds: 133.5796102, gold: 127.8298611, trend: 151.5053, mergerArb: 126.2446821, tbills: 162.58 },
+  { date: "2/28/03", stocks: 59.84515682, bonds: 135.4290855, gold: 121.5104167, trend: 162.7282, mergerArb: 126.6528688, tbills: 162.72 },
+  { date: "3/31/03", stocks: 60.42643712, bonds: 135.3235382, gold: 117.1701389, trend: 147.8914, mergerArb: 124.253574, tbills: 162.89 },
+  { date: "4/30/03", stocks: 65.40368062, bonds: 136.4401799, gold: 117.5520833, trend: 149.0215, mergerArb: 124.8840596, tbills: 163.04 },
+  { date: "5/30/03", stocks: 68.84931236, bonds: 138.9841079, gold: 126.5451389, trend: 159.9818, mergerArb: 129.1077383, tbills: 163.2 },
+  { date: "6/30/03", stocks: 69.72791135, bonds: 138.7082459, gold: 120.2777778, trend: 151.4043, mergerArb: 131.4418765, tbills: 163.38 },
+  { date: "7/31/03", stocks: 70.95725735, bonds: 134.0449775, gold: 123.0381944, trend: 149.0784, mergerArb: 130.5220191, tbills: 163.49 },
+  { date: "8/29/03", stocks: 72.34095182, bonds: 134.9349325, gold: 130.3993056, trend: 153.3454, mergerArb: 131.3901345, tbills: 163.62 },
+  { date: "9/30/03", stocks: 71.57267241, bonds: 138.5067466, gold: 133.8020833, trend: 146.6377, mergerArb: 134.0864666, tbills: 163.76 },
+  { date: "10/31/03", stocks: 75.62184625, bonds: 137.2149925, gold: 133.4201389, trend: 151.4153, mergerArb: 136.0392473, tbills: 163.88 },
+  { date: "11/28/03", stocks: 76.28722667, bonds: 137.5436282, gold: 138.2465278, trend: 151.2012, mergerArb: 136.9456901, tbills: 164.01 },
+  { date: "12/31/03", stocks: 80.28791926, bonds: 138.9433283, gold: 144.2534722, trend: 157.5148, mergerArb: 140.8263386, tbills: 164.09 },
+  { date: "1/30/04", stocks: 81.76165034, bonds: 140.0611694, gold: 139.7395833, trend: 159.7045, mergerArb: 140.68836, tbills: 164.21 },
+  { date: "2/27/04", stocks: 82.89799149, bonds: 141.5772114, gold: 137.5520833, trend: 170.6919, mergerArb: 142.7024645, tbills: 164.33 },
+  { date: "3/31/04", stocks: 81.64737311, bonds: 142.6374813, gold: 148.0729167, trend: 167.3478, mergerArb: 142.4054272, tbills: 164.46 },
+  { date: "4/30/04", stocks: 80.36558821, bonds: 138.9265367, gold: 134.2881944, trend: 154.5157, mergerArb: 139.7531716, tbills: 164.59 },
+  { date: "5/31/04", stocks: 81.4682893, bonds: 138.370015, gold: 137.34375, trend: 150.7208, mergerArb: 140.5676287, tbills: 164.72 },
+  { date: "6/30/04", stocks: 83.05283467, bonds: 139.152024, gold: 136.8923611, trend: 143.7933, mergerArb: 139.7205933, tbills: 164.83 },
+  { date: "7/30/04", stocks: 80.30374988, bonds: 140.5313343, gold: 135.78125, trend: 141.0888, mergerArb: 137.2733893, tbills: 164.99 },
+  { date: "8/31/04", stocks: 80.62877214, bonds: 143.211994, gold: 142.3090278, trend: 140.7778, mergerArb: 136.8537043, tbills: 165.17 },
+  { date: "9/30/04", stocks: 81.50192936, bonds: 143.6005997, gold: 145.2256944, trend: 143.8119, mergerArb: 136.9878502, tbills: 165.37 },
+  { date: "10/29/04", stocks: 82.74710597, bonds: 144.8047976, gold: 148.8020833, trend: 151.1673, mergerArb: 138.2564869, tbills: 165.57 },
+  { date: "11/30/04", stocks: 86.0952805, bonds: 143.6497751, gold: 156.5798611, trend: 160.7465, mergerArb: 140.9834809, tbills: 165.8 },
+  { date: "12/31/04", stocks: 89.02493321, bonds: 144.9715142, gold: 152.2395833, trend: 161.7434, mergerArb: 143.2639608, tbills: 166.12 },
+  { date: "1/31/05", stocks: 86.85465519, bonds: 145.8818591, gold: 146.7361111, trend: 151.8912, mergerArb: 141.7481124, tbills: 166.4 },
+  { date: "2/28/05", stocks: 88.68259622, bonds: 145.0206897, gold: 151.2673611, trend: 153.1925, mergerArb: 143.2582116, tbills: 166.67 },
+  { date: "3/31/05", stocks: 87.11239735, bonds: 144.2758621, gold: 148.7326389, trend: 153.8355, mergerArb: 142.4533364, tbills: 167.05 },
+  { date: "4/29/05", stocks: 85.46007717, bonds: 146.2284858, gold: 150.8333333, trend: 147.9534, mergerArb: 142.0853934, tbills: 167.42 },
+  { date: "5/31/05", stocks: 88.17947957, bonds: 147.8104948, gold: 144.8784722, trend: 152.3051, mergerArb: 142.3939289, tbills: 167.82 },
+  { date: "6/30/05", stocks: 88.30464035, bonds: 148.6164918, gold: 151.2152778, trend: 157.8132, mergerArb: 144.2853858, tbills: 168.2 },
+  { date: "7/29/05", stocks: 91.58850302, bonds: 147.2647676, gold: 149.2361111, trend: 158.2609, mergerArb: 145.5195278, tbills: 168.61 },
+  { date: "8/31/05", stocks: 90.7529435, bonds: 149.1526237, gold: 151.1111111, trend: 160.8863, mergerArb: 146.7306734, tbills: 169.08 },
+  { date: "9/30/05", stocks: 91.48758286, bonds: 147.6149925, gold: 162.9513889, trend: 160.882, mergerArb: 146.567782, tbills: 169.58 },
+  { date: "10/31/05", stocks: 89.9624023, bonds: 146.4467766, gold: 161.5243056, trend: 160.1601, mergerArb: 145.8031505, tbills: 170.03 },
+  { date: "11/30/05", stocks: 93.36499456, bonds: 147.0944528, gold: 171.2083333, trend: 166.9497, mergerArb: 146.5965275, tbills: 170.55 },
+  { date: "12/30/05", stocks: 93.3976452, bonds: 148.4929535, gold: 179.5138889, trend: 162.952, mergerArb: 149.3714308, tbills: 171.1 },
+  { date: "1/31/06", stocks: 95.87068368, bonds: 148.5013493, gold: 197.5347222, trend: 165.5774, mergerArb: 152.6522556, tbills: 171.65 },
+  { date: "2/28/06", stocks: 96.13089938, bonds: 148.9943028, gold: 194.9826389, trend: 162.4748, mergerArb: 152.8113142, tbills: 172.2 },
+  { date: "3/31/06", stocks: 97.32759474, bonds: 147.5322339, gold: 202.65625, trend: 168.3232, mergerArb: 156.7130428, tbills: 172.86 },
+  { date: "4/28/06", stocks: 98.63411497, bonds: 147.2647676, gold: 227.2326389, trend: 175.289, mergerArb: 160.348396, tbills: 173.51 },
+  { date: "5/31/06", stocks: 95.79548828, bonds: 147.1076462, gold: 224.0277778, trend: 171.5581, mergerArb: 162.7266107, tbills: 174.2 },
+  { date: "6/30/06", stocks: 95.92510141, bonds: 147.4194903, gold: 213.8368056, trend: 168.4468, mergerArb: 166.6781649, tbills: 174.89 },
+  { date: "7/31/06", stocks: 96.51726526, bonds: 149.4128936, gold: 221.09375, trend: 163.7531, mergerArb: 168.4527232, tbills: 175.6 },
+  { date: "8/31/06", stocks: 98.81369348, bonds: 151.7001499, gold: 217.8125, trend: 165.1991, mergerArb: 169.1445326, tbills: 176.35 },
+  { date: "9/29/06", stocks: 101.3599486, bonds: 153.0326837, gold: 207.7430556, trend: 164.7902, mergerArb: 169.1330344, tbills: 177.12 },
+  { date: "10/31/06", stocks: 104.6626101, bonds: 154.0449775, gold: 210.625, trend: 167.598, mergerArb: 172.08616, tbills: 177.81 },
+  { date: "11/30/06", stocks: 106.6533096, bonds: 155.832084, gold: 225, trend: 171.6621, mergerArb: 176.2197693, tbills: 178.55 },
+  { date: "12/29/06", stocks: 108.1493025, bonds: 154.9277361, gold: 221.0763889, trend: 176.3861, mergerArb: 178.0939788, tbills: 179.32 },
+  { date: "1/31/07", stocks: 109.7848026, bonds: 154.8641679, gold: 226.8055556, trend: 179.4033, mergerArb: 181.8404814, tbills: 180.06 },
+  { date: "2/28/07", stocks: 107.6372811, bonds: 157.2521739, gold: 232.4131944, trend: 172.2172, mergerArb: 183.3793262, tbills: 180.74 },
+  { date: "3/30/07", stocks: 108.8413971, bonds: 157.2569715, gold: 230.4861111, trend: 168.2183, mergerArb: 185.3819325, tbills: 181.55 },
+  { date: "4/30/07", stocks: 113.6623132, bonds: 158.1049475, gold: 235.5729167, trend: 176.8995, mergerArb: 187.5589284, tbills: 182.33 },
+  { date: "5/31/07", stocks: 117.6288711, bonds: 156.9067466, gold: 229.3402778, trend: 187.2234, mergerArb: 190.071289, tbills: 183.1 },
+  { date: "6/29/07", stocks: 115.6747799, bonds: 156.4425787, gold: 225.5729167, trend: 191.5483, mergerArb: 189.5538692, tbills: 183.83 },
+  { date: "7/31/07", stocks: 112.0881567, bonds: 157.7475262, gold: 230.6597222, trend: 182.2501, mergerArb: 187.7524817, tbills: 184.53 },
+  { date: "8/31/07", stocks: 113.7681805, bonds: 159.6809595, gold: 233.7847222, trend: 169.5892, mergerArb: 190.1613583, tbills: 185.44 },
+  { date: "9/28/07", stocks: 118.0231523, bonds: 160.8923538, gold: 258.1944444, trend: 179.9848, mergerArb: 193.5993254, tbills: 186.09 },
+  { date: "10/31/07", stocks: 119.900564, bonds: 162.3376312, gold: 276.6666667, trend: 190.8479, mergerArb: 197.0392089, tbills: 186.65 },
+  { date: "11/30/07", stocks: 114.8877016, bonds: 165.2569715, gold: 272.0659722, trend: 189.0095, mergerArb: 193.1432295, tbills: 187.37 },
+  { date: "12/31/07", stocks: 114.0907292, bonds: 165.7211394, gold: 289.4791667, trend: 191.5132, mergerArb: 193.2179679, tbills: 187.89 },
+  { date: "1/31/08", stocks: 107.2474523, bonds: 168.5049475, gold: 321.5625, trend: 196.515, mergerArb: 191.0122264, tbills: 188.6 },
+  { date: "2/29/08", stocks: 103.7637281, bonds: 168.7388306, gold: 338.1597222, trend: 210.6033, mergerArb: 193.3789429, tbills: 188.85 },
+  { date: "3/31/08", stocks: 103.3155239, bonds: 169.3145427, gold: 318.3680556, trend: 207.707, mergerArb: 193.3348664, tbills: 189.25 },
+  { date: "4/30/08", stocks: 108.3471851, bonds: 168.9607196, gold: 304.7048611, trend: 204.1429, mergerArb: 196.3665632, tbills: 189.47 },
+  { date: "5/30/08", stocks: 109.7506679, bonds: 167.7217391, gold: 307.8125, trend: 209.421, mergerArb: 199.2986087, tbills: 189.58 },
+  { date: "6/30/08", stocks: 100.4981696, bonds: 167.5874063, gold: 321.3194444, trend: 220.7183, mergerArb: 197.7195201, tbills: 189.91 },
+  { date: "7/31/08", stocks: 99.65321065, bonds: 167.4494753, gold: 317.3958333, trend: 209.578, mergerArb: 198.3749186, tbills: 190.23 },
+  { date: "8/29/08", stocks: 101.0947858, bonds: 169.0386807, gold: 288.59375, trend: 203.5004, mergerArb: 199.0533134, tbills: 190.49 },
+  { date: "9/30/08", stocks: 92.0866726, bonds: 166.7682159, gold: 302.4131944, trend: 205.4867, mergerArb: 185.6866352, tbills: 190.86 },
+  { date: "10/31/08", stocks: 76.62065895, bonds: 162.8317841, gold: 251.3368056, trend: 220.5155, mergerArb: 176.17186, tbills: 191.09 },
+  { date: "11/28/08", stocks: 71.12298407, bonds: 168.131934, gold: 284.0451389, trend: 226.7311, mergerArb: 176.0894561, tbills: 191.21 },
+  { date: "12/31/08", stocks: 71.87988523, bonds: 174.4047976, gold: 306.2673611, trend: 231.506, mergerArb: 178.3469396, tbills: 191.22 },
+  { date: "1/30/09", stocks: 65.82121302, bonds: 172.865967, gold: 322.1701389, trend: 230.7892, mergerArb: 176.9671534, tbills: 191.21 },
+  { date: "2/27/09", stocks: 58.81270407, bonds: 172.2134933, gold: 327.1944444, trend: 232.0333, mergerArb: 177.8908436, tbills: 191.25 },
+  { date: "3/31/09", stocks: 63.964579, bonds: 174.6074963, gold: 319.21875, trend: 225.1465, mergerArb: 183.0650416, tbills: 191.29 },
+  { date: "4/30/09", stocks: 70.08657366, bonds: 175.4422789, gold: 308.4027778, trend: 219.6083, mergerArb: 183.1474455, tbills: 191.34 },
+  { date: "5/29/09", stocks: 74.00662907, bonds: 176.7148426, gold: 339.9930556, trend: 220.69, mergerArb: 184.2378598, tbills: 191.35 },
+  { date: "6/30/09", stocks: 74.15355694, bonds: 177.71994, gold: 321.7013889, trend: 213.7971, mergerArb: 185.3148595, tbills: 191.37 },
+  { date: "7/31/09", stocks: 79.76204611, bonds: 180.5865067, gold: 331.25, trend: 214.198, mergerArb: 186.6582346, tbills: 191.4 },
+  { date: "8/31/09", stocks: 82.64173345, bonds: 182.4563718, gold: 330.2743056, trend: 217.5609, mergerArb: 187.6221686, tbills: 191.44 },
+  { date: "9/30/09", stocks: 85.72573464, bonds: 184.3730135, gold: 349.8958333, trend: 222.7857, mergerArb: 189.9256449, tbills: 191.47 },
+  { date: "10/30/09", stocks: 84.13327397, bonds: 185.2833583, gold: 363.0034722, trend: 216.2405, mergerArb: 187.8559657, tbills: 191.49 },
+  { date: "11/30/09", stocks: 89.17977639, bonds: 187.6821589, gold: 409.59375, trend: 227.4243, mergerArb: 191.6312138, tbills: 191.5 },
+  { date: "12/31/09", stocks: 90.90234491, bonds: 184.7484258, gold: 380.8958333, trend: 220.3962, mergerArb: 191.6369629, tbills: 191.5 },
+  { date: "1/29/10", stocks: 87.63233403, bonds: 187.5706147, gold: 375.4166667, trend: 211.9494, mergerArb: 193.9481047, tbills: 191.52 },
+  { date: "2/26/10", stocks: 90.34678935, bonds: 188.2710645, gold: 388.0520833, trend: 216.1331, mergerArb: 194.2068146, tbills: 191.52 },
+  { date: "3/31/10", stocks: 95.79895122, bonds: 188.0395802, gold: 386.5451389, trend: 226.7198, mergerArb: 196.0311985, tbills: 191.53 },
+  { date: "4/30/10", stocks: 97.31126942, bonds: 189.9970015, gold: 409.3854167, trend: 231.311, mergerArb: 196.7690008, tbills: 191.55 },
+  { date: "5/31/10", stocks: 89.54091224, bonds: 191.5958021, gold: 422.3263889, trend: 220.8939, mergerArb: 195.1803304, tbills: 191.58 },
+  { date: "6/30/10", stocks: 84.85356683, bonds: 194.6002999, gold: 431.3819444, trend: 219.6926, mergerArb: 199.3714308, tbills: 191.6 },
+  { date: "7/30/10", stocks: 90.79845652, bonds: 196.6776612, gold: 410.0694444, trend: 216.1322, mergerArb: 203.1064352, tbills: 191.64 },
+  { date: "8/31/10", stocks: 86.69981201, bonds: 199.2071964, gold: 433.125, trend: 227.9036, mergerArb: 202.3130581, tbills: 191.66 },
+  { date: "9/30/10", stocks: 94.43702384, bonds: 199.4194903, gold: 454.3541667, trend: 233.9185, mergerArb: 206.2741942, tbills: 191.68 },
+  { date: "10/29/10", stocks: 98.03057287, bonds: 200.1295352, gold: 472.0138889, trend: 245.4868, mergerArb: 207.4355142, tbills: 191.7 },
+  { date: "11/30/10", stocks: 98.04294054, bonds: 198.9793103, gold: 481.3298611, trend: 235.9646, mergerArb: 202.4146257, tbills: 191.72 },
+  { date: "12/31/10", stocks: 104.59533, bonds: 196.8335832, gold: 493.5416667, trend: 249.3391, mergerArb: 207.0369093, tbills: 191.76 },
+  { date: "1/31/11", stocks: 107.0743049, bonds: 197.0626687, gold: 462.7361111, trend: 246.4731, mergerArb: 210.4748764, tbills: 191.77 },
+  { date: "2/28/11", stocks: 110.7425547, bonds: 197.5556222, gold: 490.0451389, trend: 251.0562, mergerArb: 211.8527462, tbills: 191.8 },
+  { date: "3/31/11", stocks: 110.7865836, bonds: 197.6647676, gold: 497.2916667, trend: 240.8201, mergerArb: 214.7847917, tbills: 191.83 },
+  { date: "4/29/11", stocks: 114.067478, bonds: 200.173913, gold: 542.9513889, trend: 252.2374, mergerArb: 217.425549, tbills: 191.85 },
+  { date: "5/31/11", stocks: 112.7762937, bonds: 202.7862069, gold: 533.2395833, trend: 239.6038, mergerArb: 217.8893105, tbills: 191.86 },
+  { date: "6/30/11", stocks: 110.8964084, bonds: 202.1925037, gold: 520.8958333, trend: 231.596, mergerArb: 216.3063892, tbills: 191.87 },
+  { date: "7/29/11", stocks: 108.6415356, bonds: 205.4008996, gold: 564.9479167, trend: 242.616, mergerArb: 214.677475, tbills: 191.86 },
+  { date: "8/31/11", stocks: 102.7396854, bonds: 208.4017991, gold: 633.8715278, trend: 239.7636, mergerArb: 213.0140662, tbills: 191.88 },
+  { date: "9/30/11", stocks: 95.51746314, bonds: 209.9178411, gold: 563.8159722, trend: 237.1653, mergerArb: 211.3142463, tbills: 191.88 },
+  { date: "10/31/11", stocks: 105.9567626, bonds: 210.1433283, gold: 595.3819444, trend: 226.1104, mergerArb: 214.4398452, tbills: 191.89 },
+  { date: "11/30/11", stocks: 105.7227664, bonds: 209.9610195, gold: 606.3715278, trend: 225.8205, mergerArb: 215.2121421, tbills: 191.89 },
+  { date: "12/30/11", stocks: 106.8041951, bonds: 212.2686657, gold: 543.3715278, trend: 229.5589, mergerArb: 213.5429842, tbills: 191.89 },
+  { date: "1/31/12", stocks: 111.5904818, bonds: 214.1325337, gold: 603.3888889, trend: 231.9976, mergerArb: 214.5835729, tbills: 191.89 },
+  { date: "2/29/12", stocks: 116.4158504, bonds: 214.0833583, gold: 589.1527778, trend: 235.5634, mergerArb: 214.853781, tbills: 191.89 },
+  { date: "3/30/12", stocks: 120.2468586, bonds: 212.9103448, gold: 579.21875, trend: 230.2678, mergerArb: 214.1044805, tbills: 191.91 },
+  { date: "4/30/12", stocks: 119.492431, bonds: 215.2707646, gold: 578.0381944, trend: 231.9329, mergerArb: 213.5238205, tbills: 191.92 },
+  { date: "5/31/12", stocks: 112.3107747, bonds: 217.2185907, gold: 541.84375, trend: 238.7801, mergerArb: 209.980453, tbills: 191.94 },
+  { date: "6/29/12", stocks: 116.9382606, bonds: 217.3037481, gold: 554.6701389, trend: 227.4535, mergerArb: 208.2001456, tbills: 191.95 },
+  { date: "7/31/12", stocks: 118.5623825, bonds: 220.3010495, gold: 560.6180556, trend: 239.2285, mergerArb: 209.2426507, tbills: 191.96 },
+  { date: "8/31/12", stocks: 121.2328089, bonds: 220.4449775, gold: 587.4479167, trend: 234.4402, mergerArb: 209.0816757, tbills: 191.97 },
+  { date: "9/28/12", stocks: 124.3657861, bonds: 220.7484258, gold: 615.3645833, trend: 229.5831, mergerArb: 207.26879, tbills: 191.99 },
+  { date: "10/31/12", stocks: 122.0693579, bonds: 221.1826087, gold: 597.4479167, trend: 218.4299, mergerArb: 204.2677552, tbills: 192 },
+  { date: "11/30/12", stocks: 122.7772831, bonds: 221.5316342, gold: 595.4791667, trend: 218.6807, mergerArb: 206.0116515, tbills: 192.02 },
+  { date: "12/31/12", stocks: 123.8963095, bonds: 221.2161919, gold: 581.71875, trend: 221.4679, mergerArb: 208.4971829, tbills: 192.04 },
+  { date: "1/31/13", stocks: 130.313644, bonds: 219.6689655, gold: 577.6736111, trend: 227.4081, mergerArb: 213.3130198, tbills: 192.04 },
+  { date: "2/28/13", stocks: 132.082715, bonds: 220.770015, gold: 548.4756944, trend: 225.3514, mergerArb: 213.2900234, tbills: 192.04 },
+  { date: "3/29/13", stocks: 137.0362125, bonds: 220.9463268, gold: 554.6875, trend: 229.6126, mergerArb: 218.285999, tbills: 192.07 },
+  { date: "4/30/13", stocks: 139.6764619, bonds: 223.182009, gold: 512.7465278, trend: 238.4665, mergerArb: 217.249243, tbills: 192.08 },
+  { date: "5/31/13", stocks: 142.9435045, bonds: 219.2, gold: 481.875, trend: 229.7422, mergerArb: 219.9666552, tbills: 192.09 },
+  { date: "6/28/13", stocks: 141.0240427, bonds: 215.8092954, gold: 428.65625, trend: 223.1511, mergerArb: 217.9736308, tbills: 192.09 },
+  { date: "7/31/13", stocks: 148.2002572, bonds: 216.1043478, gold: 460.09375, trend: 221.3958, mergerArb: 220.6795447, tbills: 192.1 },
+  { date: "8/30/13", stocks: 143.9081824, bonds: 214.9997001, gold: 484.46875, trend: 215.7988, mergerArb: 220.5492315, tbills: 192.11 },
+  { date: "9/30/13", stocks: 148.4208964, bonds: 217.0350825, gold: 461.46875, trend: 214.5154, mergerArb: 222.8392932, tbills: 192.11 },
+  { date: "10/31/13", stocks: 155.2433957, bonds: 218.7898051, gold: 459.3958333, trend: 219.9816, mergerArb: 222.0439998, tbills: 192.11 },
+  { date: "11/29/13", stocks: 159.9742753, bonds: 217.9706147, gold: 435.1909722, trend: 225.9264, mergerArb: 222.7166456, tbills: 192.12 },
+  { date: "12/31/13", stocks: 164.0244385, bonds: 216.7388306, gold: 417.2361111, trend: 227.3861, mergerArb: 222.983021, tbills: 192.13 },
+  { date: "1/31/14", stocks: 158.3531216, bonds: 219.9412294, gold: 432.1354167, trend: 217.1352, mergerArb: 220.9382546, tbills: 192.13 },
+  { date: "2/28/14", stocks: 165.5971109, bonds: 221.1106447, gold: 460.5520833, trend: 218.5305, mergerArb: 223.8971293, tbills: 192.14 },
+  { date: "3/31/14", stocks: 166.9887207, bonds: 220.734033, gold: 445.8368056, trend: 213.987, mergerArb: 222.350619, tbills: 192.15 },
+  { date: "4/30/14", stocks: 168.2230138, bonds: 222.5967016, gold: 448.4722222, trend: 216.2986, mergerArb: 220.8807635, tbills: 192.15 },
+  { date: "5/30/14", stocks: 172.1722569, bonds: 225.1310345, gold: 433.9166667, trend: 222.7085, mergerArb: 217.4485455, tbills: 192.15 },
+  { date: "6/30/14", stocks: 175.7287029, bonds: 225.2473763, gold: 460.8784722, trend: 225.81, mergerArb: 217.3393124, tbills: 192.16 },
+  { date: "7/31/14", stocks: 173.3051351, bonds: 224.6824588, gold: 445.34375, trend: 223.4017, mergerArb: 217.5539458, tbills: 192.17 },
+  { date: "8/29/14", stocks: 180.2384486, bonds: 227.1628186, gold: 446.9861111, trend: 235.7018, mergerArb: 214.1715534, tbills: 192.17 },
+  { date: "9/30/14", stocks: 177.7109924, bonds: 225.6203898, gold: 419.4965278, trend: 243.5602, mergerArb: 211.862328, tbills: 192.17 },
+  { date: "10/31/14", stocks: 182.0515484, bonds: 227.838081, gold: 407.2708333, trend: 247.8602, mergerArb: 208.3649534, tbills: 192.18 },
+  { date: "11/28/14", stocks: 186.94766, bonds: 229.4548726, gold: 405.3402778, trend: 265.9299, mergerArb: 210.8217393, tbills: 192.18 },
+  { date: "12/31/14", stocks: 186.4766993, bonds: 229.6695652, gold: 411.2395833, trend: 272.1787, mergerArb: 209.959373, tbills: 192.18 },
+  { date: "1/30/15", stocks: 180.878599, bonds: 234.4851574, gold: 445.7604167, trend: 286.1008, mergerArb: 209.2771454, tbills: 192.18 },
+  { date: "2/27/15", stocks: 191.2743643, bonds: 232.2806597, gold: 421.2430556, trend: 285.5143, mergerArb: 211.2778353, tbills: 192.18 },
+  { date: "3/31/15", stocks: 188.2492332, bonds: 233.3589205, gold: 410.9618056, trend: 292.9293, mergerArb: 209.4783642, tbills: 192.18 },
+  { date: "4/30/15", stocks: 190.0554071, bonds: 232.5217391, gold: 411.2395833, trend: 281.4683, mergerArb: 213.2172013, tbills: 192.19 },
+  { date: "5/29/15", stocks: 192.4992579, bonds: 231.9616192, gold: 413.3958333, trend: 278.9703, mergerArb: 213.0332298, tbills: 192.19 },
+  { date: "6/30/15", stocks: 188.7726328, bonds: 229.432084, gold: 407.0659722, trend: 265.402, mergerArb: 212.5062282, tbills: 192.19 },
+  { date: "7/31/15", stocks: 192.7278124, bonds: 231.0272864, gold: 380.4861111, trend: 276.0348, mergerArb: 210.8811468, tbills: 192.19 },
+  { date: "8/31/15", stocks: 181.0997329, bonds: 230.6950525, gold: 394.0729167, trend: 270.1483, mergerArb: 209.9708712, tbills: 192.2 },
+  { date: "9/30/15", stocks: 176.6186801, bonds: 232.2554723, gold: 387.1840278, trend: 276.331, mergerArb: 209.7083285, tbills: 192.2 },
+  { date: "10/30/15", stocks: 191.5172653, bonds: 232.2950525, gold: 396.5659722, trend: 269.1359, mergerArb: 213.1252156, tbills: 192.2 },
+  { date: "11/30/15", stocks: 192.0866726, bonds: 231.6809595, gold: 369.7118056, trend: 278.3213, mergerArb: 210.7029244, tbills: 192.2 },
+  { date: "12/31/15", stocks: 189.0570891, bonds: 230.9325337, gold: 368.4375, trend: 272.2786, mergerArb: 213.67713, tbills: 192.23 },
+  { date: "1/29/16", stocks: 179.6754724, bonds: 234.1097451, gold: 388.2673611, trend: 282.51, mergerArb: 214.4666743, tbills: 192.23 },
+  { date: "2/29/16", stocks: 179.4330662, bonds: 235.7709145, gold: 430.09375, trend: 289.3178, mergerArb: 215.066498, tbills: 192.28 },
+  { date: "3/31/16", stocks: 191.605323, bonds: 237.9334333, gold: 428.0381944, trend: 280.8833, mergerArb: 218.3454065, tbills: 192.35 },
+  { date: "4/29/16", stocks: 192.3483724, bonds: 238.8473763, gold: 449.1423611, trend: 270.5887, mergerArb: 215.2485531, tbills: 192.38 },
+  { date: "5/31/16", stocks: 195.8024142, bonds: 238.9085457, gold: 421.9861111, trend: 263.2979, mergerArb: 213.6253881, tbills: 192.4 },
+  { date: "6/30/16", stocks: 196.3099832, bonds: 243.2011994, gold: 458.9930556, trend: 277.4237, mergerArb: 211.4196466, tbills: 192.45 },
+  { date: "7/29/16", stocks: 203.5475413, bonds: 244.7388306, gold: 469.1944444, trend: 282.191, mergerArb: 211.0861983, tbills: 192.49 },
+  { date: "8/31/16", stocks: 203.8334817, bonds: 244.4593703, gold: 454.5034722, trend: 272.6175, mergerArb: 210.3311487, tbills: 192.54 },
+  { date: "9/30/16", stocks: 203.8715742, bonds: 244.3154423, gold: 456.8993056, trend: 267.4833, mergerArb: 211.0517037, tbills: 192.6 },
+  { date: "10/31/16", stocks: 200.1528644, bonds: 242.4467766, gold: 443.4756944, trend: 257.1266, mergerArb: 206.7341229, tbills: 192.64 },
+  { date: "11/30/16", stocks: 207.5655486, bonds: 236.7124438, gold: 407.3611111, trend: 253.908, mergerArb: 210.716339, tbills: 192.67 },
+  { date: "12/30/16", stocks: 211.6681508, bonds: 237.0458771, gold: 398.4375, trend: 255.5674, mergerArb: 211.9562301, tbills: 192.73 },
+  { date: "1/31/17", stocks: 215.6826952, bonds: 237.5112444, gold: 420.3888889, trend: 252.59, mergerArb: 212.2705147, tbills: 192.81 },
+  { date: "2/28/17", stocks: 224.2470565, bonds: 239.1076462, gold: 433.4861111, trend: 259.7957, mergerArb: 212.3145912, tbills: 192.89 },
+  { date: "3/31/17", stocks: 224.5082616, bonds: 238.9817091, gold: 433.75, trend: 253.3892, mergerArb: 213.619639, tbills: 192.93 },
+  { date: "4/28/17", stocks: 226.8140892, bonds: 240.8263868, gold: 440.375, trend: 250.7783, mergerArb: 216.9234602, tbills: 193.05 },
+  { date: "5/31/17", stocks: 230.0059365, bonds: 242.6794603, gold: 440.5972222, trend: 249.9831, mergerArb: 218.4680541, tbills: 193.16 },
+  { date: "6/30/17", stocks: 231.4415751, bonds: 242.435982, gold: 431.1145833, trend: 240.7331, mergerArb: 220.1870377, tbills: 193.31 },
+  { date: "7/31/17", stocks: 236.200653, bonds: 243.4794603, gold: 440.7777778, trend: 243.8106, mergerArb: 221.9520141, tbills: 193.46 },
+  { date: "8/31/17", stocks: 236.9239141, bonds: 245.6623688, gold: 458.8298611, trend: 250.1607, mergerArb: 221.9807596, tbills: 193.63 },
+  { date: "9/29/17", stocks: 241.811121, bonds: 244.4929535, gold: 444.3576389, trend: 242.5277, mergerArb: 223.6537503, tbills: 193.8 },
+  { date: "10/31/17", stocks: 247.4537449, bonds: 244.6344828, gold: 441.4756944, trend: 255.987, mergerArb: 224.7920739, tbills: 193.96 },
+  { date: "11/30/17", stocks: 255.0430395, bonds: 244.3202399, gold: 442.7118056, trend: 257.494, mergerArb: 225.0086237, tbills: 194.12 },
+  { date: "12/29/17", stocks: 257.8786979, bonds: 245.4416792, gold: 452.3611111, trend: 261.1982, mergerArb: 226.4382354, tbills: 194.3 },
+  { date: "1/31/18", stocks: 272.6432176, bonds: 242.6146927, gold: 467.0625, trend: 276.4781, mergerArb: 228.3603541, tbills: 194.52 },
+  { date: "2/28/18", stocks: 262.5947363, bonds: 240.3154423, gold: 457.7465278, trend: 251.715, mergerArb: 224.9319689, tbills: 194.7 },
+  { date: "3/30/18", stocks: 255.9211438, bonds: 241.8566717, gold: 460.2361111, trend: 251.0719, mergerArb: 223.8568855, tbills: 194.95 },
+  { date: "4/30/18", stocks: 256.9031364, bonds: 240.0575712, gold: 456.7326389, trend: 252.0962, mergerArb: 225.1715151, tbills: 195.22 },
+  { date: "5/31/18", stocks: 263.0899377, bonds: 241.7703148, gold: 450.8715278, trend: 245.11, mergerArb: 224.0964317, tbills: 195.5 },
+  { date: "6/29/18", stocks: 264.7091125, bonds: 241.4728636, gold: 434.9305556, trend: 247.7117, mergerArb: 226.0147177, tbills: 195.81 },
+  { date: "7/31/18", stocks: 274.5602058, bonds: 241.5304348, gold: 425.0520833, trend: 245.6981, mergerArb: 226.4190717, tbills: 196.12 },
+  { date: "8/31/18", stocks: 283.5064807, bonds: 243.0848576, gold: 417.0659722, trend: 255.3446, mergerArb: 227.7873596, tbills: 196.43 },
+  { date: "9/28/18", stocks: 285.1202137, bonds: 241.5196402, gold: 413.5, trend: 252.8781, mergerArb: 228.4331762, tbills: 196.75 },
+  { date: "10/31/18", stocks: 265.6322351, bonds: 239.6113943, gold: 421.7916667, trend: 241.8911, mergerArb: 230.0333448, tbills: 197.11 },
+  { date: "11/30/18", stocks: 271.0453151, bonds: 241.0410795, gold: 423.7916667, trend: 237.641, mergerArb: 233.7223564, tbills: 197.47 },
+  { date: "12/31/18", stocks: 246.5726724, bonds: 245.4692654, gold: 445.3090278, trend: 239.8871, mergerArb: 233.5460504, tbills: 197.85 },
+  { date: "1/31/19", stocks: 266.3317503, bonds: 248.0767616, gold: 458.7673611, trend: 232.1842, mergerArb: 235.5965659, tbills: 198.25 },
+  { date: "2/28/19", stocks: 274.8832492, bonds: 247.9328336, gold: 456.0138889, trend: 234.0361, mergerArb: 237.2523092, tbills: 198.61 },
+  { date: "3/29/19", stocks: 280.2245968, bonds: 252.6932534, gold: 448.7430556, trend: 246.8132, mergerArb: 237.3385459, tbills: 199.02 },
+  { date: "4/30/19", stocks: 291.5706936, bonds: 252.758021, gold: 445.6701389, trend: 257.1966, mergerArb: 238.1568357, tbills: 199.41 },
+  { date: "5/31/19", stocks: 273.0419511, bonds: 257.2449775, gold: 453.3263889, trend: 250.8325, mergerArb: 235.3972634, tbills: 199.83 },
+  { date: "6/28/19", stocks: 292.28505, bonds: 260.4749625, gold: 489.4270833, trend: 257.7185, mergerArb: 236.2538806, tbills: 200.25 },
+  { date: "7/31/19", stocks: 296.4860987, bonds: 261.0482759, gold: 490.8958333, trend: 270.1525, mergerArb: 238.1779158, tbills: 200.62 },
+  { date: "8/30/19", stocks: 291.7893539, bonds: 267.8128936, gold: 527.9097222, trend: 287.7606, mergerArb: 238.453873, tbills: 200.98 },
+  { date: "9/30/19", stocks: 297.2489364, bonds: 266.3868066, gold: 511.28125, trend: 272.6101, mergerArb: 239.3641486, tbills: 201.33 },
+  { date: "10/31/19", stocks: 303.6870486, bonds: 267.1892054, gold: 525.34375, trend: 261.3051, mergerArb: 241.7902725, tbills: 201.68 },
+  { date: "11/29/19", stocks: 314.7105966, bonds: 267.0524738, gold: 508.3263889, trend: 263.4744, mergerArb: 241.8995056, tbills: 201.93 },
+  { date: "12/31/19", stocks: 324.2094588, bonds: 266.8665667, gold: 526.8298611, trend: 262.0179, mergerArb: 243.7564677, tbills: 202.22 },
+  { date: "1/31/20", stocks: 324.0823192, bonds: 272.0023988, gold: 551.7916667, trend: 264.3472, mergerArb: 244.3505423, tbills: 202.47 },
+  { date: "2/28/20", stocks: 297.4042743, bonds: 276.8983508, gold: 550.5868056, trend: 263.2405, mergerArb: 244.1359089, tbills: 202.74 },
+  { date: "3/31/20", stocks: 260.6708222, bonds: 275.2683658, gold: 547.6319444, trend: 268.0305, mergerArb: 235.726879, tbills: 203.16 },
+  { date: "4/30/20", stocks: 294.0872663, bonds: 280.161919, gold: 585.5902778, trend: 268.4688, mergerArb: 239.8355755, tbills: 203.17 },
+  { date: "5/29/20", stocks: 308.0938953, bonds: 281.4656672, gold: 600.7881944, trend: 264.3739, mergerArb: 236.2807098, tbills: 203.18 },
+  { date: "6/30/20", stocks: 314.2213318, bonds: 283.2395802, gold: 618.3888889, trend: 259.8049, mergerArb: 236.2385497, tbills: 203.2 },
+  { date: "7/31/20", stocks: 331.9387553, bonds: 287.4698651, gold: 686.0625, trend: 267.7634, mergerArb: 240.5063049, tbills: 203.23 },
+  { date: "8/31/20", stocks: 355.7984565, bonds: 285.1490255, gold: 683.2638889, trend: 263.7862, mergerArb: 241.0639684, tbills: 203.25 },
+  { date: "9/30/20", stocks: 342.2791135, bonds: 284.9931034, gold: 654.7986111, trend: 256.6987, mergerArb: 240.1671074, tbills: 203.27 },
+  { date: "10/30/20", stocks: 333.177006, bonds: 283.7205397, gold: 652.3645833, trend: 258.1971, mergerArb: 243.2946227, tbills: 203.28 },
+  { date: "11/30/20", stocks: 369.6477689, bonds: 286.5043478, gold: 616.9965278, trend: 261.2553, mergerArb: 246.5869457, tbills: 203.3 },
+  { date: "12/31/20", stocks: 383.8601959, bonds: 286.8989505, gold: 659.1527778, trend: 278.4729, mergerArb: 250.4273504, tbills: 203.31 },
+  { date: "1/29/21", stocks: 379.9846641, bonds: 284.841979, gold: 641.5451389, trend: 276.3861, mergerArb: 254.2869189, tbills: 203.33 },
+  { date: "2/26/21", stocks: 390.4625507, bonds: 280.7292354, gold: 602.0972222, trend: 286.4244, mergerArb: 257.6041547, tbills: 203.34 },
+  { date: "3/31/21", stocks: 407.5630751, bonds: 277.2233883, gold: 592.9548611, trend: 289.5406, mergerArb: 259.6355065, tbills: 203.35 },
+  { date: "4/30/21", stocks: 429.3143366, bonds: 279.4134933, gold: 614.28125, trend: 297.6833, mergerArb: 265.0875781, tbills: 203.35 },
+  { date: "5/31/21", stocks: 432.3127535, bonds: 280.3262369, gold: 662.1076389, trend: 305.7296, mergerArb: 269.2882603, tbills: 203.35 },
+  { date: "6/30/21", stocks: 442.4052637, bonds: 282.2956522, gold: 614.6215278, trend: 299.3294, mergerArb: 265.3002951, tbills: 203.35 },
+  { date: "7/30/21", stocks: 452.9143168, bonds: 285.4524738, gold: 629.9270833, trend: 301.0876, mergerArb: 262.1976927, tbills: 203.36 },
+  { date: "8/31/21", stocks: 466.6854655, bonds: 284.9091454, gold: 629.7291667, trend: 302.4207, mergerArb: 265.5513395, tbills: 203.37 },
+  { date: "9/30/21", stocks: 444.9802117, bonds: 282.441979, gold: 610.0520833, trend: 308.006, mergerArb: 266.4443678, tbills: 203.37 },
+  { date: "10/29/21", stocks: 476.1561294, bonds: 282.364018, gold: 619.2291667, trend: 317.6035, mergerArb: 267.5041202, tbills: 203.38 },
+  { date: "11/30/21", stocks: 472.8569308, bonds: 283.2, gold: 616.1527778, trend: 302.5784, mergerArb: 263.7537848, tbills: 203.39 },
+  { date: "12/31/21", stocks: 494.0486791, bonds: 282.4755622, gold: 635.1388889, trend: 304.0508, mergerArb: 267.2511594, tbills: 203.4 },
+  { date: "1/31/22", stocks: 468.4832294, bonds: 276.3898051, gold: 624.0173611, trend: 314.6822, mergerArb: 267.7245027, tbills: 203.4 },
+  { date: "2/28/22", stocks: 454.4558227, bonds: 273.3061469, gold: 662.84375, trend: 326.2671, mergerArb: 268.763175, tbills: 203.42 },
+  { date: "3/31/22", stocks: 471.3297714, bonds: 265.7127436, gold: 672.7222222, trend: 357.812, mergerArb: 269.6849488, tbills: 203.46 },
+  { date: "4/29/22", stocks: 430.2290492, bonds: 255.6293853, gold: 658.65625, trend: 383.0677, mergerArb: 267.2664904, tbills: 203.51 },
+  { date: "5/31/22", stocks: 431.0181063, bonds: 257.2773613, gold: 637.96875, trend: 382.3027, mergerArb: 265.5724196, tbills: 203.61 },
+  { date: "6/30/22", stocks: 395.4402889, bonds: 253.2413793, gold: 627.5243056, trend: 392.128, mergerArb: 262.9546587, tbills: 203.71 },
+  { date: "7/29/22", stocks: 431.9016523, bonds: 259.4290855, gold: 613.1736111, trend: 374.8432, mergerArb: 265.6663217, tbills: 203.88 },
+  { date: "8/31/22", stocks: 414.2881171, bonds: 252.0995502, gold: 594.1111111, trend: 389.7914, mergerArb: 267.4792074, tbills: 204.26 },
+  { date: "9/30/22", stocks: 376.1323835, bonds: 241.2065967, gold: 576.6006944, trend: 412.2538, mergerArb: 265.7314783, tbills: 204.68 },
+  { date: "10/31/22", stocks: 406.5845454, bonds: 238.0821589, gold: 567.2083333, trend: 413.0386, mergerArb: 268.830248, tbills: 205.12 },
+  { date: "11/30/22", stocks: 429.3064213, bonds: 246.8377811, gold: 614.0694444, trend: 388.1217, mergerArb: 270.7389521, tbills: 205.76 },
+  { date: "12/30/22", stocks: 404.5720788, bonds: 245.7247376, gold: 633.3402778, trend: 387.2225, mergerArb: 273.3586294, tbills: 206.49 },
+  { date: "1/31/23", stocks: 429.9930741, bonds: 253.2845577, gold: 669.5694444, trend: 381.9289, mergerArb: 273.7227396, tbills: 207.19 },
+  { date: "2/28/23", stocks: 419.5013357, bonds: 246.7358321, gold: 634.3472222, trend: 389.0383, mergerArb: 273.8377218, tbills: 207.92 },
+  { date: "3/31/23", stocks: 434.9030375, bonds: 253.0026987, gold: 683.7777778, trend: 359.0929, mergerArb: 275.1389368, tbills: 208.75 },
+  { date: "4/28/23", stocks: 441.691402, bonds: 254.5367316, gold: 690.9722222, trend: 369.4726, mergerArb: 275.746426, tbills: 209.55 },
+  { date: "5/31/23", stocks: 443.6113585, bonds: 251.7649175, gold: 681.5034722, trend: 380.2581, mergerArb: 271.5840711, tbills: 210.4 },
+  { date: "6/30/23", stocks: 472.9232215, bonds: 250.8665667, gold: 666.4409722, trend: 388.0238, mergerArb: 275.4877161, tbills: 211.3 },
+  { date: "7/31/23", stocks: 488.1156624, bonds: 250.6926537, gold: 682.3229167, trend: 381.9986, mergerArb: 278.1342225, tbills: 212.23 },
+  { date: "8/31/23", stocks: 480.3443158, bonds: 249.0914543, gold: 673.6770833, trend: 378.3113, mergerArb: 283.066958, tbills: 213.19 },
+  { date: "9/29/23", stocks: 457.4423667, bonds: 242.7610195, gold: 641.8854167, trend: 391.1559, mergerArb: 284.4371622, tbills: 214.14 },
+  { date: "10/31/23", stocks: 447.8237855, bonds: 238.9301349, gold: 688.8472222, trend: 391.6031, mergerArb: 284.3720057, tbills: 215.13 },
+  { date: "11/30/23", stocks: 488.721678, bonds: 249.749925, gold: 707.0868056, trend: 372.5249, mergerArb: 286.6946457, tbills: 216.09 },
+  { date: "12/29/23", stocks: 510.9246067, bonds: 259.3103448, gold: 716.3125, trend: 371.3214, mergerArb: 289.5500364, tbills: 217.1 },
+  { date: "1/31/24", stocks: 519.5102404, bonds: 258.597901, gold: 708.1666667, trend: 375.9436, mergerArb: 284.5023188, tbills: 218.05 },
+  { date: "2/29/24", stocks: 547.2499258, bonds: 254.9445277, gold: 709.8263889, trend: 400.204, mergerArb: 285.7747882, tbills: 218.96 },
+  { date: "3/29/24", stocks: 564.8575245, bonds: 257.2989505, gold: 774.2604167, trend: 416.9683, mergerArb: 288.4730367, tbills: 219.97 },
+  { date: "4/30/24", stocks: 541.785891, bonds: 250.7994003, gold: 793.8368056, trend: 424.7033, mergerArb: 283.0018014, tbills: 220.92 },
+  { date: "5/31/24", stocks: 568.6504403, bonds: 255.0512744, gold: 808.1006944, trend: 414.9405, mergerArb: 283.3697444, tbills: 222 },
+  { date: "6/28/24", stocks: 589.0546156, bonds: 257.4668666, gold: 807.8993056, trend: 403.8162, mergerArb: 283.4904756, tbills: 222.92 },
+  { date: "7/31/24", stocks: 596.2248936, bonds: 263.4806597, gold: 849.8611111, trend: 394.0748, mergerArb: 292.6468897, tbills: 223.92 },
+  { date: "8/30/24", stocks: 610.6871475, bonds: 267.265967, gold: 869.2326389, trend: 376.3205, mergerArb: 296.9798015, tbills: 225 },
+  { date: "9/30/24", stocks: 623.7295934, bonds: 270.8449775, gold: 914.7847222, trend: 380.0206, mergerArb: 300.0019164, tbills: 225.96 },
+  { date: "10/31/24", stocks: 618.0736123, bonds: 264.1283358, gold: 952.7673611, trend: 363.6811, mergerArb: 295.9238818, tbills: 226.85 },
+  { date: "11/29/24", stocks: 654.3549025, bonds: 266.9205397, gold: 917.7604167, trend: 375.5612, mergerArb: 297.236595, tbills: 227.74 },
+  { date: "12/31/24", stocks: 638.7563075, bonds: 262.5523238, gold: 911.2847222, trend: 381.1281, mergerArb: 298.6163811, tbills: 228.65 },
+  { date: "1/31/25", stocks: 656.5439794, bonds: 263.9448276, gold: 971.6701389, trend: 381.7021, mergerArb: 301.9412824, tbills: 229.5 },
+  { date: "2/28/25", stocks: 647.9776393, bonds: 269.7523238, gold: 992.3020833, trend: 369.5217, mergerArb: 306.6900464, tbills: 230.25 },
+  { date: "3/31/25", stocks: 611.4677946, bonds: 269.8542729, gold: 1084.572917, trend: 363.361, mergerArb: 308.834464, tbills: 231.03 },
+  { date: "4/30/25", stocks: 607.3211636, bonds: 270.9145427, gold: 1141.913194, trend: 345.6011, mergerArb: 311.3564064, tbills: 231.85 },
+  { date: "5/30/25", stocks: 645.5491244, bonds: 268.9751124, gold: 1142.100694, trend: 337.9325, mergerArb: 314.8844429, tbills: 232.71 },
+  { date: "6/30/25", stocks: 678.3768675, bonds: 273.1106447, gold: 1146.923611, trend: 343.0639, mergerArb: 320.3345981, tbills: 233.51 },
+  { date: "7/31/25", stocks: 693.6014643, bonds: 272.3898051, gold: 1142.336806, trend: 342.9199, mergerArb: 324.12901, tbills: 234.37 },
+  { date: "8/29/25", stocks: 707.6620164, bonds: 275.6485757, gold: 1197.204861, trend: 352.3288, mergerArb: 329.4852631, tbills: 235.27 },
+  { date: "9/30/25", stocks: 733.4916395, bonds: 278.6554723, gold: 1339.916667, trend: 372.5108, mergerArb: 330.9685332, tbills: 236.07 },
+  { date: "10/31/25", stocks: 750.6653804, bonds: 280.3958021, gold: 1389.902778, trend: 377.7382, mergerArb: 332.5265417, tbills: 236.93 },
+  { date: "11/28/25", stocks: 752.5051944, bonds: 282.1385307, gold: 1472.024306, trend: 382.9098, mergerArb: 335.6444751, tbills: 237.63 },
+  { date: "12/31/25", stocks: 752.9657663, bonds: 281.7211394, gold: 1499.78125, trend: 390.7915, mergerArb: 336.0488291, tbills: 238.46 }
+];
+
+// ── State ──
+let state = {
+  stockPct: 60, bondPct: 40,
+  trendPct: 34, goldPct: 33, marbPct: 33,
+  stackSize: 100
+};
+
+// ── DOM refs ──
+const mixButtons = document.querySelectorAll('.mix-btn');
+const trendInput = document.getElementById('trendPct');
+const goldInput = document.getElementById('goldPct');
+const marbInput = document.getElementById('marbPct');
+const altSumEl = document.getElementById('altSum');
+const altWarning = document.getElementById('altWarning');
+const stackSlider = document.getElementById('stackSlider');
+const stackValueEl = document.getElementById('stackValue');
+const chartOverlay = document.getElementById('chartOverlay');
+const statsBody = document.querySelector('#statsTable tbody');
+
+// ── Chart setup ──
+const ctx = document.getElementById('chart').getContext('2d');
+const chart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [
+      {
+        label: 'Fixed Mix',
+        data: [],
+        borderColor: '#456998',
+        backgroundColor: 'rgba(69,105,152,0.08)',
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHitRadius: 8,
+        fill: false,
+        tension: 0.1
+      },
+      {
+        label: 'Stacked',
+        data: [],
+        borderColor: '#60CCA8',
+        backgroundColor: 'rgba(96,204,168,0.08)',
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHitRadius: 8,
+        fill: false,
+        tension: 0.1
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: {
+        labels: { font: { family: 'DM Sans', size: 13 }, usePointStyle: true, pointStyle: 'line' }
+      },
+      tooltip: {
+        titleFont: { family: 'DM Sans' },
+        bodyFont: { family: 'DM Sans' },
+        callbacks: {
+          label: function(ctx) {
+            return ctx.dataset.label + ': $' + ctx.parsed.y.toFixed(2);
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          font: { family: 'DM Sans', size: 11 },
+          maxTicksLimit: 12,
+          maxRotation: 0
+        },
+        grid: { display: false }
+      },
+      y: {
+        type: 'linear',
+        ticks: {
+          font: { family: 'DM Sans', size: 11 },
+          callback: v => '$' + v.toFixed(0)
+        },
+        grid: { color: 'rgba(0,0,0,0.05)' }
+      }
+    }
+  }
+});
+
+// ── Portfolio computation ──
+function compute() {
+  const { stockPct, bondPct, trendPct, goldPct, marbPct, stackSize } = state;
+  const sw = stockPct / 100, bw = bondPct / 100;
+  const tw = trendPct / 100, gw = goldPct / 100, mw = marbPct / 100;
+  const ss = stackSize / 100;
+
+  const labels = [];
+  const fixedValues = [100];
+  const stackedValues = [100];
+  labels.push(DATA[0].date);
+
+  for (let i = 1; i < DATA.length; i++) {
+    const prev = DATA[i - 1], cur = DATA[i];
+
+    // Monthly returns from index values
+    const rStock = cur.stocks / prev.stocks - 1;
+    const rBond = cur.bonds / prev.bonds - 1;
+    const rTrend = cur.trend / prev.trend - 1;
+    const rGold = cur.gold / prev.gold - 1;
+    const rMarb = cur.mergerArb / prev.mergerArb - 1;
+    const rTbill = cur.tbills / prev.tbills - 1;
+
+    // Fixed mix return
+    const rFixed = sw * rStock + bw * rBond;
+
+    // Stacked return: base + stack*(alt blend) - stack*(financing cost)
+    const rAlt = tw * rTrend + gw * rGold + mw * rMarb;
+    const rStacked = rFixed + ss * rAlt - ss * rTbill;
+
+    fixedValues.push(fixedValues[i - 1] * (1 + rFixed));
+    stackedValues.push(stackedValues[i - 1] * (1 + rStacked));
+    labels.push(cur.date);
+  }
+
+  return { labels, fixedValues, stackedValues };
+}
+
+// ── Stats computation ──
+function computeStats(values) {
+  const n = values.length - 1; // number of monthly returns
+  const monthlyReturns = [];
+  for (let i = 1; i < values.length; i++) {
+    monthlyReturns.push(values[i] / values[i - 1] - 1);
+  }
+
+  const endVal = values[values.length - 1];
+  const annReturn = Math.pow(endVal / values[0], 12 / n) - 1;
+
+  const mean = monthlyReturns.reduce((a, b) => a + b, 0) / n;
+  const variance = monthlyReturns.reduce((a, r) => a + (r - mean) ** 2, 0) / (n - 1);
+  const annVol = Math.sqrt(variance) * Math.sqrt(12);
+
+  // Max drawdown
+  let peak = values[0], maxDD = 0;
+  for (let i = 1; i < values.length; i++) {
+    if (values[i] > peak) peak = values[i];
+    const dd = (peak - values[i]) / peak;
+    if (dd > maxDD) maxDD = dd;
+  }
+
+  // T-bill annualized return for Sharpe
+  const tbillEnd = DATA[DATA.length - 1].tbills;
+  const tbillStart = DATA[0].tbills;
+  const annTbill = Math.pow(tbillEnd / tbillStart, 12 / n) - 1;
+  const sharpe = (annReturn - annTbill) / annVol;
+
+  return { annReturn, annVol, maxDD, sharpe, monthlyReturns };
+}
+
+function computeTrackingError(fixedReturns, stackedReturns) {
+  const diffs = [];
+  for (let i = 0; i < fixedReturns.length; i++) {
+    diffs.push(stackedReturns[i] - fixedReturns[i]);
+  }
+  const mean = diffs.reduce((a, b) => a + b, 0) / diffs.length;
+  const variance = diffs.reduce((a, d) => a + (d - mean) ** 2, 0) / (diffs.length - 1);
+  return Math.sqrt(variance) * Math.sqrt(12);
+}
+
+function fmtPct(v) { return (v * 100).toFixed(2) + '%'; }
+function fmtNum(v) { return v.toFixed(2); }
+
+// ── Update ──
+function update() {
+  const altSum = state.trendPct + state.goldPct + state.marbPct;
+  const valid = altSum === 100;
+
+  altSumEl.textContent = 'Sum: ' + altSum + '%';
+  altSumEl.classList.toggle('error', !valid);
+  altWarning.style.display = valid ? 'none' : 'block';
+  chartOverlay.style.display = valid ? 'none' : 'flex';
+
+  [trendInput, goldInput, marbInput].forEach(el => {
+    el.classList.toggle('error', !valid);
+  });
+
+  if (!valid) return;
+
+  const { labels, fixedValues, stackedValues } = compute();
+
+  chart.data.labels = labels;
+  chart.data.datasets[0].data = fixedValues;
+  chart.data.datasets[1].data = stackedValues;
+  chart.update();
+
+  const fixedStats = computeStats(fixedValues);
+  const stackedStats = computeStats(stackedValues);
+  const te = computeTrackingError(fixedStats.monthlyReturns, stackedStats.monthlyReturns);
+
+  statsBody.innerHTML = `
+    <tr><td>Annualized Return</td><td class="col-fixed">${fmtPct(fixedStats.annReturn)}</td><td class="col-stacked">${fmtPct(stackedStats.annReturn)}</td></tr>
+    <tr><td>Annualized Volatility</td><td class="col-fixed">${fmtPct(fixedStats.annVol)}</td><td class="col-stacked">${fmtPct(stackedStats.annVol)}</td></tr>
+    <tr><td>Maximum Drawdown</td><td class="col-fixed">-${fmtPct(fixedStats.maxDD)}</td><td class="col-stacked">-${fmtPct(stackedStats.maxDD)}</td></tr>
+    <tr><td>Sharpe Ratio</td><td class="col-fixed">${fmtNum(fixedStats.sharpe)}</td><td class="col-stacked">${fmtNum(stackedStats.sharpe)}</td></tr>
+    <tr><td>Tracking Error</td><td class="col-fixed">&mdash;</td><td class="col-stacked">${fmtPct(te)}</td></tr>
+  `;
+}
+
+// ── Event handlers ──
+mixButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    mixButtons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.stockPct = parseInt(btn.dataset.stocks);
+    state.bondPct = parseInt(btn.dataset.bonds);
+    update();
+  });
+});
+
+[trendInput, goldInput, marbInput].forEach(input => {
+  input.addEventListener('input', () => {
+    state.trendPct = parseInt(trendInput.value) || 0;
+    state.goldPct = parseInt(goldInput.value) || 0;
+    state.marbPct = parseInt(marbInput.value) || 0;
+    update();
+  });
+});
+
+stackSlider.addEventListener('input', () => {
+  state.stackSize = parseInt(stackSlider.value);
+  stackValueEl.textContent = state.stackSize + '%';
+  update();
+});
+
+const logToggle = document.getElementById('logToggle');
+logToggle.addEventListener('change', () => {
+  chart.options.scales.y.type = logToggle.checked ? 'logarithmic' : 'linear';
+  chart.update();
+});
+
+// Initial render
+update();
+</script>
+</body>
+</html>

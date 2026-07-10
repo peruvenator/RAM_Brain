@@ -1,0 +1,56 @@
+# Canonical product page URLs for every fund in the knowledge base.
+# Used by scripts/fetch_live_data.py and as a fallback URL registry for web_fetch.
+# Update this file whenever a product page slug changes.
+
+us_etfs:
+  RSST:
+    name: "Return Stacked® U.S. Stocks & Managed Futures ETF"
+    url: "https://www.returnstackedetfs.com/rsst-return-stacked-us-stocks-managed-futures/"
+  RSBT:
+    name: "Return Stacked® Bonds & Managed Futures ETF"
+    url: "https://www.returnstackedetfs.com/rsbt-return-stacked-bonds-managed-futures/"
+  RSSB:
+    name: "Return Stacked® Global Stocks & Bonds ETF"
+    url: "https://www.returnstackedetfs.com/rssb-return-stacked-global-stocks-bonds/"
+  RSSY:
+    name: "Return Stacked® U.S. Stocks & Futures Yield ETF"
+    url: "https://www.returnstackedetfs.com/rssy-return-stacked-u-s-stocks-futures-yield-etf/"
+  RSBY:
+    name: "Return Stacked® Bonds & Futures Yield ETF"
+    url: "https://www.returnstackedetfs.com/rsby-return-stacked-bonds-futures-yield/"
+  RSBA:
+    name: "Return Stacked® Bonds & Merger Arbitrage ETF"
+    url: "https://www.returnstackedetfs.com/rsba-return-stacked-bonds-merger-arbitrage/"
+  RSSX:
+    name: "Return Stacked® U.S. Stocks & Gold/Bitcoin ETF"
+    url: "https://www.returnstackedetfs.com/rssx-return-stacked-us-stocks-gold-bitcoin/"
+
+canada_etfs:
+  RGBM:
+    name: "Return Stacked® Global Balanced & Macro Fund (CAD)"
+    url: "https://www.returnstackedetfs.ca/rgbm/"
+  RGBM.U:
+    name: "Return Stacked® Global Balanced & Macro Fund (USD-hedged)"
+    url: "https://www.returnstackedetfs.ca/rgbm-u/"
+
+mutual_funds:
+  RDMIX:
+    name: "Return Stacked® Diversified Macro Fund — Class I"
+    url: "https://www.returnstackedfunds.com/rdmix/"
+  RDMAX:
+    name: "Return Stacked® Diversified Macro Fund — Class A"
+    url: "https://www.returnstackedfunds.com/rdmax/"
+  RDMCX:
+    name: "Return Stacked® Diversified Macro Fund — Class C"
+    url: "https://www.returnstackedfunds.com/rdmcx/"
+
+partner_funds:
+  BTGD:
+    name: "STKd 100% Bitcoin & 100% Gold ETF"
+    url: "https://www.quantifyfunds.com/funds/btgd/"
+  ISBG:
+    name: "STKd 100% International Stocks & 100% Bonds/Gold ETF"
+    url: "https://www.quantifyfunds.com/funds/isbg/"
+  ISSB:
+    name: "STKd 100% International Stocks & 100% U.S. Bonds ETF"
+    url: "https://www.quantifyfunds.com/funds/issb/"

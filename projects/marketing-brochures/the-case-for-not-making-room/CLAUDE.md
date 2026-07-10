@@ -11,7 +11,7 @@ This is a 7-page print-ready HTML brochure for **Return Stacked Portfolio Soluti
 | `The-Case-for-NOT-Making-Room-for-Alternatives.html` | **Main deliverable** — the 7-page HTML brochure (single self-contained file with inline CSS) |
 | `The_Case_for_NOT_Making_Room_for_Alternatives.pptx` | Source PowerPoint deck (11 slides) |
 | `Managed-Futures-Advisor-Guide-V3.html` | Reference template from a prior brochure — use for brand/style patterns |
-| `../Brand_elements/` | Shared brand assets (at root level): DM Sans font files, logos, backdrop image, color definitions |
+| `../../../references/brand-assets/return-stacked/` | Shared brand assets: DM Sans font files, logos, backdrop image, color definitions |
 | `extracted_images/` | Images extracted from the PPTX (used for contact page backdrop: `image3.jpg`) |
 | `chart_exports/` | High-res chart PNGs cropped from PowerPoint slide exports |
 
@@ -114,8 +114,8 @@ Open the HTML in a browser, then **Print > Save as PDF** with:
 ## Conventions
 
 - Font: **DM Sans** (all weights from Thin to ExtraBold, loaded via `@font-face`)
-- Logo: `../Brand_elements/Logos/RS_Portfolio_Solutions_logos/Return Stacked Portfolio Solutions Black.png`
+- Logo: `../../../references/brand-assets/return-stacked/Logos/RS_Portfolio_Solutions_logos/Return Stacked Portfolio Solutions Black.png`
 - White logo variant used on contact page
-- Backdrop image: `../Brand_elements/RS_Backdrop.jpg` (cover banner) and `extracted_images/image3.jpg` (contact page)
+- Backdrop image: `../../../references/brand-assets/return-stacked/Background_images/RS-Background-Blue.png` (cover banner) and `extracted_images/image3.jpg` (contact page)
 - Slide background color: `#F2F2F2` (RGB 242,242,242)
 - Chart internal gray: `#D9D9D9` (RGB 217,217,217)

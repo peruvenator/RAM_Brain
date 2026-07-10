@@ -9,3 +9,5 @@ Full redesign of the Return Stacked ETFs website with educational content for in
 ## Contents
 
 - `lp-widget/` -- Embeddable landing page component for the Return Stacking Visualizer (has its own CLAUDE.md)
+- `Blog_Indexing_LP/` -- Blog post catalog and filterable landing page for returnstacked.com content (has its own CLAUDE.md)
+- `Literature_PDF_Index/` -- Literature page redesign (4 HTML mockups + source PDFs); Option D is the deliverable

@@ -2,7 +2,7 @@
    Return Stacked — Advisor Guide Master Stylesheet
    ============================================================================
    All brand rules encoded here. This is the single source of CSS truth.
-   Font files are embedded via @font-face with relative paths to Brand_elements.
+   Font files are embedded via @font-face with relative paths to references/brand-assets/return-stacked.
    ========================================================================== */
 
 /* ── @font-face declarations ─────────────────────────────────────────────── */
@@ -287,7 +287,7 @@ body {
 
 .cover-title-line {
     font-size: 42pt;
-    font-weight: 500;
+    font-weight: 700;
     color: var(--white);
     line-height: 1.1;
     text-shadow: none;
@@ -296,12 +296,12 @@ body {
 }
 
 .cover-title-line strong {
-    font-weight: 700;
+    font-weight: 800;
 }
 
 .cover-connector {
     font-size: 38pt;
-    font-weight: 400;
+    font-weight: 500;
     color: var(--white);
     line-height: 1.1;
     text-shadow: none;
@@ -507,8 +507,8 @@ body {
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1.2;
-    margin-top: 10pt;
-    margin-bottom: 6pt;
+    margin-top: 18pt;
+    margin-bottom: 8pt;
     padding-left: 14pt;
     position: relative;
     background: none;
@@ -536,8 +536,8 @@ body {
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1.2;
-    margin-top: 8pt;
-    margin-bottom: 4pt;
+    margin-top: 14pt;
+    margin-bottom: 6pt;
     padding: 0;
 }
 
@@ -548,7 +548,7 @@ body {
     font-weight: 400;
     color: var(--text-primary);
     line-height: 1.5;
-    margin-bottom: 4pt;
+    margin-bottom: 6pt;
 }
 
 .body-text strong {
@@ -566,12 +566,12 @@ body {
     font-weight: 400;
     color: var(--text-primary);
     line-height: 1.5;
-    margin-bottom: 4pt;
+    margin-bottom: 6pt;
     padding-left: 20pt;
 }
 
 .body-list li {
-    margin-bottom: 2pt;
+    margin-bottom: 3pt;
 }
 
 /* ── Teal Callout ────────────────────────────────────────────────────────── */
@@ -582,8 +582,8 @@ body {
     font-style: italic;
     color: var(--teal-primary);
     line-height: 1.35;
-    margin-top: 14pt;
-    margin-bottom: 6pt;
+    margin-top: 20pt;
+    margin-bottom: 12pt;
     padding-left: 12pt;
     border-left: 3pt solid var(--teal-primary);
 }
@@ -592,8 +592,8 @@ body {
 /* Standardized from reference: teal heading bar + light gray content area */
 
 .dark-panel {
-    margin-top: 8pt;
-    margin-bottom: 8pt;
+    margin-top: 14pt;
+    margin-bottom: 14pt;
     border-radius: 2pt;
     overflow: hidden;
 }
@@ -622,16 +622,16 @@ body {
 .gray-section {
     background-color: var(--section-gray);
     padding: 10pt 12pt;
-    margin-top: 6pt;
-    margin-bottom: 6pt;
+    margin-top: 12pt;
+    margin-bottom: 12pt;
     border-radius: 2pt;
 }
 
 /* ── Data Tables ─────────────────────────────────────────────────────────── */
 
 .data-table-wrapper {
-    margin-top: 6pt;
-    margin-bottom: 6pt;
+    margin-top: 12pt;
+    margin-bottom: 12pt;
 }
 
 .data-table-caption {
@@ -719,8 +719,8 @@ body {
 /* ── Chart/Image ─────────────────────────────────────────────────────────── */
 
 .chart-wrapper {
-    margin-top: 6pt;
-    margin-bottom: 6pt;
+    margin-top: 12pt;
+    margin-bottom: 12pt;
     text-align: center;
 }
 

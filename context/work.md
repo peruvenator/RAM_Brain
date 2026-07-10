@@ -20,4 +20,4 @@
 - **Email:** Superhuman
 - **AI:** Claude Code, Claude Desktop, ChatGPT, Wispr Flow
 - **Productivity:** Windows 365
-- **MCP servers connected:** HubSpot, Slack, Notion
+- **MCP servers connected:** HubSpot, Slack, Notion, Microsoft 365 (mail, calendar, contacts, people)

@@ -268,7 +268,7 @@ https://github.com/peruvenator/Project_Repository_RAM_RS
 ```bash
 git clone https://github.com/peruvenator/Project_Repository_RAM_RS.git
 ```
-This downloads every project and the shared `Brand_elements/` folder. They only
+This downloads every project and the shared `references/brand-assets/` folders. They only
 need to do this once.
 
 ### For teammates to get your latest updates:
@@ -293,7 +293,7 @@ only. If a teammate needs those files, they get them via Dropbox sync — not gi
 
 The full repo includes every project plus shared brand assets. If a teammate only
 needs one or two projects, they can use **sparse checkout** to download just those
-folders (plus `Brand_elements/` so relative paths work).
+folders (plus `references/brand-assets/` so relative paths work).
 
 ### First-time setup (clone with sparse checkout):
 ```bash
@@ -305,15 +305,15 @@ cd Project_Repository_RAM_RS
 git sparse-checkout init --cone
 
 # 3. Choose which folders to include
-#    Always include Brand_elements so ../Brand_elements/ paths resolve
-git sparse-checkout set Brand_elements Advisor_Guide_Tool
+#    Always include references/brand-assets so shared asset paths resolve
+git sparse-checkout set references/brand-assets projects/advisor-guide-tool
 
 # 4. Check out the files
 git checkout main
 ```
 
-Now your working directory only contains `Brand_elements/` and
-`Advisor_Guide_Tool/`. All git commands (pull, push, branch, commit) work
+Now your working directory only contains `references/brand-assets/` and
+`projects/advisor-guide-tool/`. All git commands (pull, push, branch, commit) work
 normally — they just ignore files outside your sparse set.
 
 ### Add more projects later:
@@ -334,8 +334,7 @@ git sparse-checkout disable
 ### Important notes:
 - **Root files** (CLAUDE.md, .gitignore, Git_Reference_Guide.md, etc.) are always
   included — sparse checkout only filters directories.
-- **Always include `Brand_elements/`** if your project references brand assets via
-  `../Brand_elements/` paths.
+- **Always include `references/brand-assets/`** if your project references shared brand assets.
 - Sparse checkout is purely local — it doesn't affect the remote repo or other
   team members.
 

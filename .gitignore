@@ -17,6 +17,9 @@ references/RAM-Claude-skills/
 # Trend & Carry Transition Plots standalone clone (separate repo: resolve-lab/rs-trend-carry-transition-plots)
 references/rs-trend-carry-transition-plots/
 
+# rs-context skill (separate repo: resolve-lab/rs-context)
+references/rs-context/
+
 # All Terrain widget (separate repo: resolve-lab/All_Terrain_Plots_Widget)
 projects/all-terrain-weights-widget/
 
@@ -25,6 +28,12 @@ projects/trend-carry-transition-plots/
 
 # AI tool compliance assessment (separate repo: resolve-lab/ram-ai-security-reports)
 projects/ai-compliance-assessment/
+
+# Sales thermometer widget (separate repo: resolve-lab/rs-sales-thermometer)
+projects/sales-thermometer-widget/
+
+# Portfolio X-Ray / Builder widget (separate repo: resolve-lab/portfolio_x-ray_widget)
+projects/portfolio-x-ray-widget/
 
 # Personal (private, never shared via git)
 personal/
@@ -36,6 +45,9 @@ __pycache__/
 
 # Node
 node_modules/
+
+# Netlify CLI local state (recreatable via `netlify link`)
+.netlify/
 
 # Large binaries
 *.pdf

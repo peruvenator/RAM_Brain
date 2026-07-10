@@ -1,0 +1,13 @@
+# Auto-detect text vs binary, and force LF on every checkout (Windows + Mac + Linux).
+* text=auto eol=lf
+
+# Explicit binary types (no normalization, no diff munging).
+*.xlsx binary
+*.xls  binary
+*.pdf  binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.zip  binary

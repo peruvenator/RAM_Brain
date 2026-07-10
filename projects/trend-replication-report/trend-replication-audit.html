@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trend Replication Program -- Compliance Audit Workbook</title>
+<style>
+  @page {
+    size: letter;
+    margin: 0.6in 0.7in;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #1a1a2e;
+    background: white;
+    line-height: 1.55;
+    font-size: 10px;
+    padding: 24px 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 3px solid #00478D;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #00478D;
+    margin-bottom: 4px;
+  }
+  .header .subtitle {
+    font-size: 13px;
+    color: #475569;
+    font-weight: 400;
+  }
+  .header .date-range {
+    font-size: 10px;
+    color: #94a3b8;
+    margin-top: 4px;
+  }
+  .header .meta {
+    font-size: 9px;
+    color: #94a3b8;
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* Sections */
+  .section {
+    margin-bottom: 28px;
+    page-break-inside: auto;
+  }
+  .section h2 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #00478D;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #00478D;
+  }
+  .section h3 {
+    font-size: 12px;
+    font-weight: 600;
+    color: #334155;
+    margin: 14px 0 6px 0;
+  }
+  .section p {
+    margin-bottom: 8px;
+    color: #334155;
+    font-size: 10px;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 14px 0;
+    font-size: 9px;
+    page-break-inside: auto;
+  }
+  table th {
+    background: #f1f5f9;
+    padding: 5px 6px;
+    text-align: right;
+    font-weight: 600;
+    color: #334155;
+    border-bottom: 2px solid #cbd5e1;
+    border-top: 1px solid #e2e8f0;
+  }
+  table th:first-child {
+    text-align: left;
+  }
+  table td {
+    padding: 4px 6px;
+    text-align: right;
+    border-bottom: 1px solid #e2e8f0;
+    color: #475569;
+  }
+  table td:first-child {
+    text-align: left;
+    font-weight: 500;
+    color: #1a1a2e;
+  }
+  table tbody tr:nth-child(even) {
+    background: #f8fafc;
+  }
+  table tbody tr:hover {
+    background: #eef2ff;
+  }
+  tr {
+    page-break-inside: avoid;
+  }
+  .formula-col {
+    font-family: 'Consolas', 'Menlo', 'Monaco', monospace;
+    font-size: 8px;
+    color: #64748b;
+    text-align: left !important;
+  }
+
+  /* Code blocks */
+  .code-block {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-left: 3px solid #00478D;
+    padding: 10px 14px;
+    margin: 8px 0 12px 0;
+    font-family: 'Consolas', 'Menlo', 'Monaco', monospace;
+    font-size: 9px;
+    line-height: 1.5;
+    overflow-x: auto;
+    white-space: pre;
+    color: #334155;
+    page-break-inside: avoid;
+  }
+
+  /* Math notation */
+  .math {
+    font-style: italic;
+    font-family: 'Cambria Math', 'Georgia', serif;
+  }
+
+  /* Callouts */
+  .callout {
+    background: #f8fdfb;
+    border-left: 3px solid #00478D;
+    padding: 8px 12px;
+    margin: 10px 0;
+    font-size: 10px;
+  }
+  .callout-ref {
+    background: #fefce8;
+    border-left-color: #eab308;
+  }
+
+  /* Definition list style */
+  .def-table {
+    margin: 8px 0;
+  }
+  .def-table td:first-child {
+    width: 180px;
+    font-weight: 600;
+    white-space: nowrap;
+    vertical-align: top;
+  }
+
+  strong {
+    color: #1a1a2e;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 16px;
+    color: #94a3b8;
+    font-size: 8px;
+    border-top: 1px solid #e2e8f0;
+    margin-top: 24px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<div class="header">
+  <h1>Trend Replication Program</h1>
+  <div class="subtitle">Compliance Audit Workbook</div>
+  <div class="date-range">Data Period: Feb 08, 2023 -- Feb 06, 2026</div>
+  <div class="meta">Generated March 18, 2026 by build_audit.py | All computations replicated from build_report.py</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: DATA SUMMARY                                -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="section">
+  <h2>1. Data Summary</h2>
+
+  <h3>Source File &amp; Date Range</h3>
+  <table class="def-table">
+    <tbody>
+      <tr><td>Source file</td><td>trend-data.csv</td></tr>
+      <tr><td>Date range</td><td>Feb 08, 2023 -- Feb 06, 2026</td></tr>
+      <tr><td>Calendar days</td><td>1,094</td></tr>
+      <tr><td>Trading days (after dropna)</td><td>754</td></tr>
+      <tr><td>Date parsing format</td><td>%m/%d/%y (e.g. 2/7/23)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Series Definitions</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Display Name</th>
+        <th>CSV Column</th>
+        <th>Internal Code</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>SG Trend Index (Excess)</td>
+        <td>SocGen CTA Trend Index (Excess)</td>
+        <td>SG_Trend</td>
+        <td>Benchmark; equal-weighted top 10 trend CTAs by AUM, excess return basis</td>
+      </tr>
+      <tr>
+        <td>Top Down (Constrained)</td>
+        <td>Top Down (Small, Net)</td>
+        <td>TD_Small</td>
+        <td>Regression-based replication, constrained market universe</td>
+      </tr>
+      <tr>
+        <td>Top Down (Full)</td>
+        <td>Top Down (Med, Net)</td>
+        <td>TD_Med</td>
+        <td>Regression-based replication, full market universe</td>
+      </tr>
+      <tr>
+        <td>Bottom Up</td>
+        <td>Bottom Up (Net)</td>
+        <td>BU</td>
+        <td>Blend of actual trend-following programs</td>
+      </tr>
+      <tr>
+        <td>Trend Replication (Blend)</td>
+        <td>Trend Replication (Net)</td>
+        <td>Blend</td>
+        <td>Composite: 15% TD Constrained + 15% TD Full + 70% Bottom Up</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Blend Composition</h3>
+  <p>The Trend Replication Blend is a fixed-weight daily composite:</p>
+  <table>
+    <thead><tr><th>Component</th><th>Weight</th></tr></thead>
+    <tbody>
+      <tr><td>Top Down (Constrained)</td><td>15%</td></tr>
+      <tr><td>Top Down (Full)</td><td>15%</td></tr>
+      <tr><td>Bottom Up</td><td>70%</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>100%</strong></td></tr>
+    </tbody>
+  </table>
+  <p>The blend is pre-computed in the source data. Verification via synthetic construction: <code>Synth_ret = 0.15 * TD_Small_ret + 0.15 * TD_Med_ret + 0.70 * BU_ret</code></p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: RETURN METHODOLOGY                          -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="section">
+  <h2>2. Return Methodology</h2>
+
+  <h3>Daily Returns</h3>
+  <p>Daily returns are computed via simple percentage change on the raw index level:</p>
+  <pre class="code-block"><code>for col in [&#x27;SG_Trend&#x27;, &#x27;TD_Small&#x27;, &#x27;TD_Med&#x27;, &#x27;BU&#x27;, &#x27;Blend&#x27;]:
+    df[f&#x27;{{col}}_ret&#x27;] = df[col].pct_change()
+df = df.dropna(subset=[&#x27;SG_Trend_ret&#x27;]).reset_index(drop=True)</code></pre>
+  <p>This is equivalent to: r<sub>t</sub> = (P<sub>t</sub> / P<sub>t-1</sub>) - 1. The first row is dropped (NaN from pct_change).</p>
+
+  <h3>Growth of $1</h3>
+  <p>Each series is normalized to $1 at the first observation (after dropna):</p>
+  <pre class="code-block"><code>for col in [&#x27;SG_Trend&#x27;, &#x27;TD_Small&#x27;, &#x27;TD_Med&#x27;, &#x27;BU&#x27;, &#x27;Blend&#x27;]:
+    df[f&#x27;{{col}}_g1&#x27;] = df[col] / df[col].iloc[0]</code></pre>
+  <p>G1<sub>t</sub> = Level<sub>t</sub> / Level<sub>0</sub>. This preserves the exact return characteristics of the original series.</p>
+
+  <h3>Monthly Returns</h3>
+  <p>Monthly returns use end-of-month resampling and percentage change on levels:</p>
+  <pre class="code-block"><code>df_m = df.set_index(&#x27;Date&#x27;).resample(&#x27;ME&#x27;).last()
+for col in [&#x27;SG_Trend&#x27;, &#x27;TD_Small&#x27;, &#x27;TD_Med&#x27;, &#x27;BU&#x27;, &#x27;Blend&#x27;]:
+    df_m[f&#x27;{{col}}_mret&#x27;] = df_m[col].pct_change()
+df_m = df_m.dropna(subset=[&#x27;SG_Trend_mret&#x27;])</code></pre>
+
+  <h3>Quarterly Returns</h3>
+  <p>Quarterly returns follow the same pattern with 'QE' resampling.</p>
+
+  <h3>Annual Returns</h3>
+  <p>Annual returns are calculated within each calendar year as: (last trading day level / first trading day level) - 1. Partial years (first and last) are marked with an asterisk.</p>
+
+  <h3>Annualized Return</h3>
+  <p>Compound annual growth rate using calendar days:</p>
+  <pre class="code-block"><code>n_days = (df[&#x27;Date&#x27;].iloc[-1] - df[&#x27;Date&#x27;].iloc[0]).days
+ann_ret = ((1 + cum_ret/100) ** (365.25/n_days) - 1) * 100</code></pre>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: FULL-PERIOD STATISTICS TABLE                -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="section">
+  <h2>3. Full-Period Statistics</h2>
+  <p>Every metric for every series, with the formula used to compute each value. All values below were computed by this audit script using the identical methodology as build_report.py.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th>SG Trend</th>
+        <th>TD (Constrained)</th>
+        <th>TD (Full)</th>
+        <th>Bottom Up</th>
+        <th>Blend</th>
+        <th style="text-align:left">Formula</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Annualized Return</td>
+        <td>-2.19%</td>
+        <td>2.19%</td>
+        <td>0.23%</td>
+        <td>-4.87%</td>
+        <td><strong>-2.18%</strong></td>
+        <td class="formula-col">((Ending / Beginning)^(365.25 / calendar_days) - 1) * 100</td>
+      </tr>
+      <tr>
+        <td>Cumulative Return</td>
+        <td>-6.40%</td>
+        <td>6.71%</td>
+        <td>0.69%</td>
+        <td>-13.88%</td>
+        <td><strong>-6.40%</strong></td>
+        <td class="formula-col">(G1_end / G1_start - 1) * 100</td>
+      </tr>
+      <tr>
+        <td>Ann. Volatility</td>
+        <td>10.99%</td>
+        <td>8.12%</td>
+        <td>9.47%</td>
+        <td>16.03%</td>
+        <td><strong>12.72%</strong></td>
+        <td class="formula-col">daily_ret.std() * sqrt(252) * 100</td>
+      </tr>
+      <tr>
+        <td>Max Drawdown</td>
+        <td>-25.77%</td>
+        <td>-13.99%</td>
+        <td>-20.97%</td>
+        <td>-34.97%</td>
+        <td><strong>-25.05%</strong></td>
+        <td class="formula-col">min(price / cummax(price) - 1) * 100</td>
+      </tr>
+      <tr>
+        <td>Daily Correlation</td>
+        <td>1.000</td>
+        <td>0.629</td>
+        <td>0.718</td>
+        <td>0.823</td>
+        <td><strong>0.836</strong></td>
+        <td class="formula-col">pearsonr(daily_ret, sg_daily_ret)</td>
+      </tr>
+      <tr>
+        <td>Monthly Correlation</td>
+        <td>1.000</td>
+        <td>0.636</td>
+        <td>0.836</td>
+        <td>0.864</td>
+        <td><strong>0.873</strong></td>
+        <td class="formula-col">pearsonr(monthly_ret, sg_monthly_ret)</td>
+      </tr>
+      <tr>
+        <td>Ann. Tracking Error (Naive)</td>
+        <td>---</td>
+        <td>8.63%</td>
+        <td>7.81%</td>
+        <td>9.36%</td>
+        <td><strong>6.99%</strong></td>
+        <td class="formula-col">(daily_ret - sg_daily_ret).std() * sqrt(252) * 100</td>
+      </tr>
+      <tr>
+        <td>Adj. Tracking Error (Lo)</td>
+        <td>---</td>
+        <td>9.44%</td>
+        <td>6.72%</td>
+        <td>6.95%</td>
+        <td><strong>5.27%</strong></td>
+        <td class="formula-col">daily_std * sqrt(252 * eta) * 100</td>
+      </tr>
+      <tr>
+        <td>Beta</td>
+        <td>1.00</td>
+        <td>0.47</td>
+        <td>0.62</td>
+        <td>1.20</td>
+        <td><strong>0.97</strong></td>
+        <td class="formula-col">cov(ret, sg_ret) / var(sg_ret)</td>
+      </tr>
+      <tr>
+        <td>Information Ratio</td>
+        <td>---</td>
+        <td>0.46</td>
+        <td>0.29</td>
+        <td>-0.22</td>
+        <td><strong>0.03</strong></td>
+        <td class="formula-col">mean(diff) / std(diff) * sqrt(252)</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <h3>Formula Definitions</h3>
+  <table class="def-table">
+    <tbody>
+      <tr><td>Annualized Return</td><td>((End_G1 / Start_G1)<sup>(365.25/calendar_days)</sup> - 1) x 100</td></tr>
+      <tr><td>Cumulative Return</td><td>(End_G1 / Start_G1 - 1) x 100</td></tr>
+      <tr><td>Ann. Volatility</td><td>std(daily_returns) x sqrt(252) x 100 &nbsp;(sample std, ddof=1 implicit in pandas)</td></tr>
+      <tr><td>Max Drawdown</td><td>min(level / running_max - 1) x 100</td></tr>
+      <tr><td>Daily Correlation</td><td>Pearson correlation of daily returns with SG Trend daily returns</td></tr>
+      <tr><td>Monthly Correlation</td><td>Pearson correlation of month-end returns with SG Trend month-end returns</td></tr>
+      <tr><td>Ann. Tracking Error</td><td>std(daily_ret - sg_daily_ret) x sqrt(252) x 100 &nbsp;(pandas .std(), ddof=1)</td></tr>
+      <tr><td>Adj. Tracking Error (Lo)</td><td>std(diff, ddof=1) x sqrt(252 x eta) x 100 &nbsp;(numpy .std(ddof=1))</td></tr>
+      <tr><td>Beta</td><td>cov(ret, sg_ret)[0,1] / cov(ret, sg_ret)[1,1] &nbsp;(numpy .cov, ddof=1)</td></tr>
+      <tr><td>Information Ratio</td><td>mean(daily_diff) / std(daily_diff) x sqrt(252)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: LO (2002) AUTOCORRELATION ADJUSTMENT        -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="section">
+  <h2>4. Lo (2002) Autocorrelation Adjustment -- Detailed Decomposition</h2>
+
+  <h3>The Formula</h3>
+  <p>The Lo (2002) adjustment factor eta accounts for serial correlation in daily tracking differences when annualizing volatility. The standard sqrt(252) annualization implicitly assumes i.i.d. returns; when autocorrelation is present, the effective annualized dispersion differs.</p>
+
+  <p>The adjustment factor is:</p>
+  <div class="callout">
+    <span class="math">eta</span> = 1 + 2 x <span class="math">&Sigma;</span><sub>k=1</sub><sup>q</sup> (1 - k / (q + 1)) x <span class="math">rho</span><sub>k</sub>
+  </div>
+
+  <p>Where:</p>
+  <ul style="margin: 6px 0 8px 20px; font-size: 10px; color: #334155;">
+    <li><span class="math">q</span> = 21 lags (approximately 1 month of trading days)</li>
+    <li><span class="math">rho</span><sub>k</sub> = autocorrelation of the demeaned tracking difference at lag k, computed via <code>np.corrcoef(x_dm[k:], x_dm[:-k])[0,1]</code></li>
+    <li>The kernel weight <code>(1 - k/(q+1))</code> is the Bartlett (triangular) kernel, giving decreasing weight to higher lags</li>
+    <li>A floor of 0.01 is applied: <code>eta = max(eta, 0.01)</code> to avoid degenerate/negative values</li>
+  </ul>
+
+  <p>The Lo-adjusted tracking error is then:</p>
+  <div class="callout">
+    TE<sub>adj</sub> = <span class="math">sigma</span><sub>daily</sub> x sqrt(252 x <span class="math">eta</span>) x 100
+  </div>
+
+  <p>When <span class="math">eta</span> &lt; 1 (negative net autocorrelation), the standard TE overstates true longer-horizon dispersion.</p>
+
+  <h3>Source Code: lo_eta()</h3>
+  <pre class="code-block"><code>def lo_eta(x, q):
+    &quot;&quot;&quot;Compute the Lo (2002) autocorrelation adjustment factor.&quot;&quot;&quot;
+    x_dm = x - x.mean()
+    eta = 1.0
+    for k in range(1, q + 1):
+        rho_k = np.corrcoef(x_dm[k:], x_dm[:-k])[0, 1]
+        eta += 2 * (1 - k / (q + 1)) * rho_k
+    return max(eta, 0.01)  # floor to avoid degenerate cases</code></pre>
+
+  <h3>Source Code: lo_adj_te()</h3>
+  <pre class="code-block"><code>def lo_adj_te(diff):
+    &quot;&quot;&quot;Lo-adjusted annualized TE for an arbitrary daily difference series.&quot;&quot;&quot;
+    daily_std = np.std(diff, ddof=1)
+    eta = lo_eta(diff, LO_Q)
+    return daily_std * np.sqrt(252 * eta) * 100</code></pre>
+
+  <h3>Lag-by-Lag Decomposition per Series</h3>
+  <p>For each series, the table below shows the autocorrelation at each lag (1-21), the Bartlett kernel weight, the weighted contribution to eta, and the running cumulative eta value.</p>
+
+  
+    <h3>Top Down (Constrained)</h3>
+    <p>Daily std of tracking difference: <strong>0.00543359</strong> | Naive TE: <strong>8.6256%</strong></p>
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align:center">Lag (k)</th>
+          <th>Autocorrelation (rho<sub>k</sub>)</th>
+          <th>Bartlett Weight (1 - k/22)</th>
+          <th>Weighted Contribution (2 * w * rho)</th>
+          <th>Running eta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align:center">1</td>
+          <td>+0.05716554</td>
+          <td>0.954545</td>
+          <td>+0.10913421</td>
+          <td>1.10913421</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">2</td>
+          <td>+0.02471614</td>
+          <td>0.909091</td>
+          <td>+0.04493844</td>
+          <td>1.15407264</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">3</td>
+          <td>+0.04987540</td>
+          <td>0.863636</td>
+          <td>+0.08614841</td>
+          <td>1.24022105</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">4</td>
+          <td>+0.01630848</td>
+          <td>0.818182</td>
+          <td>+0.02668661</td>
+          <td>1.26690766</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">5</td>
+          <td>-0.00891963</td>
+          <td>0.772727</td>
+          <td>-0.01378488</td>
+          <td>1.25312279</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">6</td>
+          <td>-0.00997285</td>
+          <td>0.727273</td>
+          <td>-0.01450597</td>
+          <td>1.23861682</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">7</td>
+          <td>-0.03649385</td>
+          <td>0.681818</td>
+          <td>-0.04976434</td>
+          <td>1.18885248</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">8</td>
+          <td>-0.04180275</td>
+          <td>0.636364</td>
+          <td>-0.05320350</td>
+          <td>1.13564898</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">9</td>
+          <td>+0.01763995</td>
+          <td>0.590909</td>
+          <td>+0.02084722</td>
+          <td>1.15649619</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">10</td>
+          <td>+0.01713213</td>
+          <td>0.545455</td>
+          <td>+0.01868959</td>
+          <td>1.17518579</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">11</td>
+          <td>+0.03212465</td>
+          <td>0.500000</td>
+          <td>+0.03212465</td>
+          <td>1.20731044</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">12</td>
+          <td>+0.05138115</td>
+          <td>0.454545</td>
+          <td>+0.04671014</td>
+          <td>1.25402058</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">13</td>
+          <td>-0.04590015</td>
+          <td>0.409091</td>
+          <td>-0.03755467</td>
+          <td>1.21646591</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">14</td>
+          <td>-0.00703706</td>
+          <td>0.363636</td>
+          <td>-0.00511786</td>
+          <td>1.21134805</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">15</td>
+          <td>+0.00426412</td>
+          <td>0.318182</td>
+          <td>+0.00271353</td>
+          <td>1.21406158</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">16</td>
+          <td>-0.01118985</td>
+          <td>0.272727</td>
+          <td>-0.00610355</td>
+          <td>1.20795802</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">17</td>
+          <td>-0.01807500</td>
+          <td>0.227273</td>
+          <td>-0.00821591</td>
+          <td>1.19974211</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">18</td>
+          <td>-0.02881970</td>
+          <td>0.181818</td>
+          <td>-0.01047989</td>
+          <td>1.18926222</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">19</td>
+          <td>+0.01943817</td>
+          <td>0.136364</td>
+          <td>+0.00530132</td>
+          <td>1.19456354</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">20</td>
+          <td>+0.02183414</td>
+          <td>0.090909</td>
+          <td>+0.00396984</td>
+          <td>1.19853339</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">21</td>
+          <td>-0.00574904</td>
+          <td>0.045455</td>
+          <td>-0.00052264</td>
+          <td>1.19801075</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      Raw eta (before floor): <strong>1.19801075</strong> |
+      Final eta (after max(., 0.01) floor): <strong>1.19801075</strong><br>
+      Adjusted TE = 0.00543359 x sqrt(252 x 1.19801075) = <strong>9.4410%</strong><br>
+      Reduction from naive: <strong>-9.45%</strong>
+    </p>
+
+    <h3>Top Down (Full)</h3>
+    <p>Daily std of tracking difference: <strong>0.00492237</strong> | Naive TE: <strong>7.8140%</strong></p>
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align:center">Lag (k)</th>
+          <th>Autocorrelation (rho<sub>k</sub>)</th>
+          <th>Bartlett Weight (1 - k/22)</th>
+          <th>Weighted Contribution (2 * w * rho)</th>
+          <th>Running eta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align:center">1</td>
+          <td>-0.01428019</td>
+          <td>0.954545</td>
+          <td>-0.02726217</td>
+          <td>0.97273783</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">2</td>
+          <td>-0.01669735</td>
+          <td>0.909091</td>
+          <td>-0.03035881</td>
+          <td>0.94237901</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">3</td>
+          <td>+0.00367276</td>
+          <td>0.863636</td>
+          <td>+0.00634386</td>
+          <td>0.94872288</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">4</td>
+          <td>-0.03664995</td>
+          <td>0.818182</td>
+          <td>-0.05997265</td>
+          <td>0.88875023</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">5</td>
+          <td>-0.01734613</td>
+          <td>0.772727</td>
+          <td>-0.02680765</td>
+          <td>0.86194258</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">6</td>
+          <td>-0.02872584</td>
+          <td>0.727273</td>
+          <td>-0.04178304</td>
+          <td>0.82015954</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">7</td>
+          <td>+0.03196302</td>
+          <td>0.681818</td>
+          <td>+0.04358594</td>
+          <td>0.86374548</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">8</td>
+          <td>-0.04403274</td>
+          <td>0.636364</td>
+          <td>-0.05604167</td>
+          <td>0.80770380</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">9</td>
+          <td>-0.01395481</td>
+          <td>0.590909</td>
+          <td>-0.01649205</td>
+          <td>0.79121175</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">10</td>
+          <td>-0.00024887</td>
+          <td>0.545455</td>
+          <td>-0.00027149</td>
+          <td>0.79094026</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">11</td>
+          <td>+0.00404841</td>
+          <td>0.500000</td>
+          <td>+0.00404841</td>
+          <td>0.79498868</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">12</td>
+          <td>+0.06339719</td>
+          <td>0.454545</td>
+          <td>+0.05763381</td>
+          <td>0.85262248</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">13</td>
+          <td>-0.05365681</td>
+          <td>0.409091</td>
+          <td>-0.04390103</td>
+          <td>0.80872146</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">14</td>
+          <td>-0.02166453</td>
+          <td>0.363636</td>
+          <td>-0.01575602</td>
+          <td>0.79296544</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">15</td>
+          <td>-0.01278879</td>
+          <td>0.318182</td>
+          <td>-0.00813832</td>
+          <td>0.78482712</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">16</td>
+          <td>-0.02406919</td>
+          <td>0.272727</td>
+          <td>-0.01312865</td>
+          <td>0.77169847</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">17</td>
+          <td>-0.05125828</td>
+          <td>0.227273</td>
+          <td>-0.02329922</td>
+          <td>0.74839926</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">18</td>
+          <td>-0.00404160</td>
+          <td>0.181818</td>
+          <td>-0.00146967</td>
+          <td>0.74692959</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">19</td>
+          <td>+0.01189414</td>
+          <td>0.136364</td>
+          <td>+0.00324386</td>
+          <td>0.75017344</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">20</td>
+          <td>-0.05818582</td>
+          <td>0.090909</td>
+          <td>-0.01057924</td>
+          <td>0.73959420</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">21</td>
+          <td>-0.01005036</td>
+          <td>0.045455</td>
+          <td>-0.00091367</td>
+          <td>0.73868053</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      Raw eta (before floor): <strong>0.73868053</strong> |
+      Final eta (after max(., 0.01) floor): <strong>0.73868053</strong><br>
+      Adjusted TE = 0.00492237 x sqrt(252 x 0.73868053) = <strong>6.7159%</strong><br>
+      Reduction from naive: <strong>14.05%</strong>
+    </p>
+
+    <h3>Bottom Up</h3>
+    <p>Daily std of tracking difference: <strong>0.00589819</strong> | Naive TE: <strong>9.3631%</strong></p>
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align:center">Lag (k)</th>
+          <th>Autocorrelation (rho<sub>k</sub>)</th>
+          <th>Bartlett Weight (1 - k/22)</th>
+          <th>Weighted Contribution (2 * w * rho)</th>
+          <th>Running eta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align:center">1</td>
+          <td>-0.05868939</td>
+          <td>0.954545</td>
+          <td>-0.11204338</td>
+          <td>0.88795662</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">2</td>
+          <td>-0.08278850</td>
+          <td>0.909091</td>
+          <td>-0.15052455</td>
+          <td>0.73743207</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">3</td>
+          <td>+0.02050153</td>
+          <td>0.863636</td>
+          <td>+0.03541174</td>
+          <td>0.77284381</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">4</td>
+          <td>+0.01842081</td>
+          <td>0.818182</td>
+          <td>+0.03014314</td>
+          <td>0.80298695</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">5</td>
+          <td>-0.10626854</td>
+          <td>0.772727</td>
+          <td>-0.16423320</td>
+          <td>0.63875375</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">6</td>
+          <td>-0.06379620</td>
+          <td>0.727273</td>
+          <td>-0.09279447</td>
+          <td>0.54595928</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">7</td>
+          <td>+0.00120740</td>
+          <td>0.681818</td>
+          <td>+0.00164646</td>
+          <td>0.54760574</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">8</td>
+          <td>+0.01178673</td>
+          <td>0.636364</td>
+          <td>+0.01500129</td>
+          <td>0.56260703</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">9</td>
+          <td>+0.01003714</td>
+          <td>0.590909</td>
+          <td>+0.01186207</td>
+          <td>0.57446911</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">10</td>
+          <td>+0.00998433</td>
+          <td>0.545455</td>
+          <td>+0.01089199</td>
+          <td>0.58536110</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">11</td>
+          <td>+0.08774724</td>
+          <td>0.500000</td>
+          <td>+0.08774724</td>
+          <td>0.67310834</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">12</td>
+          <td>-0.02102209</td>
+          <td>0.454545</td>
+          <td>-0.01911100</td>
+          <td>0.65399734</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">13</td>
+          <td>-0.04490068</td>
+          <td>0.409091</td>
+          <td>-0.03673692</td>
+          <td>0.61726043</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">14</td>
+          <td>-0.05677387</td>
+          <td>0.363636</td>
+          <td>-0.04129009</td>
+          <td>0.57597034</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">15</td>
+          <td>-0.05232329</td>
+          <td>0.318182</td>
+          <td>-0.03329664</td>
+          <td>0.54267370</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">16</td>
+          <td>-0.02869611</td>
+          <td>0.272727</td>
+          <td>-0.01565242</td>
+          <td>0.52702127</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">17</td>
+          <td>+0.00816787</td>
+          <td>0.227273</td>
+          <td>+0.00371267</td>
+          <td>0.53073394</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">18</td>
+          <td>-0.02445497</td>
+          <td>0.181818</td>
+          <td>-0.00889271</td>
+          <td>0.52184123</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">19</td>
+          <td>+0.06774180</td>
+          <td>0.136364</td>
+          <td>+0.01847504</td>
+          <td>0.54031626</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">20</td>
+          <td>+0.04964689</td>
+          <td>0.090909</td>
+          <td>+0.00902671</td>
+          <td>0.54934297</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">21</td>
+          <td>+0.01257431</td>
+          <td>0.045455</td>
+          <td>+0.00114312</td>
+          <td>0.55048609</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      Raw eta (before floor): <strong>0.55048609</strong> |
+      Final eta (after max(., 0.01) floor): <strong>0.55048609</strong><br>
+      Adjusted TE = 0.00589819 x sqrt(252 x 0.55048609) = <strong>6.9469%</strong><br>
+      Reduction from naive: <strong>25.81%</strong>
+    </p>
+
+    <h3>Blend</h3>
+    <p>Daily std of tracking difference: <strong>0.00440501</strong> | Naive TE: <strong>6.9927%</strong></p>
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align:center">Lag (k)</th>
+          <th>Autocorrelation (rho<sub>k</sub>)</th>
+          <th>Bartlett Weight (1 - k/22)</th>
+          <th>Weighted Contribution (2 * w * rho)</th>
+          <th>Running eta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align:center">1</td>
+          <td>-0.10337278</td>
+          <td>0.954545</td>
+          <td>-0.19734803</td>
+          <td>0.80265197</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">2</td>
+          <td>-0.06426968</td>
+          <td>0.909091</td>
+          <td>-0.11685397</td>
+          <td>0.68579800</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">3</td>
+          <td>+0.06166239</td>
+          <td>0.863636</td>
+          <td>+0.10650777</td>
+          <td>0.79230577</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">4</td>
+          <td>+0.00945498</td>
+          <td>0.818182</td>
+          <td>+0.01547179</td>
+          <td>0.80777756</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">5</td>
+          <td>-0.09556079</td>
+          <td>0.772727</td>
+          <td>-0.14768485</td>
+          <td>0.66009271</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">6</td>
+          <td>-0.03385330</td>
+          <td>0.727273</td>
+          <td>-0.04924116</td>
+          <td>0.61085155</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">7</td>
+          <td>+0.02080740</td>
+          <td>0.681818</td>
+          <td>+0.02837373</td>
+          <td>0.63922528</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">8</td>
+          <td>+0.00888037</td>
+          <td>0.636364</td>
+          <td>+0.01130230</td>
+          <td>0.65052758</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">9</td>
+          <td>+0.01417289</td>
+          <td>0.590909</td>
+          <td>+0.01674978</td>
+          <td>0.66727736</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">10</td>
+          <td>-0.00235430</td>
+          <td>0.545455</td>
+          <td>-0.00256832</td>
+          <td>0.66470903</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">11</td>
+          <td>+0.04106047</td>
+          <td>0.500000</td>
+          <td>+0.04106047</td>
+          <td>0.70576950</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">12</td>
+          <td>-0.03503261</td>
+          <td>0.454545</td>
+          <td>-0.03184783</td>
+          <td>0.67392168</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">13</td>
+          <td>-0.04828642</td>
+          <td>0.409091</td>
+          <td>-0.03950707</td>
+          <td>0.63441461</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">14</td>
+          <td>-0.05995550</td>
+          <td>0.363636</td>
+          <td>-0.04360400</td>
+          <td>0.59081061</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">15</td>
+          <td>-0.01136190</td>
+          <td>0.318182</td>
+          <td>-0.00723030</td>
+          <td>0.58358030</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">16</td>
+          <td>-0.00372215</td>
+          <td>0.272727</td>
+          <td>-0.00203026</td>
+          <td>0.58155004</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">17</td>
+          <td>-0.04165111</td>
+          <td>0.227273</td>
+          <td>-0.01893232</td>
+          <td>0.56261771</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">18</td>
+          <td>-0.02244052</td>
+          <td>0.181818</td>
+          <td>-0.00816019</td>
+          <td>0.55445752</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">19</td>
+          <td>+0.06553928</td>
+          <td>0.136364</td>
+          <td>+0.01787435</td>
+          <td>0.57233187</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">20</td>
+          <td>-0.02315268</td>
+          <td>0.090909</td>
+          <td>-0.00420958</td>
+          <td>0.56812230</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">21</td>
+          <td>+0.00846870</td>
+          <td>0.045455</td>
+          <td>+0.00076988</td>
+          <td>0.56889218</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      Raw eta (before floor): <strong>0.56889218</strong> |
+      Final eta (after max(., 0.01) floor): <strong>0.56889218</strong><br>
+      Adjusted TE = 0.00440501 x sqrt(252 x 0.56889218) = <strong>5.2743%</strong><br>
+      Reduction from naive: <strong>24.58%</strong>
+    </p>
+
+
+  <div class="callout callout-ref">
+    <strong>Reference:</strong> Lo, Andrew W. "The Statistics of Sharpe Ratios." <em>Financial Analysts Journal</em> 58, no. 4 (2002): 36--52.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: TRACKING ERROR RECONCILIATION               -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="section">
+  <h2>5. Tracking Error Reconciliation</h2>
+
+  <h3>Naive vs. Lo-Adjusted Tracking Error</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Series</th>
+        <th>Naive TE</th>
+        <th>Lo eta Factor</th>
+        <th>Lo-Adjusted TE</th>
+        <th>Reduction</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Top Down (Constrained)</td>
+        <td>8.6256%</td>
+        <td>1.198011</td>
+        <td>9.4410%</td>
+        <td>-9.45%</td>
+      </tr>
+      <tr>
+        <td>Top Down (Full)</td>
+        <td>7.8140%</td>
+        <td>0.738681</td>
+        <td>6.7159%</td>
+        <td>14.05%</td>
+      </tr>
+      <tr>
+        <td>Bottom Up</td>
+        <td>9.3631%</td>
+        <td>0.550486</td>
+        <td>6.9469%</td>
+        <td>25.81%</td>
+      </tr>
+      <tr>
+        <td>Blend</td>
+        <td>6.9927%</td>
+        <td>0.568892</td>
+        <td>5.2743%</td>
+        <td>24.58%</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <h3>Validation: Rolling 1-Year Return Difference</h3>
+  <p>As an independent check, we compute the standard deviation of rolling 252-trading-day return differences between the Blend and SG Trend Index:</p>
+  <pre class="code-block"><code>roll_1y_blend = df[&#x27;Blend&#x27;].pct_change(252) * 100
+roll_1y_sg = df[&#x27;SG_Trend&#x27;].pct_change(252) * 100
+roll_1y_diff = (roll_1y_blend - roll_1y_sg).dropna()
+roll_1y_diff_std = roll_1y_diff.std()</code></pre>
+  <table class="def-table">
+    <tbody>
+      <tr><td>Rolling 1-year diff std</td><td>3.3888%</td></tr>
+      <tr><td>Lo-adjusted TE (Blend)</td><td>5.2743%</td></tr>
+      <tr><td>Naive TE (Blend)</td><td>6.9927%</td></tr>
+    </tbody>
+  </table>
+  <p>The rolling 1-year figure (3.4%) is more consistent with the Lo-adjusted TE (5.3%) than the naive TE (7.0%), confirming that negative autocorrelation in daily tracking differences causes the standard annualization to overstate effective dispersion over longer horizons.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: EX-POST OPTIMIZATION DETAIL                 -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="section">
+  <h2>6. Ex-Post Optimization Detail</h2>
+
+  <h3>Objective Function</h3>
+  <p>Minimize Lo-adjusted annualized tracking error of the blended portfolio against the SG Trend Index:</p>
+  <pre class="code-block"><code>def te_obj_full(w):
+    diff = w[0]*tds_r + w[1]*tdm_r + w[2]*bu_r - sg_r
+    return lo_adj_te(diff)</code></pre>
+
+  <h3>Constraints</h3>
+  <table class="def-table">
+    <tbody>
+      <tr><td>Non-negativity</td><td>w<sub>i</sub> >= 0 for all i (bounds: [(0,1), (0,1), (0,1)])</td></tr>
+      <tr><td>Full investment</td><td>w<sub>1</sub> + w<sub>2</sub> + w<sub>3</sub> = 1</td></tr>
+      <tr><td>Method</td><td>scipy.optimize.minimize with method='SLSQP'</td></tr>
+      <tr><td>Initial guess</td><td>[0.15, 0.15, 0.70] (current weights)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Optimization Result</h3>
+  <table>
+    <thead>
+      <tr><th>Weight</th><th>Current</th><th>Optimal</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Top Down (Constrained)</td><td>15.0%</td><td>5.63%</td></tr>
+      <tr><td>Top Down (Full)</td><td>15.0%</td><td>45.68%</td></tr>
+      <tr><td>Bottom Up</td><td>70.0%</td><td>48.69%</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Tracking Error Comparison</h3>
+  <table class="def-table">
+    <tbody>
+      <tr><td>Current blend TE (Lo-adj)</td><td>5.4302%</td></tr>
+      <tr><td>Optimal blend TE (Lo-adj)</td><td>5.0690%</td></tr>
+      <tr><td>Improvement</td><td>0.3612 pp</td></tr>
+      <tr><td>Optimizer converged</td><td>Yes</td></tr>
+      <tr><td>Optimizer message</td><td>Optimization terminated successfully</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Individual Model Lo-Adjusted Tracking Errors</h3>
+  <table>
+    <thead><tr><th>Model</th><th>Lo-Adj TE (standalone)</th></tr></thead>
+    <tbody>
+      <tr><td>Top Down (Constrained)</td><td>9.4410%</td></tr>
+      <tr><td>Top Down (Full)</td><td>6.7159%</td></tr>
+      <tr><td>Bottom Up</td><td>6.9469%</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Cross-Correlations of Tracking Differences</h3>
+  <p>Tracking difference = model daily return - SG Trend daily return. Correlations between these difference series drive the diversification benefit:</p>
+  <table>
+    <thead>
+      <tr><th></th><th>TD (Constrained)</th><th>TD (Full)</th><th>Bottom Up</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>TD (Constrained)</td>
+        <td>1.000</td>
+        <td>0.8066</td>
+        <td>0.0509</td>
+      </tr>
+      <tr>
+        <td>TD (Full)</td>
+        <td>0.8066</td>
+        <td>1.000</td>
+        <td>0.1749</td>
+      </tr>
+      <tr>
+        <td>Bottom Up</td>
+        <td>0.0509</td>
+        <td>0.1749</td>
+        <td>1.000</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The low correlation between TD and BU tracking differences (0.05 and 0.17) is the primary source of diversification benefit in the blend. The high correlation between the two TD models (0.81) limits the benefit of shifting weight between them.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: SOURCE CODE REFERENCE                       -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="section">
+  <h2>7. Source Code Reference</h2>
+  <p>The complete functions used in both build_report.py and this audit script are reproduced below for reference.</p>
+
+  <h3>lo_eta() -- Lo (2002) Autocorrelation Adjustment Factor</h3>
+  <pre class="code-block"><code>def lo_eta(x, q):
+    &quot;&quot;&quot;Compute the Lo (2002) autocorrelation adjustment factor.&quot;&quot;&quot;
+    x_dm = x - x.mean()
+    eta = 1.0
+    for k in range(1, q + 1):
+        rho_k = np.corrcoef(x_dm[k:], x_dm[:-k])[0, 1]
+        eta += 2 * (1 - k / (q + 1)) * rho_k
+    return max(eta, 0.01)  # floor to avoid degenerate cases</code></pre>
+
+  <h3>lo_adj_te() -- Lo-Adjusted Annualized Tracking Error</h3>
+  <pre class="code-block"><code>def lo_adj_te(diff):
+    &quot;&quot;&quot;Lo-adjusted annualized TE for an arbitrary daily difference series.&quot;&quot;&quot;
+    daily_std = np.std(diff, ddof=1)
+    eta = lo_eta(diff, LO_Q)
+    return daily_std * np.sqrt(252 * eta) * 100</code></pre>
+
+  <h3>Statistics Computation Loop</h3>
+  <pre class="code-block"><code>series_map = {
+    &#x27;Top Down (Constrained)&#x27;: (&#x27;TD_Small_ret&#x27;, &#x27;TD_Small_g1&#x27;),
+    &#x27;Top Down (Full)&#x27;:        (&#x27;TD_Med_ret&#x27;,   &#x27;TD_Med_g1&#x27;),
+    &#x27;Bottom Up&#x27;:              (&#x27;BU_ret&#x27;,       &#x27;BU_g1&#x27;),
+    &#x27;Blend&#x27;:                  (&#x27;Blend_ret&#x27;,    &#x27;Blend_g1&#x27;),
+}
+
+for name, (ret_col, g1_col) in series_map.items():
+    rets = df[ret_col]
+    sg_rets = df[&#x27;SG_Trend_ret&#x27;]
+    corr = rets.corr(sg_rets)
+    te = (rets - sg_rets).std() * np.sqrt(252) * 100
+    cov = np.cov(rets.dropna(), sg_rets.dropna())
+    beta = cov[0,1] / cov[1,1]
+    cum_ret = (df[g1_col].iloc[-1] / df[g1_col].iloc[0] - 1) * 100
+    n_days = (df[&#x27;Date&#x27;].iloc[-1] - df[&#x27;Date&#x27;].iloc[0]).days
+    ann_ret = ((1 + cum_ret/100) ** (365.25/n_days) - 1) * 100
+    running_max = df[g1_col].cummax()
+    dd = df[g1_col] / running_max - 1
+    max_dd = dd.min() * 100
+    ann_vol = rets.std() * np.sqrt(252) * 100
+    ir = (rets - sg_rets).mean() / (rets - sg_rets).std() * np.sqrt(252)</code></pre>
+
+  <h3>Ex-Post Optimization</h3>
+  <pre class="code-block"><code>from scipy.optimize import minimize as sp_minimize
+
+sg_r = df[&#x27;SG_Trend_ret&#x27;].values
+tds_r = df[&#x27;TD_Small_ret&#x27;].values
+tdm_r = df[&#x27;TD_Med_ret&#x27;].values
+bu_r = df[&#x27;BU_ret&#x27;].values
+
+def te_obj_full(w):
+    diff = w[0]*tds_r + w[1]*tdm_r + w[2]*bu_r - sg_r
+    return lo_adj_te(diff)
+
+opt_res = sp_minimize(te_obj_full, [0.15, 0.15, 0.70],
+                      bounds=[(0,1),(0,1),(0,1)],
+                      constraints={&#x27;type&#x27;: &#x27;eq&#x27;, &#x27;fun&#x27;: lambda w: sum(w) - 1},
+                      method=&#x27;SLSQP&#x27;)
+w_opt = opt_res.x
+te_opt = te_obj_full(w_opt)</code></pre>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  Audit workbook generated March 18, 2026 by build_audit.py<br>
+  Data period: Feb 08, 2023 -- Feb 06, 2026 | 754 trading days<br>
+  All computations replicated from build_report.py using identical methodology.<br>
+  &copy; 2026 ReSolve Asset Management. All rights reserved.
+</div>
+
+</body>
+</html>

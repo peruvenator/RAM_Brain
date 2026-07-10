@@ -158,9 +158,9 @@ def build_typography_section_page1():
     <h3 class="guideline-subheading">Cover Page Type Scale</h3>
     <div class="type-scale">
         {type_specimen("Watermark", 85, "Bold", "normal", "#a1d7c6", "Advisor's Guide", 700)}
-        {type_specimen("Main Title", 42, "Medium", "normal", "#ffffff", "The Advisor's Guide to Client Conversations", 500)}
+        {type_specimen("Main Title", 42, "Bold", "normal", "#ffffff", "The Advisor's Guide to Client Conversations", 700)}
         {type_specimen("Topic Name", 48, "Bold", "normal", "#14cfa6", "Managed Futures", 700)}
-        {type_specimen("Connector", 38, "Regular", "normal", "#ffffff", "about", 400)}
+        {type_specimen("Connector", 38, "Medium", "normal", "#ffffff", "about", 500)}
         {type_specimen("Intro Heading", 22, "Bold", "normal", "#2c3641", "Why This Conversation Matters", 700)}
         {type_specimen("Intro Paragraph", 13, "Medium", "normal", "#2c3641", "When both stocks and bonds experience extended drawdowns...", 500)}
     </div>
@@ -433,7 +433,7 @@ def build_document_structure_page1():
         <div class="tpd-line3">about</div>
         <div class="tpd-line4">[Topic Name]</div>
     </div>
-    <p class="guideline-caption" style="margin-top:8pt;">The topic name is always rendered in Teal Primary (#14CFA6) in Bold 48pt. The word "about" appears in Regular 38pt white.</p>
+    <p class="guideline-caption" style="margin-top:8pt;">The topic name is always rendered in Teal Primary (#14CFA6) in Bold 48pt. The word "about" appears in Medium 38pt white.</p>
 
     <h3 class="guideline-subheading">Content Flow &amp; Page Breaks</h3>
     <p class="guideline-body">Content flows continuously across interior pages. The generator automatically splits content at natural page boundaries with orphan prevention: section headings and subsection headings are never stranded alone at the bottom of a page. If a heading would land at the bottom without at least its first body paragraph, both are moved to the next page together. This applies to heading\u2192body, heading\u2192subsection, and heading\u2192subsection\u2192body chains.</p>
@@ -462,10 +462,14 @@ def build_document_structure_page2():
     <div class="rule-box">
         <div class="rule-box-heading">Element Spacing Reference</div>
         <ul class="rule-list">
-            <li>Section headings: 10pt space before (0pt if first on page), 6pt after. Includes 14pt left padding for teal accent bar.</li>
-            <li>Subsection headings: 8pt space before, 4pt after. No left padding, no accent decoration.</li>
-            <li>Body paragraphs: 8pt space after</li>
-            <li>Callouts and panels: 12pt space before and after</li>
+            <li>Section headings: 18pt space before (0pt if first on page), 8pt after. Includes 14pt left padding for teal accent bar.</li>
+            <li>Subsection headings: 14pt space before, 6pt after. No left padding, no accent decoration.</li>
+            <li>Body paragraphs: 6pt space after</li>
+            <li>Bullet lists: 6pt after the list, 3pt between items</li>
+            <li>Teal callouts: 20pt space before, 12pt after</li>
+            <li>Dark panels: 14pt space before and after</li>
+            <li>Gray sections: 12pt space before and after</li>
+            <li>Charts and tables: 12pt space before and after</li>
             <li>Line heights: Body 1.5, Headings 1.2, Callouts 1.35, Disclaimers 1.25</li>
         </ul>
     </div>
@@ -479,7 +483,7 @@ def build_backdrops_section():
     return f'''
 <div class="section-block">
     <h2 class="guideline-heading">Cover Backdrops</h2>
-    <p class="guideline-body">Two backdrop images are available for the cover banner. The <strong>Blue</strong> variant is the default. Both are available in SVG (vector) and PNG (raster) formats in <code>../Brand_elements/Background_images/</code>.</p>
+    <p class="guideline-body">Two backdrop images are available for the cover banner. The <strong>Blue</strong> variant is the default. Both are available in SVG (vector) and PNG (raster) formats in <code>references/brand-assets/return-stacked/Background_images/</code>.</p>
 
     <h3 class="guideline-subheading">Blue (Default)</h3>
     <div class="backdrop-preview">
@@ -1207,14 +1211,14 @@ body {{
 
 .tpd-line1, .tpd-line2 {{
     font-size: 20pt;
-    font-weight: 500;
+    font-weight: 700;
     color: var(--white);
     line-height: 1.15;
 }}
 
 .tpd-line3 {{
     font-size: 18pt;
-    font-weight: 400;
+    font-weight: 500;
     color: var(--white);
     line-height: 1.15;
 }}

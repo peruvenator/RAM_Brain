@@ -2,10 +2,10 @@
 
 ## What You Need
 
-- Access to the **Advisor_Guide_Tool** folder shared by Rodrigo in Dropbox and then synced to your local folders)
+- Access to the **Advisor_Guide_Tool** folder shared by Rodrigo in Dropbox and then synced to your local folders
 - **Claude Code** with Cowork
 - A **Notion** page for team editing
-- Your source materials (articles, notes, talking points — whatever you have)
+- Your source materials (articles, notes, talking points - whatever you have)
 
 ## Steps
 
@@ -55,11 +55,11 @@ Once the team is done editing in Notion:
 3. Drag and drop any SVG image files into the chat
 4. Claude will generate the branded HTML file
 
-Your generated file will be in: **Advisor_Guide_Tool → generator → output**
+Your generated file will be in: **Advisor_Guide_Tool -> generator -> output**
 
 Open the HTML file in your browser to review it. When you're happy with the result:
 
-1. **File → Print → Save as PDF** to create the final PDF
+1. **File -> Print -> Save as PDF** to create the final PDF
 2. Review the PDF to confirm everything looks correct
 
 ### 6. Designer Handoff (if needed)
