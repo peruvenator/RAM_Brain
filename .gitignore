@@ -29,6 +29,9 @@ projects/trend-carry-transition-plots/
 # AI tool compliance assessment (separate repo: resolve-lab/ram-ai-security-reports)
 projects/ai-compliance-assessment/
 
+# Literature widget (separate repo: resolve-lab/rs-literature-widget)
+projects/return-stacked-website/Literature_PDF_Index/
+
 # Sales thermometer widget (separate repo: resolve-lab/rs-sales-thermometer)
 projects/sales-thermometer-widget/
 
