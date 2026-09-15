@@ -1,0 +1,264 @@
+{
+  "_readme": "Shared search concept groups for every Return Stacked index widget (Research Articles, Product Articles, Literature). Each group is a list of phrases that mean the same thing. When an item's searchable text (title, summary, keywords, tags) contains ANY phrase of a group, the words of EVERY phrase in that group are added to that item's search terms, so a search for one phrasing finds items that use another. Phrase matching is word-by-word; the last word may carry a suffix ('tax' also fires on 'taxes' and 'taxation'). Keep phrases lowercase and never use the characters & < > or quotes in them. Applied (a) at runtime inside every widget's search core (sync_search_core.py renders this file into the script; re-run the sync for each widget after editing) and (b) at build time by the Research Articles build, which also sees each post's key sentences. Do NOT add ETF tickers as trigger phrases: on the Literature page a ticker must never surface Manager Research rows (compliance).",
+  "groups": [
+    [
+      "tax",
+      "taxes",
+      "taxation",
+      "after-tax",
+      "tax efficiency",
+      "tax efficient",
+      "tax drag",
+      "tax loss"
+    ],
+    [
+      "managed futures",
+      "cta",
+      "commodity trading advisor",
+      "trend following",
+      "trend",
+      "momentum",
+      "systematic macro"
+    ],
+    [
+      "carry",
+      "futures yield",
+      "roll yield",
+      "carry trade"
+    ],
+    [
+      "leverage",
+      "leveraged",
+      "gearing",
+      "borrowing",
+      "margin",
+      "notional exposure",
+      "embedded leverage"
+    ],
+    [
+      "glidepath",
+      "glide path",
+      "target date",
+      "target-date fund",
+      "tdf",
+      "lifecycle fund",
+      "lifecycle",
+      "accumulation",
+      "human capital"
+    ],
+    [
+      "retirement",
+      "decumulation",
+      "withdrawal",
+      "withdrawal rate",
+      "sequence risk",
+      "sequence of returns",
+      "retiree"
+    ],
+    [
+      "inflation",
+      "cpi",
+      "real return",
+      "purchasing power",
+      "stagflation"
+    ],
+    [
+      "bonds",
+      "fixed income",
+      "treasuries",
+      "treasury",
+      "duration",
+      "core bonds"
+    ],
+    [
+      "equities",
+      "stocks",
+      "equity",
+      "stock market",
+      "core equity"
+    ],
+    [
+      "gold",
+      "bullion",
+      "precious metals"
+    ],
+    [
+      "bitcoin",
+      "crypto",
+      "btc",
+      "digital assets",
+      "cryptocurrency"
+    ],
+    [
+      "merger arbitrage",
+      "merger arb",
+      "event driven",
+      "deal spread",
+      "m and a"
+    ],
+    [
+      "diversification",
+      "diversify",
+      "diversifier",
+      "correlation",
+      "uncorrelated",
+      "diversifying"
+    ],
+    [
+      "rebalancing",
+      "rebalance",
+      "drift"
+    ],
+    [
+      "fees",
+      "expense ratio",
+      "cost",
+      "expenses",
+      "fee drag"
+    ],
+    [
+      "volatility",
+      "vol",
+      "standard deviation",
+      "vol drag",
+      "volatility drag"
+    ],
+    [
+      "return stacking",
+      "stacking",
+      "stacked",
+      "portable alpha",
+      "capital efficiency",
+      "overlay",
+      "capital efficient"
+    ],
+    [
+      "drawdown",
+      "bear market",
+      "losses",
+      "crash",
+      "downturn"
+    ],
+    [
+      "alpha",
+      "outperformance",
+      "excess return"
+    ],
+    [
+      "mutual fund",
+      "etf",
+      "fund structure",
+      "wrapper",
+      "vehicle"
+    ],
+    [
+      "distributions",
+      "capital gains",
+      "dividends",
+      "payout"
+    ],
+    [
+      "financial advisor",
+      "advisor",
+      "practice management",
+      "client conversation",
+      "client"
+    ],
+    [
+      "due diligence",
+      "checklist",
+      "evaluation",
+      "manager selection"
+    ],
+    [
+      "backtest",
+      "simulation",
+      "historical",
+      "hypothetical",
+      "monte carlo"
+    ],
+    [
+      "risk parity",
+      "all weather"
+    ],
+    [
+      "trend replication",
+      "replication",
+      "replicate"
+    ],
+    [
+      "100/100",
+      "100 100",
+      "stocks and bonds",
+      "stocks plus bonds",
+      "balanced portfolio"
+    ],
+    [
+      "sharpe",
+      "sharpe ratio",
+      "risk adjusted",
+      "risk-adjusted"
+    ],
+    [
+      "compounding",
+      "geometric return",
+      "compound growth"
+    ],
+    [
+      "liquidity",
+      "liquid",
+      "daily liquidity"
+    ],
+    [
+      "white paper",
+      "whitepaper",
+      "research paper",
+      "paper"
+    ],
+    [
+      "one pager",
+      "one-pager",
+      "onepager",
+      "one page",
+      "primer",
+      "overview"
+    ],
+    [
+      "presentation",
+      "deck",
+      "slides",
+      "slide deck"
+    ],
+    [
+      "product brief",
+      "fact sheet",
+      "factsheet",
+      "brief"
+    ],
+    [
+      "quarterly commentary",
+      "commentary",
+      "quarterly",
+      "quarterly update",
+      "market update"
+    ],
+    [
+      "client conversation",
+      "talking points",
+      "client guide",
+      "advisor guide"
+    ],
+    [
+      "international",
+      "intl",
+      "developed markets",
+      "ex us",
+      "non us"
+    ],
+    [
+      "case study",
+      "case studies",
+      "worked example"
+    ]
+  ]
+}
