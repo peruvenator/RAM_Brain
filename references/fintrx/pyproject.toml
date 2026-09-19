@@ -1,0 +1,13 @@
+[project]
+name = "fintrx-sdk"
+version = "0.2.0"
+description = "Python SDK for the FINTRX platform internal API (Windows fork, 1Password auth)"
+requires-python = ">=3.12"
+dependencies = ["httpx>=0.28", "websocket-client>=1.9"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["fintrx_sdk*"]

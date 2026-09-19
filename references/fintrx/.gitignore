@@ -1,0 +1,3 @@
+# Editable-install and Python build artifacts
+*.egg-info/
+__pycache__/
