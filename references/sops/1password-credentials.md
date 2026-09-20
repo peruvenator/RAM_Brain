@@ -70,3 +70,4 @@ op item list --vault ReSolve   # item names only, never prints secrets
 - If a token is rotated, update the field in 1Password. No file in the repo changes.
 - Scheduled Windows tasks pick up `OP_SERVICE_ACCOUNT_TOKEN` automatically because it is a user-level variable. If a task runs under a different Windows account, set the variable for that account too.
 - Do not add `OP_SERVICE_ACCOUNT_TOKEN` to any file. If it leaks, revoke the service account in 1Password and create a new one.
+- A shell or Claude Code session started before the variable was (re)set keeps the old value: reads may still work under a stale token while writes fail with "Couldn't update the item". Check with `op whoami` (Integration ID must match the current service account, A4VZPFPY... as of 2026-09-20) and restart the session, or in PowerShell run `$env:OP_SERVICE_ACCOUNT_TOKEN=[Environment]::GetEnvironmentVariable('OP_SERVICE_ACCOUNT_TOKEN','User')` before the write.
