@@ -73,7 +73,8 @@ def decide_row(cands: list[dict]):
 
 def build_state(src: dict, cands: list[dict]) -> dict:
     street = " ".join(str(src.get(k)) for k in (COL_STREET1, COL_STREET2) if not is_blank(src.get(k)))
-    return {"hubspot": {"name": src.get(COL_NAME), "street": street, "state": norm_state(src.get(COL_STATE)),
+    return {"hubspot": {"name": "" if is_blank(src.get(COL_NAME)) else str(src.get(COL_NAME)), "street": street,
+                        "state": norm_state(src.get(COL_STATE)),
                         "domain": extract_domain(src.get(COL_DOMAIN))},
             "candidates": [{"idx": i, "name": c["matched_name"], "legal_name": c.get("legal_name") or "",
                             "former_names": c.get("former_names") or "", "website": c.get("website_address") or "",
@@ -128,7 +129,7 @@ def main() -> None:
             det = details.get(str(int(float(r["fintrx_item_id"]))))
             if det:
                 by_row.setdefault(sr, []).append(dict(r, **{k: v for k, v in det.items() if k != "item_id"}))
-    cache = {} if args.force else {r["source_row"]: r for r in read_jsonl(JEV2)}
+    cache = {} if args.force else {r["source_row"]: r for r in read_jsonl(JEV2) if "answers" in r}
     need = [sr for sr in by_row if sr not in cache]
     print(f"{len(srcs)} rows, {len(by_row)} with kept candidates, {len(need)} need Jev pass 2", flush=True)
     eta = Eta(len(need), "jev2")

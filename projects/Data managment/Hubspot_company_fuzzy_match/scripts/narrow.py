@@ -14,8 +14,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from common import (CAND_DOMAIN, CAND_NAME, CAND_NARROWED, COL_DOMAIN, COL_NAME, COL_RECORD_ID,  # noqa: E402
-                    COL_STATE, JEV1, JEV_WORKERS, Eta, append_jsonl, extract_domain, load_source,
-                    log_error, norm_state, read_csv, read_jsonl, write_csv)
+                    COL_STATE, JEV1, JEV_WORKERS, Eta, append_jsonl, extract_domain, is_blank,
+                    load_source, log_error, norm_state, read_csv, read_jsonl, write_csv)
 from match import load_universe  # noqa: E402
 import jev  # noqa: E402
 
@@ -105,8 +105,13 @@ def build_questions(cands: list[dict]) -> dict:
     return q
 
 
+def _s(v) -> str:
+    """JSON-safe string: pandas NaN becomes '' (Jev rejects NaN in the state)."""
+    return "" if is_blank(v) else str(v)
+
+
 def build_state(src: dict, cands: list[dict]) -> dict:
-    return {"hubspot": {"name": src.get(COL_NAME), "state": norm_state(src.get(COL_STATE)),
+    return {"hubspot": {"name": _s(src.get(COL_NAME)), "state": norm_state(src.get(COL_STATE)),
                         "domain": extract_domain(src.get(COL_DOMAIN))},
             "candidates": [{"idx": i, "name": c["matched_name"], "city": c["cand_city"],
                             "state": c["cand_state"], "type": c.get("type_entity") or ""}
@@ -143,7 +148,8 @@ def main() -> None:
     for cands in merged.values():
         for c in cands:
             c["type_entity"] = types.get(c["item_id"])
-    cache = {} if args.force else {r["source_row"]: r for r in read_jsonl(JEV1)}
+    # cached errors are re-asked on the next run; a later good answer wins because it is appended last
+    cache = {} if args.force else {r["source_row"]: r for r in read_jsonl(JEV1) if "answers" in r}
 
     need = [sr for sr, cands in merged.items() if sr in srcs and not auto_keep(cands) and sr not in cache]
     print(f"{len(srcs)} rows, {len(merged)} with candidates, {len(need)} need Jev pass 1", flush=True)
