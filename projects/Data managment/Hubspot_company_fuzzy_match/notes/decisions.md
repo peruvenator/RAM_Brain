@@ -18,3 +18,5 @@ Format: [YYYY-MM-DD] DECISION: ... | REASONING: ... | CONTEXT: ...
 [2026-09-19] DECISION: FINTRX HubSpot sync ids are not used as a match key | REASONING: Sampled 1,000 firms; 316 carry a hubspot_id but only 2 appear in this Excel. The segment is the unsynced remainder | CONTEXT: Kept in the universe cache as a weak duplicate signal only
 
 [2026-09-19] DECISION: Design spec lives at notes/2026-09-19-pipeline-design.md | REASONING: Project convention keeps working notes in notes/ | CONTEXT: Approved in chat before any code was written
+
+[2026-09-19] DECISION: Keep the FINTRX caches (universe.jsonl, domain_cache.json, details/*.json, details.csv) in data/fintrx/ after the run | REASONING: Reusable for the later enrich step and any future FINTRX bulk job; licensed data stays inside the Dropbox project, gitignored, not shared outside the team | CONTEXT: Rodrigo confirmed in chat
