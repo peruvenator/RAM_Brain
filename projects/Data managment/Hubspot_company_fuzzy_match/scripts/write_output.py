@@ -15,6 +15,13 @@ from common import (CAND_NARROWED, COL_CRD, DATA_OUT, FINTRX_FIRM_URL, MATCHES, 
                     SOURCE_XLSX, read_csv, write_csv)
 
 EXTRA_HEADERS = ["fintrx_match_name", "fintrx_match_method", "fintrx_match_confidence"]
+TEAM_HEADERS = ["Fintrx_wealth_team_id", "fintrx_team_name", "fintrx_team_parent_crd", "fintrx_team_confidence"]
+TEAM_MATCHES = DATA_OUT / "team_matches.csv"
+TEAM_REVIEW = DATA_OUT / "team_review.csv"
+TEAM_REVIEW_FIELDS = ["source_row", "record_id", "source_name", "row_outcome", "row_reason", "team_id", "team_name",
+                      "parent_firm_name", "parent_crd", "team_city", "team_state", "name_score", "state_equal",
+                      "parent_domain_match", "parent_rep_count", "link", "same_name", "decision", "fintrx_url"]
+FINTRX_TEAM_URL = "https://platform.fintrx.com/private_wealth_group/{team_id}"
 REVIEW_FIELDS = ["source_row", "record_id", "source_name", "row_outcome", "row_reason", "fintrx_item_id",
                  "matched_name", "crd_id", "legal_name", "website_address", "street1", "city", "state", "methods",
                  "name_score", "link1", "link2", "same_name2", "same_street2", "domain_equal", "phone_equal",
@@ -28,7 +35,10 @@ def _url(item_id) -> str:
         return ""
 
 
-def fill_workbook(src_path: Path, out_path: Path, accepted: dict[int, dict]) -> int:
+def fill_workbook(src_path: Path, out_path: Path, accepted: dict[int, dict],
+                  teams: dict[int, dict] | None = None) -> int:
+    """Fill column C for accepted firm matches and the Fintrx_wealth_team_id block for accepted
+    team matches. Returns the number of firm rows filled."""
     wb = openpyxl.load_workbook(src_path)
     ws = wb.active
     headers = [c.value for c in ws[1]]
@@ -36,6 +46,9 @@ def fill_workbook(src_path: Path, out_path: Path, accepted: dict[int, dict]) -> 
     first_extra = len(headers) + 1
     for j, h in enumerate(EXTRA_HEADERS):
         ws.cell(row=1, column=first_extra + j, value=h)
+    first_team = first_extra + len(EXTRA_HEADERS)
+    for j, h in enumerate(TEAM_HEADERS):
+        ws.cell(row=1, column=first_team + j, value=h)
     n = 0
     for sr, m in accepted.items():
         r = sr + 2
@@ -47,6 +60,14 @@ def fill_workbook(src_path: Path, out_path: Path, accepted: dict[int, dict]) -> 
         ws.cell(row=r, column=first_extra + 1, value=m.get("methods"))
         ws.cell(row=r, column=first_extra + 2, value=m.get("link2"))
         n += 1
+    for sr, t in (teams or {}).items():
+        r = sr + 2
+        if not t.get("team_id"):
+            continue
+        ws.cell(row=r, column=first_team, value=int(float(t["team_id"])))
+        ws.cell(row=r, column=first_team + 1, value=t.get("team_name"))
+        ws.cell(row=r, column=first_team + 2, value=int(float(t["parent_crd"])) if t.get("parent_crd") else None)
+        ws.cell(row=r, column=first_team + 3, value=t.get("link"))
     out_path.parent.mkdir(parents=True, exist_ok=True)
     wb.save(out_path)
     return n
@@ -55,8 +76,17 @@ def fill_workbook(src_path: Path, out_path: Path, accepted: dict[int, dict]) -> 
 def main() -> None:
     matches = read_csv(MATCHES)
     accepted = {int(r["source_row"]): r for r in matches if r["row_outcome"] == "accept" and r["chosen"] == "True"}
+    team_rows = read_csv(TEAM_MATCHES)
+    teams = {int(r["source_row"]): r for r in team_rows if r["row_outcome"] == "accept" and r["chosen"] == "True"}
     out_xlsx = DATA_OUT / f"{SOURCE_XLSX.stem}-enriched.xlsx"
-    n = fill_workbook(SOURCE_XLSX, out_xlsx, accepted)
+    n = fill_workbook(SOURCE_XLSX, out_xlsx, accepted, teams)
+    if team_rows:
+        team_review = [dict(r, fintrx_url=FINTRX_TEAM_URL.format(team_id=int(float(r["team_id"]))) if r.get("team_id") else "")
+                       for r in team_rows if r["row_outcome"] != "accept" and r.get("team_id")]
+        write_csv(TEAM_REVIEW, team_review, TEAM_REVIEW_FIELDS)
+        print(f"wrote {TEAM_REVIEW}: {len(team_review)} lines for {len({r['source_row'] for r in team_review})} rows")
+        print(f"team ids filled: {len(teams)}; team outcomes:",
+              dict(Counter({r['source_row']: r['row_outcome'] for r in team_rows}.values())))
     outcomes = {int(r["source_row"]): r["row_outcome"] for r in matches}
     review = []
     for r in matches:
