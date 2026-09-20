@@ -27,7 +27,9 @@ JEV_TEAMS = DATA_OUT / "jev_teams.jsonl"
 
 # ---- thresholds (logged in notes/decisions.md) ----
 REVIEW_MIN = 0.5          # link below this -> reject
-ACCEPT_STRONG = 1.5       # link at or above, state agreeing or unknown -> accept
+ACCEPT_STRONG = 1.5       # link at or above AND state confirmed equal -> accept
+# (stricter than the firm pass: a team row has no website or phone to corroborate, so an unknown
+#  state plus a common name is not enough; those go to review)
 ACCEPT_WITH_PARENT = 1.0  # link at or above, and the row's domain reps belong to this team's parent firm -> accept
 
 FIELDS = ["source_row", "record_id", "source_name", "team_id", "team_name", "parent_firm_id", "parent_firm_name",
@@ -67,7 +69,7 @@ def decide_candidate(link: float | None, state_equal, parent_match: bool) -> str
         return "review"
     if parent_match and link >= ACCEPT_WITH_PARENT:
         return "accept"
-    if link >= ACCEPT_STRONG and state_equal in (True, None):
+    if link >= ACCEPT_STRONG and state_equal is True:
         return "accept"
     if link >= REVIEW_MIN:
         return "review"

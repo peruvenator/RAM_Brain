@@ -32,6 +32,10 @@ op run --env-file $OPENV -- & $PY scripts\lookup_domain.py     # 3. domain -> fi
 op run --env-file $OPENV -- & $PY scripts\fetch_details.py     # 5. detail record per kept firm (CRD), ~2 h
 & $PY scripts\decide.py                                        # 6. Jev pass 2 + code rules
 & $PY scripts\write_output.py                                  # 7. enriched xlsx + review.csv
+# Wealth team pass (rows the firm pass did not accept):
+op run --env-file $OPENV -- & $PY scripts\pull_teams.py        # T1. 28.6k private wealth teams, ~5 min, once
+& $PY scripts\match_teams.py                                   # T2. rapidfuzz + Jev vs teams -> team_matches.csv
+& $PY scripts\write_output.py                                  # rewrites the xlsx with Fintrx_wealth_team_id filled
 & $PY -m unittest discover tests                                # offline tests
 ```
 
@@ -42,4 +46,4 @@ per candidate with every score and flag). Thresholds live at the top of `narrow.
 ## Status
 
 - 2026-09-19: Project created.
-- 2026-09-20: Full run complete on the 15,847-row export. 6,981 accepted (CRD filled), 2,409 review, 6,457 no match (416 blank names). Output in `data/output/`. HubSpot push not yet built.
+- 2026-09-20: Full run complete on the 15,847-row export. 6,981 accepted (CRD filled), 2,409 review, 6,457 no match (416 blank names). Wealth team pass same day: 2,420 rows got a Fintrx_wealth_team_id (parent CRD alongside), 425 team review, 6,021 no team match. 9,401 of 15,847 rows identified in total. Output in `data/output/`. HubSpot push not yet built.

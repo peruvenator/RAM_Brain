@@ -23,8 +23,9 @@ class RuleTests(unittest.TestCase):
     def test_parent_domain_with_moderate_link_accepts(self):
         self.assertEqual(match_teams.decide_candidate(1.1, False, True), "accept")
 
-    def test_strong_link_needs_state_agree_or_unknown(self):
-        self.assertEqual(match_teams.decide_candidate(1.7, None, False), "accept")
+    def test_strong_link_needs_confirmed_state(self):
+        self.assertEqual(match_teams.decide_candidate(1.7, True, False), "accept")
+        self.assertEqual(match_teams.decide_candidate(1.7, None, False), "review")
         self.assertEqual(match_teams.decide_candidate(1.7, False, False), "review")
 
     def test_low_rejects_and_none_reviews(self):
