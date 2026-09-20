@@ -24,9 +24,14 @@ class RuleTests(unittest.TestCase):
 
     def test_domain_with_moderate_link_accepts(self):
         self.assertEqual(decide.decide_candidate(1.1, dict(self.F, domain_equal=True)), "accept")
+        self.assertEqual(decide.decide_candidate(0.99, dict(self.F, domain_equal=True, state_equal=False)), "accept")
 
     def test_domain_with_low_link_reviews(self):
         self.assertEqual(decide.decide_candidate(0.6, dict(self.F, domain_equal=True)), "review")
+
+    def test_phone_needs_stronger_link_than_domain(self):
+        self.assertEqual(decide.decide_candidate(0.94, dict(self.F, phone_equal=True)), "review")
+        self.assertEqual(decide.decide_candidate(1.41, dict(self.F, phone_equal=True)), "accept")
 
     def test_strong_link_same_state_accepts(self):
         self.assertEqual(decide.decide_candidate(1.7, self.F), "accept")

@@ -22,7 +22,12 @@ import jev  # noqa: E402
 # ---- thresholds (logged in notes/decisions.md) ----
 REVIEW_MIN = 0.5        # link_state below this -> reject
 ACCEPT_STRONG = 1.5     # link_state at or above, with state agreeing or unknown -> accept
-ACCEPT_WITH_KEY = 1.0   # link_state at or above, with domain or phone equal -> accept
+ACCEPT_WITH_DOMAIN = 0.75  # link_state at or above, with the web domain equal -> accept
+# (0.75, not 1.0: a stale HubSpot state drags an otherwise exact match to ~0.99, while shared-platform
+#  domains such as a custodian score near 0.0 in the smoke run, so the gap is wide.)
+ACCEPT_WITH_PHONE = 1.25   # link_state at or above, with the phone equal -> accept
+# (higher than domain: affiliates in one office share a phone, e.g. ProShare Advisors and
+#  ProShare Investment Management, and must not both accept.)
 
 FIELDS = ["source_row", "record_id", "source_name", "fintrx_item_id", "matched_name", "crd_id", "legal_name",
           "website_address", "street1", "city", "state", "zip", "phone", "methods", "name_score", "link1",
@@ -44,7 +49,9 @@ def compute_flags(src: dict, det: dict) -> dict:
 def decide_candidate(link: float | None, flags: dict) -> str:
     if link is None:
         return "review"
-    if (flags["domain_equal"] or flags["phone_equal"]) and link >= ACCEPT_WITH_KEY:
+    if flags["domain_equal"] and link >= ACCEPT_WITH_DOMAIN:
+        return "accept"
+    if flags["phone_equal"] and link >= ACCEPT_WITH_PHONE:
         return "accept"
     if link >= ACCEPT_STRONG and flags["state_equal"] in (True, None):
         return "accept"
