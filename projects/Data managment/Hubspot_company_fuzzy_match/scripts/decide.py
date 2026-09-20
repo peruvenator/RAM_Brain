@@ -129,7 +129,13 @@ def main() -> None:
             det = details.get(str(int(float(r["fintrx_item_id"]))))
             if det:
                 by_row.setdefault(sr, []).append(dict(r, **{k: v for k, v in det.items() if k != "item_id"}))
+    # A cached answer is only valid for the exact candidate list it was asked about (answers are
+    # indexed by position); a changed or reordered list must be re-asked.
     cache = {} if args.force else {r["source_row"]: r for r in read_jsonl(JEV2) if "answers" in r}
+    for sr, cands in by_row.items():
+        want = [str(c["fintrx_item_id"]) for c in cands]
+        if sr in cache and [str(x) for x in cache[sr].get("items", [])] != want:
+            del cache[sr]
     need = [sr for sr in by_row if sr not in cache]
     print(f"{len(srcs)} rows, {len(by_row)} with kept candidates, {len(need)} need Jev pass 2", flush=True)
     eta = Eta(len(need), "jev2")

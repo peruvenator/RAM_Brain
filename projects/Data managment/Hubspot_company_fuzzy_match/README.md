@@ -42,4 +42,4 @@ per candidate with every score and flag). Thresholds live at the top of `narrow.
 ## Status
 
 - 2026-09-19: Project created.
-- 2026-09-20: Full run complete on the 15,847-row export. 6,978 accepted (CRD filled), 2,401 review, 6,468 no match (416 blank names). Output in `data/output/`. HubSpot push not yet built.
+- 2026-09-20: Full run complete on the 15,847-row export. 6,981 accepted (CRD filled), 2,409 review, 6,457 no match (416 blank names). Output in `data/output/`. HubSpot push not yet built.

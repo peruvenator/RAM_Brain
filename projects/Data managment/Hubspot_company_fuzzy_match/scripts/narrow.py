@@ -150,6 +150,11 @@ def main() -> None:
             c["type_entity"] = types.get(c["item_id"])
     # cached errors are re-asked on the next run; a later good answer wins because it is appended last
     cache = {} if args.force else {r["source_row"]: r for r in read_jsonl(JEV1) if "answers" in r}
+    # answers are indexed by candidate position: a changed or reordered candidate list must be re-asked
+    for sr, cands in merged.items():
+        want = [c["item_id"] for c in cands]
+        if sr in cache and cache[sr].get("items") != want:
+            del cache[sr]
 
     need = [sr for sr, cands in merged.items() if sr in srcs and not auto_keep(cands) and sr not in cache]
     print(f"{len(srcs)} rows, {len(merged)} with candidates, {len(need)} need Jev pass 1", flush=True)
@@ -182,9 +187,14 @@ def main() -> None:
             continue
         ranked = sorted(cands, key=lambda c: -(c["link1"] or 0))
         kept_ids = {id(c) for c in ranked[:MAX_KEEP] if c["item_id"] is not None and (c["link1"] or 0) >= KEEP_MIN}
+        # An exact normalized name always goes to the detail fetch, even when pass 1 scored it low on a
+        # state disagreement: HubSpot states are often stale, and pass 2 has the website to settle it.
+        exact_ids = {id(c) for c in cands if c["item_id"] is not None and "exact_normalized" in c["methods"]}
         for c in cands:
-            k = id(c) in kept_ids
-            rows.append(dict(base, **c, kept=k, keep_reason="jev1" if k else "below_keep_min"))
+            k = id(c) in kept_ids or id(c) in exact_ids
+            reason = "jev1" if id(c) in kept_ids else "exact_name" if k else "below_keep_min"
+            rows.append(dict(base, **c, kept=k, keep_reason=reason))
+        kept_ids |= exact_ids
         if not kept_ids:
             rows[-1]["keep_reason"] = "no_plausible_candidate"
     for r in rows:
