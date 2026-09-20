@@ -73,8 +73,13 @@ def match_all(df, ux: UniverseIndex, top: int, cutoff: float) -> list[dict]:
             out.append(candidate(s, 1, ux.exact[s["_norm"]], 100.0, 100.0, "exact_normalized", ux))
     for start in range(0, len(fuzzy), CHUNK):
         block = fuzzy[start:start + CHUNK]
-        sims = process.cdist([s["_norm"] for s in block], ux.norm, scorer=fuzz.token_set_ratio,
-                             score_cutoff=cutoff, workers=-1, dtype=np.float32)
+        queries = [s["_norm"] for s in block]
+        # token_set_ratio for recall (100 when one name is a subset of the other), token_sort_ratio
+        # to punish subsets; rank on the mean so "Dakota" does not tie "South Dakota First Capital".
+        sims_set = process.cdist(queries, ux.norm, scorer=fuzz.token_set_ratio,
+                                 score_cutoff=cutoff, workers=-1, dtype=np.float32)
+        sims_sort = process.cdist(queries, ux.norm, scorer=fuzz.token_sort_ratio, workers=-1, dtype=np.float32)
+        sims = np.where(sims_set >= cutoff, (sims_set + sims_sort) / 2, 0).astype(np.float32)
         k = min(top, sims.shape[1])
         part = np.argpartition(-sims, k - 1, axis=1)[:, :k]
         for bi, s in enumerate(block):
@@ -83,7 +88,7 @@ def match_all(df, ux: UniverseIndex, top: int, cutoff: float) -> list[dict]:
             rank = 0
             for j in idxs:
                 sc = float(sims[bi, j])
-                if sc < cutoff:
+                if sc <= 0:
                     continue
                 rank += 1
                 s_agg = fuzz.token_set_ratio(s["_agg"], ux.norm_agg[j]) if s["_agg"] else 0.0
