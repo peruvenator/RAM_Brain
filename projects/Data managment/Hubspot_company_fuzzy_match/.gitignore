@@ -1,0 +1,9 @@
+# Data files stay local (Dropbox holds them)
+data/**
+!data/**/.gitkeep
+*.xlsx
+*.xls
+*.csv
+*.json
+*.parquet
+__pycache__/
