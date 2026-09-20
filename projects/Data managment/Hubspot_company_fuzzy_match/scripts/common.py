@@ -11,7 +11,7 @@ from datetime import datetime
 from pathlib import Path
 
 PROJECT = Path(__file__).resolve().parents[1]
-RAM_BRAIN = PROJECT.parents[1]            # projects/Data managment/<project> -> RAM_Brain
+RAM_BRAIN = PROJECT.parents[2]            # <project> -> Data managment -> projects -> RAM_Brain
 DATA_FX = PROJECT / "data" / "fintrx"
 DATA_OUT = PROJECT / "data" / "output"
 SOURCE_XLSX = PROJECT / "Hubspot-company-list-2026-09-18.xlsx"
