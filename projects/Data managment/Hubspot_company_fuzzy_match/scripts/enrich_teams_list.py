@@ -19,6 +19,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import time
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -33,7 +34,7 @@ from match import UniverseIndex, load_universe, match_all  # noqa: E402
 from match_teams import load_teams  # noqa: E402
 from narrow import LEVELS  # noqa: E402
 from normalize import normalize  # noqa: E402
-from fintrx_sdk import FintrxClient, FintrxAuthError  # noqa: E402
+from fintrx_sdk import FintrxAPIError, FintrxAuthError, FintrxClient  # noqa: E402
 import jev  # noqa: E402
 
 TEAM_INFO_DIR = DATA_FX / "team_info"
@@ -50,24 +51,37 @@ TRACE = ["fintrx_team_name", "fintrx_team_city", "fintrx_team_website", "fintrx_
          "match_confidence", "status", "fintrx_team_url", "alt_candidates", "possible_firm_crd", "possible_firm_name"]
 
 
+TEAM_INFO_PACE = 1.0      # team_info returns 429 at the 0.25 s pace used elsewhere (2026-09-20)
+BACKOFF = [5, 15, 30, 60, 120]
+
+
 def team_info(c: FintrxClient, team_id: int) -> dict:
     p = TEAM_INFO_DIR / f"{team_id}.json"
     if p.exists():
         return json.loads(p.read_text(encoding="utf-8"))
-    r = c.request("GET", f"/private_wealth_teams/{team_id}/team_info")
+    for attempt in range(len(BACKOFF) + 1):
+        try:
+            r = c.request("GET", f"/private_wealth_teams/{team_id}/team_info")
+            break
+        except FintrxAPIError as e:
+            if getattr(e, "status", None) == 429 and attempt < len(BACKOFF):
+                time.sleep(BACKOFF[attempt])
+                continue
+            raise
     t = r.get("team") or {}
     TEAM_INFO_DIR.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps(t, ensure_ascii=False), encoding="utf-8")
-    paced()
+    time.sleep(TEAM_INFO_PACE)
     return t
 
 
 def decide(cand: dict) -> str:
     link = cand.get("link")
-    if cand["domain_equal"]:
-        return "accept"
     if link is None:
         return "review"
+    # a shared corporate website (raymondjames.com on every Raymond James team) must not accept on its own
+    if cand["domain_equal"] and link >= REVIEW_MIN:
+        return "accept"
     if cand["parent_domain"] and link >= ACCEPT_WITH_PARENT:
         return "accept"
     if cand["city_equal"] and link >= ACCEPT_STRONG:
