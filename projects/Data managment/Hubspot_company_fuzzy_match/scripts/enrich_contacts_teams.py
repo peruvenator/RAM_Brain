@@ -10,7 +10,7 @@ Team choice when a contact sits on several teams, in order:
   1. the team whose name matches the contact's Company Name
   2. a team we identified for the companies list (data/output/wealth_teams.csv)
   3. the team whose name matches the pre-filled 'Wealth Team (Fintrx)' value
-  otherwise the two columns stay blank, status=multiple_teams, and all teams are listed in all_teams.
+  4. otherwise FINTRX's own primary team (status=multiple_teams_primary); all teams are listed in all_teams.
 """
 from __future__ import annotations
 
@@ -34,7 +34,8 @@ COL_TEAM_ID = "Fintrx wealth team ID"
 COL_TEAM_NAME = "Wealth Team (Fintrx)"
 COL_COMPANY = "Company Name"
 COL_RECORD = "Record ID"
-BATCH = 100
+BATCH = 25       # CRDs per search call
+PER_PAGE = 100   # rows per page; must exceed BATCH so a batch never spills to a second page
 
 
 def _crd(v) -> str:
@@ -47,19 +48,29 @@ def _crd(v) -> str:
 def fetch_batch(c: FintrxClient, crds: list[str]) -> dict[str, dict]:
     """CRD -> {contact_id, name, hubspot_id, teams:[{team_id, team_name, parent_crd}]} for one batch."""
     out: dict[str, dict] = {}
-    page = 1
+    page, seen_ids = 1, set()
     while True:
-        d = c.ria_contacts_search(page=page, per_page=BATCH,
+        # per_page is deliberately larger than the CRD batch so one page always holds every hit;
+        # an earlier version paged while rows == per_page and looped forever on identical pages.
+        d = c.ria_contacts_search(page=page, per_page=PER_PAGE,
                                   extra_filters={"contacts_contact_crd_id": crds, "selectContactsContactCrdId": crds})
-        rows = d.get("contacts") or []
+        rows = [r for r in (d.get("contacts") or []) if r["id"] not in seen_ids]
+        seen_ids |= {r["id"] for r in rows}
         extra = d.get("extra_info") or {}
         for r in rows:
             e = extra.get(str(r["id"])) or {}
             crd = _crd(r.get("ria_contact_crd_id"))
             if not crd:
                 continue
-            teams = [{"team_id": t.get("team_id"), "team_name": t.get("team_name"), "parent_crd": t.get("parent_crd")}
-                     for t in (e.get("pwt_teams") or [])]
+            # FINTRX puts the primary team in the singular `pwt_team` and only extra teams in `pwt_teams`;
+            # reading the list alone found 86 teams where 800+ existed (2026-09-20). Primary goes first.
+            raw = ([e["pwt_team"]] if e.get("pwt_team") else []) + list(e.get("pwt_teams") or [])
+            teams, seen_t = [], set()
+            for t in raw:
+                if t.get("team_id") and t["team_id"] not in seen_t:
+                    seen_t.add(t["team_id"])
+                    teams.append({"team_id": t.get("team_id"), "team_name": t.get("team_name"),
+                                  "parent_crd": t.get("parent_crd")})
             rec = {"contact_id": r["id"], "name": r.get("name"), "hubspot_id": e.get("hubspot_id"),
                    "primary_firm": e.get("entity_name"), "teams": teams}
             if crd in out:                      # a CRD mapping to two FINTRX contact records: keep the union of teams
@@ -67,7 +78,7 @@ def fetch_batch(c: FintrxClient, crds: list[str]) -> dict[str, dict]:
                 out[crd]["teams"] += [t for t in teams if t["team_id"] not in seen]
             else:
                 out[crd] = rec
-        if len(rows) < BATCH:
+        if not rows or len(seen_ids) < PER_PAGE * page or page >= 5:
             break
         page += 1
         paced()
@@ -92,7 +103,9 @@ def choose_team(teams: list[dict], company: str, prev_name: str, identified: set
         hit = [t for t in teams if normalize(t["team_name"] or "") == pn]
         if len(hit) == 1:
             return hit[0], "multiple_teams_prev_name"
-    return None, "multiple_teams"
+    # teams[0] is FINTRX's own primary team (the singular pwt_team field); most leftovers are FINTRX
+    # duplicates of one team or branch offices of one firm, so the primary is the right default.
+    return teams[0], "multiple_teams_primary"
 
 
 def main() -> None:
