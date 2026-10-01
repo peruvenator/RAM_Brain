@@ -10,9 +10,10 @@ the two marker lines
     // RS-SEARCH-CORE-END
 
 inside its <script>; everything between them is replaced with the core
-from ../assets/search-core.js, with __NS__ replaced by the widget's JS
+from search-core.js (../assets/ in the skill, or the same
+folder when vendored into a widget repo's search/ folder), with __NS__ replaced by the widget's JS
 namespace (rsRes, rsArt, rsLit, ...) and __SYNONYM_GROUPS__ replaced by
-the groups in ../assets/search-synonyms.json. Indentation follows the
+the groups in search-synonyms.json. Indentation follows the
 start marker line.
 
 --check exits 1 (without writing) if the target's block differs from the
@@ -25,8 +26,11 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-CORE = HERE.parent / "assets" / "search-core.js"
-SYNONYMS = HERE.parent / "assets" / "search-synonyms.json"
+# Two layouts: inside the skill (scripts/ next to assets/) or vendored into a
+# widget repo's search/ folder (everything side by side).
+_ASSETS = HERE if (HERE / "search-core.js").exists() else HERE.parent / "assets"
+CORE = _ASSETS / "search-core.js"
+SYNONYMS = _ASSETS / "search-synonyms.json"
 START = "// RS-SEARCH-CORE-START"
 END = "// RS-SEARCH-CORE-END"
 FORBIDDEN = re.compile(r"[&<>]")
