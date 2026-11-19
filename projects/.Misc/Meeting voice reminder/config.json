@@ -1,0 +1,14 @@
+{
+  "TenantId": "f1dc9697-3155-4144-95a4-77b964b95018",
+  "ClientId": "82a892fc-f926-4d23-8fb2-3a581b56d14e",
+  "MinutesBefore": 5,
+  "MaxNames": 3,
+  "MentionTeams": true,
+  "OnlyMeetingsWithOthers": false,
+  "Voice": "",
+  "Rate": 0,
+  "PollSeconds": 30,
+  "ShortReminders": [
+    { "MinutesBefore": 1, "Text": "Meeting reminder" }
+  ]
+}

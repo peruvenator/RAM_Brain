@@ -152,3 +152,46 @@ Compares `LastWriteTime` of source CSVs against the output HTML. Rebuild only tr
 - **Slack**: Webhook posts to channel on failure only
 - **Notion**: Every run (success or failure) logged to "Automation Runs" DB
 - **Notion Inventory**: "Last Run" and "Last Status" updated after each run
+
+---
+
+## Weekly HubSpot Sales Activity Dashboard
+
+| Field | Value |
+|---|---|
+| Project | `C:\Users\RodrigoGordillo\ReSolve AM Dropbox\Rodrigo Gordillo\RG Documents\RAM_Brain\projects\Sales tools\hubspot-weekly-dashboard\` |
+| Wrapper | `run-dashboard.bat` in the project folder (runs `build_dashboard.py` under `op run --env-file op.env`) |
+| Schedule | Every Friday 6:00 AM ET (Windows Task Scheduler, task "RS Weekly HubSpot Dashboard", **work desktop DESKTOP-MKB8KGV only**). Runs late if the PC was off or asleep at 6 AM. |
+| Live page | https://weekly-hubspot-sales-activity-dashboard.netlify.app (password `rstacked`) |
+| Description | Pulls the prior Fri-Thu week of rep activity from HubSpot, rebuilds `deploy/index.html`, commits and pushes to resolve-lab/Weekly_Hubspot_Sales_Activity_Dashboard (Netlify auto-deploys), then posts a summary to Slack. |
+
+### Alerting
+
+- **Slack**: Weekly summary to ReSolve #rg-automations-alerts; failure alert to the same webhook if any step fails.
+- **Log**: `logs\dashboard.log` in the project folder.
+
+### Known Issues
+
+- Task runs "interactive only": it needs Rodrigo logged on to the desktop (the 1Password service account token is a user environment variable).
+- Do not register the task on the laptop as well, or the summary posts twice.
+
+---
+
+## Meeting Voice
+
+| Field | Value |
+|---|---|
+| Project | `C:\Users\RodrigoGordillo\ReSolve AM Dropbox\Rodrigo Gordillo\RG Documents\RAM_Brain\projects\.Misc\Meeting voice reminder\` |
+| Installed copy | `%LOCALAPPDATA%\MeetingVoice\` (script, config, DPAPI-encrypted sign-in `token.dat`, `log.txt`) |
+| Schedule | Runs continuously from the Startup folder shortcut "Meeting Voice" (hidden window, starts at logon). Polls the calendar every 30 seconds. |
+| Description | Reads the M365 calendar through Microsoft Graph (own Entra app "Meeting Voice", delegated Calendars.Read) and speaks each meeting 5 minutes before it starts, plus a short "Meeting reminder" at 1 minute. |
+
+### Maintenance
+
+- Edit `config.json` or the script in the project folder, then rerun `Install-MeetingVoice.ps1`. The installer keeps the saved sign-in.
+- `MeetingVoice.ps1 -SelfTest` checks the spoken wording offline. Run it after any change.
+- If the sign-in expires, the script says "Meeting reminders have stopped." Fix with `MeetingVoice.ps1 -SignIn` from the installed copy.
+
+### Known Issues
+
+- Announcements already spoken are kept in memory only, so restarting the script can repeat the current meeting's announcement once.
