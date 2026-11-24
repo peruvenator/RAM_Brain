@@ -43,7 +43,7 @@ function Get-Config {
     $defaults = [ordered]@{
         MinutesBefore = 5; MaxNames = 3; MentionTeams = $true
         OnlyMeetingsWithOthers = $false; Voice = ''; Rate = 0; PollSeconds = 30
-        ShortReminders = @()
+        ShortReminders = @(); MainReminderText = ''
     }
     foreach ($k in $defaults.Keys) {
         if ($null -eq $c.$k) { $c | Add-Member -NotePropertyName $k -NotePropertyValue $defaults[$k] }
@@ -299,7 +299,9 @@ function New-Announcement($Event, [double]$MinutesUntil, $Me, $Config) {
 # Each meeting can be spoken at several points ("stages"): the full announcement
 # at MinutesBefore, plus any ShortReminders, which speak a fixed phrase.
 function Get-Stages($Config) {
-    $stages = @([pscustomobject]@{ Key = 'full'; Minutes = [double]$Config.MinutesBefore; Text = $null })
+    # MainReminderText, when set, replaces the full announcement with a fixed phrase.
+    $mainText = if ("$($Config.MainReminderText)".Trim()) { "$($Config.MainReminderText)".Trim() } else { $null }
+    $stages = @([pscustomobject]@{ Key = 'full'; Minutes = [double]$Config.MinutesBefore; Text = $mainText })
     foreach ($r in @($Config.ShortReminders)) {
         if ($null -eq $r -or $null -eq $r.MinutesBefore) { continue }
         $text = if ("$($r.Text)".Trim()) { "$($r.Text)".Trim() } else { 'Meeting reminder' }
@@ -366,7 +368,7 @@ function Start-Watching($Config) {
                 foreach ($s in $due) { $announced["$base|$($s.Key)"] = $start }
                 if (-not (Test-ShouldAnnounce $ev $me $Config)) { continue }
                 $pick = Select-Stage $due
-                $msg = if ($pick.Key -eq 'full') { New-Announcement $ev $until $me $Config } else { $pick.Text }
+                $msg = if ($pick.Text) { $pick.Text } else { New-Announcement $ev $until $me $Config }
                 Write-Log "Speaking: $msg"
                 [void]$voice.Speak($msg)
             }
@@ -477,6 +479,11 @@ function Invoke-SelfTest {
 
     $stageCfg = [pscustomobject]@{ MinutesBefore = 5; ShortReminders = @([pscustomobject]@{ MinutesBefore = 1; Text = 'Meeting reminder' }) }
     $st = Get-Stages $stageCfg
+    if ($st[0].Text) { Write-Host 'FAIL  full stage should have no fixed text by default' -ForegroundColor Red; $fail++ }
+    else { Write-Host 'PASS  full announcement used when MainReminderText is empty' -ForegroundColor Green }
+    $fixed = Get-Stages ([pscustomobject]@{ MinutesBefore = 5; MainReminderText = 'Meeting reminder'; ShortReminders = @() })
+    if ($fixed[0].Text -eq 'Meeting reminder') { Write-Host 'PASS  MainReminderText replaces the full announcement' -ForegroundColor Green }
+    else { Write-Host "FAIL  MainReminderText not applied: '$($fixed[0].Text)'" -ForegroundColor Red; $fail++ }
     $checks = @(
         @{ until = 4.8; want = 'full' }               # only the 5-minute stage is due
         @{ until = 0.9; want = 'short1' }             # both due, but suppose full was already spoken

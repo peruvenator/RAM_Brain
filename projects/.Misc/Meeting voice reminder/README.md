@@ -41,6 +41,8 @@ No admin rights are needed. Your sign-in is stored in `%LOCALAPPDATA%\MeetingVoi
 | Setting | Default | What it does |
 |---|---|---|
 | `MinutesBefore` | `5` | How many minutes before the start to speak. |
+| `MainReminderText` | `""` | When set (for example `"Meeting reminder"`), the `MinutesBefore` warning speaks this phrase instead of the meeting title and names. Leave empty for the full announcement. |
+| `ShortReminders` | `[]` | Extra warnings that speak a fixed phrase, for example `[{ "MinutesBefore": 1, "Text": "Meeting reminder" }]`. |
 | `MaxNames` | `3` | The maximum number of names to read. Any others are counted ("and 2 others"). |
 | `MentionTeams` | `true` | Adds "It's on Teams" for Teams meetings. |
 | `OnlyMeetingsWithOthers` | `false` | When `true`, skips events that have no other people, such as focus blocks. |
